@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Corinne Jewelers — Leadership Rollup — Anniversary Sale</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --burgundy: #6B1D2A;
+  --gold: #C9A84C;
+  --cream: #F5EDE0;
+  --ink: #1f2937;
+  --ink-soft: #4b5563;
+  --muted: #9ca3af;
+  --line: #e5e7eb;
+  --bg: #fafaf7;
+  --card: #ffffff;
+  --chip: #f3f4f6;
+  --chip-hover: #e5e7eb;
+  --active: var(--burgundy);
+  --success: #065f46;
+  --warn: #b45309;
+  --vip-bg: #fef3c7;
+  --vip-fg: #92400e;
+  --loyal-bg: #dcfce7;
+  --loyal-fg: #14532d;
+  --risk-bg: #fee2e2;
+  --risk-fg: #991b1b;
+  --big-bg: #e0e7ff;
+  --big-fg: #3730a3;
+  --new-bg: #cffafe;
+  --new-fg: #155e75;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.5;
+}
+.wrap { max-width: 1280px; margin: 0 auto; padding: 24px; }
+
+/* Header */
+.hdr {
+  background: linear-gradient(135deg, var(--burgundy) 0%, #8a2836 100%);
+  color: white; padding: 32px; border-radius: 12px; margin-bottom: 24px;
+  box-shadow: 0 2px 10px rgba(107,29,42,0.15);
+}
+.hdr h1 { font-family: Georgia, serif; font-size: 30px; font-weight: 400; letter-spacing: 0.3px; margin-bottom: 4px; }
+.hdr .sub { opacity: 0.85; font-size: 14px; }
+.hdr .stats { display: flex; gap: 32px; margin-top: 20px; flex-wrap: wrap; }
+.hdr .stat { }
+.hdr .stat-v { font-size: 24px; font-weight: 600; color: var(--gold); }
+.hdr .stat-l { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.8; }
+
+/* Presets */
+.presets {
+  background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+  padding: 18px; margin-bottom: 16px;
+}
+.presets-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; margin-bottom: 10px; }
+.preset-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.preset {
+  background: white; border: 1.5px solid var(--line); color: var(--ink);
+  padding: 8px 14px; border-radius: 20px; cursor: pointer; font-size: 13px;
+  font-weight: 500; transition: all 0.15s; white-space: nowrap;
+}
+.preset:hover { border-color: var(--burgundy); color: var(--burgundy); }
+.preset.active { background: var(--burgundy); color: white; border-color: var(--burgundy); }
+.preset.active:hover { background: #8a2836; }
+.preset .cnt { opacity: 0.65; margin-left: 4px; font-weight: 400; }
+
+/* Advanced drawer */
+.adv-toggle {
+  background: transparent; border: none; color: var(--ink-soft);
+  font-size: 13px; cursor: pointer; padding: 8px 0 0; font-weight: 500;
+  text-decoration: underline; text-decoration-color: var(--muted);
+  text-underline-offset: 3px;
+}
+.adv-toggle:hover { color: var(--burgundy); }
+.adv-body { display: none; margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--line); }
+.adv-body.on { display: block; }
+.adv-group { margin-bottom: 12px; }
+.adv-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; margin-bottom: 6px; }
+.chip-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  background: var(--chip); border: 1px solid transparent; color: var(--ink-soft);
+  padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 12px;
+  user-select: none;
+}
+.chip:hover { background: var(--chip-hover); }
+.chip.on { background: var(--burgundy); color: white; border-color: var(--burgundy); }
+.search-box {
+  width: 100%; padding: 8px 12px; border: 1px solid var(--line);
+  border-radius: 6px; font-size: 14px;
+}
+.clear-btn {
+  background: transparent; border: 1px solid var(--line); color: var(--ink-soft);
+  padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px;
+  margin-left: auto;
+}
+.clear-btn:hover { border-color: var(--burgundy); color: var(--burgundy); }
+
+/* Results bar */
+.resbar {
+  display: flex; align-items: center; gap: 16px;
+  padding: 12px 4px; font-size: 13px; color: var(--ink-soft);
+}
+.resbar strong { color: var(--ink); font-weight: 600; }
+
+/* Table */
+.tbl-wrap {
+  background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+  overflow: hidden;
+}
+table {
+  width: 100%; border-collapse: collapse; font-size: 13px;
+}
+thead { background: #f9fafb; }
+th {
+  text-align: left; padding: 10px 10px; font-weight: 600; color: var(--ink-soft);
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--line); cursor: pointer; user-select: none;
+  white-space: nowrap;
+}
+th:hover { color: var(--burgundy); }
+th.sorted::after { content: ' ↓'; color: var(--burgundy); }
+th.sorted.asc::after { content: ' ↑'; }
+td { padding: 10px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tbody tr:hover { background: #fafafa; }
+tbody tr:last-child td { border-bottom: none; }
+
+.rank { color: var(--muted); font-weight: 600; width: 36px; }
+.name { font-weight: 600; color: var(--ink); }
+.contact { font-size: 12px; color: var(--ink-soft); }
+.contact a { color: var(--ink-soft); text-decoration: none; }
+.contact a:hover { color: var(--burgundy); }
+.spend { text-align: right; font-variant-numeric: tabular-nums; font-weight: 500; }
+.visits { text-align: center; font-variant-numeric: tabular-nums; color: var(--ink-soft); }
+.days { text-align: right; font-variant-numeric: tabular-nums; color: var(--ink-soft); }
+
+.seg {
+  display: inline-block; padding: 2px 8px; border-radius: 4px;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.02em;
+}
+.seg-VIP { background: var(--vip-bg); color: var(--vip-fg); }
+.seg-Loyal { background: var(--loyal-bg); color: var(--loyal-fg); }
+.seg-Big-Spender { background: var(--big-bg); color: var(--big-fg); }
+.seg-At-Risk { background: var(--risk-bg); color: var(--risk-fg); }
+.seg-Lost---High-Value { background: var(--risk-bg); color: var(--risk-fg); }
+.seg-Needs-Attention { background: #fef3c7; color: #854d0e; }
+.seg-Promising { background: #e0e7ff; color: #4338ca; }
+.seg-New { background: var(--new-bg); color: var(--new-fg); }
+.seg-Hibernating { background: #f3e8ff; color: #6b21a8; }
+.seg-Other { background: var(--chip); color: var(--ink-soft); }
+
+.designer-badges { display: inline-flex; gap: 4px; flex-wrap: wrap; }
+.dbadge {
+  display: inline-block; background: var(--cream); color: var(--burgundy);
+  border: 1px solid #e8d9b5; padding: 1px 6px; border-radius: 3px;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.02em;
+}
+.rationale { font-size: 12px; color: var(--ink-soft); max-width: 260px; }
+.life { font-size: 12px; color: var(--ink-soft); white-space: nowrap; }
+.life b { color: var(--burgundy); font-weight: 600; }
+
+.empty {
+  padding: 48px; text-align: center; color: var(--muted); font-style: italic;
+}
+
+/* Footer */
+.foot { text-align: center; padding: 30px; color: var(--muted); font-size: 12px; }
+.foot a { color: var(--ink-soft); }
+
+/* Print */
+@media print {
+  body { background: white; }
+  .hdr { background: none !important; color: var(--ink); border-bottom: 2px solid var(--burgundy); box-shadow: none; border-radius: 0; }
+  .hdr h1, .hdr .stat-v { color: var(--burgundy) !important; }
+  .presets, .adv-body, .adv-toggle, .clear-btn, .foot { display: none !important; }
+  .tbl-wrap { border: none; }
+  th { color: var(--burgundy); background: #f5ede0; }
+  tbody tr { break-inside: avoid; }
+  .resbar { padding-top: 0; }
+}
+
+.matrix { width: 100%; border-collapse: collapse; margin-top: 8px; }
+.matrix th { text-align: right; padding: 8px 10px; background: #f9fafb; font-size: 11px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.05em; cursor: default; }
+.matrix th:first-child { text-align: left; }
+.matrix td { padding: 8px 10px; border-bottom: 1px solid var(--line); font-size: 13px; text-align: right; font-variant-numeric: tabular-nums; }
+.matrix td.rh { text-align: left; font-weight: 500; color: var(--ink); }
+.matrix td.total { font-weight: 700; background: #fafafa; }
+.matrix tr.sumrow td { border-top: 2px solid var(--burgundy); background: #fef3f4; }
+.matrix .cell-zero { color: var(--muted); }
+.matrix .cell-hi { background: var(--vip-bg); }
+.card {
+  background: white; border: 1px solid var(--line); border-radius: 10px;
+  padding: 20px; margin-bottom: 20px;
+}
+.card h2 { font-family: Georgia, serif; font-size: 20px; color: var(--burgundy); margin-bottom: 4px; font-weight: 500; }
+.card .sub { color: var(--ink-soft); font-size: 13px; margin-bottom: 14px; }
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+.kpi { background: white; border: 1px solid var(--line); border-radius: 10px; padding: 18px; }
+.kpi .v { font-size: 28px; font-weight: 700; color: var(--burgundy); font-family: Georgia, serif; }
+.kpi .l { font-size: 12px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px; }
+.kpi .sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.alert { background: #fef3c7; border: 1px solid #fcd34d; border-left: 4px solid var(--warn); padding: 14px 16px; border-radius: 6px; margin-bottom: 20px; color: #78350f; font-size: 13px; }
+.alert b { color: #78350f; }
+</style>
+</head>
+<body>
+<div id="report-content">
+<div class="wrap">
+  <header class="hdr">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;">
+      <div>
+        <h1>Leadership Rollup</h1>
+        <div class="sub">62nd Anniversary Sale · May 6–9, 2026 · Cross-floor view</div>
+      </div>
+      <div style="text-align:right;font-size:12px;opacity:0.75;">
+        <div>Lisa &amp; Ryan</div>
+        <div>Generated 2026-04-20T00:00:00</div>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="stat-v">4,058</div><div class="stat-l">Total Eligible Clients</div></div>
+      <div class="stat"><div class="stat-v">1,098</div><div class="stat-l">May/June Life Events</div></div>
+      <div class="stat"><div class="stat-v">1,627</div><div class="stat-l">Lapsed High Value</div></div>
+      <div class="stat"><div class="stat-v">667</div><div class="stat-l">Orphans Needing Reassignment</div></div>
+    </div>
+  </header>
+
+  <div class="alert">
+    <b>Heads up:</b> 667 eligible clients have a former employee as their primary salesperson (HSE, Patricia Drake, Francine Douglas, Rachel Hayduk, Donna Wallster, Tom Jones) and are not currently assigned. Top 50 shown below — review and reassign in ClientBook.
+  </div>
+
+  <div class="card">
+    <h2>Summary by Associate</h2>
+    <div class="sub">Eligible pool, timing coverage, reactivation targets</div>
+    <table class="matrix">
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>Vicky</th><th>Essence</th><th>Lisa</th><th>Laura</th><th>Taylor</th><th>Gigi</th>
+          <th>Floor</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="sumrow"><td class="rh"><b>Total Eligible</b></td><td><b>899</b></td><td><b>756</b></td><td><b>968</b></td><td><b>379</b></td><td><b>408</b></td><td><b>648</b></td><td class="total"><b>4,058</b></td></tr><tr><td class="rh">May/June Timing</td><td class="">221</td><td class="">197</td><td class="">269</td><td class="">106</td><td class="">125</td><td class="">180</td><td class="total">1,098</td></tr><tr><td class="rh">Lapsed High Value</td><td class="">368</td><td class="">292</td><td class="">404</td><td class="">67</td><td class="">223</td><td class="">273</td><td class="total">1,627</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Segment Distribution</h2>
+    <div class="sub">RFM segment by associate — shows where the value is concentrated</div>
+    <table class="matrix">
+      <thead>
+        <tr>
+          <th>Segment</th>
+          <th>Vicky</th><th>Essence</th><th>Lisa</th><th>Laura</th><th>Taylor</th><th>Gigi</th>
+          <th>Floor</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="rh">VIP</td><td class="">221</td><td class="">207</td><td class="">240</td><td class="">118</td><td class="">29</td><td class="">98</td><td class="total">913</td></tr>
+<tr><td class="rh">Big Spender</td><td class="">118</td><td class="">77</td><td class="">142</td><td class="">87</td><td class="">25</td><td class="">77</td><td class="total">526</td></tr>
+<tr><td class="rh">Loyal</td><td class="">112</td><td class="">112</td><td class="">153</td><td class="">32</td><td class="">26</td><td class="">56</td><td class="total">491</td></tr>
+<tr><td class="rh">At Risk</td><td class="">164</td><td class="">123</td><td class="">147</td><td class="cell-zero">—</td><td class="">117</td><td class="">130</td><td class="total">681</td></tr>
+<tr><td class="rh">Lost - High Value</td><td class="">86</td><td class="">77</td><td class="">105</td><td class="cell-zero">—</td><td class="">93</td><td class="">90</td><td class="total">451</td></tr>
+<tr><td class="rh">Needs Attention</td><td class="">65</td><td class="">41</td><td class="">58</td><td class="">35</td><td class="">24</td><td class="">55</td><td class="total">278</td></tr>
+<tr><td class="rh">Promising</td><td class="">38</td><td class="">31</td><td class="">39</td><td class="">36</td><td class="">3</td><td class="">30</td><td class="total">177</td></tr>
+<tr><td class="rh">New</td><td class="">25</td><td class="">23</td><td class="">21</td><td class="">35</td><td class="">16</td><td class="">27</td><td class="total">147</td></tr>
+<tr><td class="rh">Hibernating</td><td class="">29</td><td class="">34</td><td class="">33</td><td class="cell-zero">—</td><td class="">58</td><td class="">51</td><td class="total">205</td></tr>
+<tr><td class="rh">Other</td><td class="">41</td><td class="">31</td><td class="">30</td><td class="">36</td><td class="">17</td><td class="">34</td><td class="total">189</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Designer Loyalist Coverage</h2>
+    <div class="sub">Clients with prior purchase from each watched designer — think of these as pre-sold audiences</div>
+    <table class="matrix">
+      <thead>
+        <tr>
+          <th>Designer</th>
+          <th>Vicky</th><th>Essence</th><th>Lisa</th><th>Laura</th><th>Taylor</th><th>Gigi</th>
+          <th>Floor</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="rh">Gabriel & Co</td><td class="">336</td><td class="">259</td><td class="">349</td><td class="">112</td><td class="">83</td><td class="">169</td><td class="total">1,308</td></tr>
+<tr><td class="rh">Simon G</td><td class="">52</td><td class="">36</td><td class="">43</td><td class="">14</td><td class="">15</td><td class="">8</td><td class="total">168</td></tr>
+<tr><td class="rh">Shy Creation</td><td class="">13</td><td class="">20</td><td class="">18</td><td class="">6</td><td class="">4</td><td class="">5</td><td class="total">66</td></tr>
+<tr><td class="rh">Roberto Coin</td><td class="">7</td><td class="">8</td><td class="">3</td><td class="">3</td><td class="cell-zero">—</td><td class="">4</td><td class="total">25</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Top 50 Orphans — for Lisa to Reassign</h2>
+    <div class="sub">High-value clients currently tied to a former employee. Full 667 available in data file.</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Client</th>
+            <th>Lifetime Spend</th>
+            <th>Days Since</th>
+            <th>Segment</th>
+            <th>Life Events</th>
+            <th>Designers</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+      <td class="rank">1</td>
+      <td>
+        <div class="name">ANDREW BARCLAY</div>
+        <div class="contact"><span style="color:#9ca3af;font-size:11px;">mrbhaven@comcast.net</span></div>
+      </td>
+      <td class="spend">$31,098</td>
+      <td class="days">1616d</td>
+      <td><span class="seg seg-Lost-High-Value">Lost - High Value</span></td>
+      <td class="life">🎂 May 29 · 💍 Aug 3</td>
+      <td><span class="dbadge">Simon G</span></td>
+    </tr>
+<tr>
+      <td class="rank">2</td>
+      <td>
+        <div class="name">STEVE GRAVATT</div>
+        <div class="contact">(732) 239-9792 · <span style="color:#9ca3af;font-size:11px;">bowhunter1456@gmail.com</span></div>
+      </td>
+      <td class="spend">$20,363</td>
+      <td class="days">1580d</td>
+      <td><span class="seg seg-Lost-High-Value">Lost - High Value</span></td>
+      <td class="life">🎂 Jun 4 · 💍 Sep 12</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">3</td>
+      <td>
+        <div class="name">AMIE PANNASCH</div>
+        <div class="contact">(732) 644-6207</div>
+      </td>
+      <td class="spend">$6,975</td>
+      <td class="days">1473d</td>
+      <td><span class="seg seg-Lost-High-Value">Lost - High Value</span></td>
+      <td class="life">🎂 May 8 · 💍 Sep 24</td>
+      <td><span class="dbadge">Simon G</span></td>
+    </tr>
+<tr>
+      <td class="rank">4</td>
+      <td>
+        <div class="name">LEIGH SANZARO</div>
+        <div class="contact">(908) 330-1927</div>
+      </td>
+      <td class="spend">$3,668</td>
+      <td class="days">391d</td>
+      <td><span class="seg seg-VIP">VIP</span></td>
+      <td class="life">🎂 Jul 31 · 💍 Jun 12</td>
+      <td><span class="dbadge">Shy Creation</span></td>
+    </tr>
+<tr>
+      <td class="rank">5</td>
+      <td>
+        <div class="name">ROBERT MCCARTHY</div>
+        <div class="contact"><span style="color:#9ca3af;font-size:11px;">mcsix@comcast.net</span></div>
+      </td>
+      <td class="spend">$3,516</td>
+      <td class="days">1592d</td>
+      <td><span class="seg seg-Lost-High-Value">Lost - High Value</span></td>
+      <td class="life">🎂 May 10 · 💍 Aug 13</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">6</td>
+      <td>
+        <div class="name">TOM KOSCO</div>
+        <div class="contact">(732) 350-3475 · <span style="color:#9ca3af;font-size:11px;">koscoat@gmail.com</span></div>
+      </td>
+      <td class="spend">$3,462</td>
+      <td class="days">1801d</td>
+      <td><span class="seg seg-Lost-High-Value">Lost - High Value</span></td>
+      <td class="life">🎂 Feb 20 · 💍 May 17</td>
+      <td><span class="dbadge">Simon G</span></td>
+    </tr>
+<tr>
+      <td class="rank">7</td>
+      <td>
+        <div class="name">BARBARA GLATZ</div>
+        <div class="contact"><span style="color:#9ca3af;font-size:11px;">majornonsense99@aol.com</span></div>
+      </td>
+      <td class="spend">$3,345</td>
+      <td class="days">1549d</td>
+      <td><span class="seg seg-Lost-High-Value">Lost - High Value</span></td>
+      <td class="life">🎂 Sep 9 · 💍 May 30</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">8</td>
+      <td>
+        <div class="name">DREW MANCINI</div>
+        <div class="contact">(908) 309-9550</div>
+      </td>
+      <td class="spend">$2,600</td>
+      <td class="days">1833d</td>
+      <td><span class="seg seg-Lost-High-Value">Lost - High Value</span></td>
+      <td class="life">🎂 May 15 · 💍 Oct 9</td>
+      <td><span class="dbadge">Simon G</span></td>
+    </tr>
+<tr>
+      <td class="rank">9</td>
+      <td>
+        <div class="name">CATHY MURRAY</div>
+        <div class="contact">(732) 558-0386 · <span style="color:#9ca3af;font-size:11px;">champandbeau@aol.com</span></div>
+      </td>
+      <td class="spend">$2,220</td>
+      <td class="days">1636d</td>
+      <td><span class="seg seg-Lost-High-Value">Lost - High Value</span></td>
+      <td class="life">🎂 Feb 28 · 💍 May 22</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">10</td>
+      <td>
+        <div class="name">LEN LAROSA</div>
+        <div class="contact"><span style="color:#9ca3af;font-size:11px;">larosa603@comcast.net</span></div>
+      </td>
+      <td class="spend">$1,698</td>
+      <td class="days">1559d</td>
+      <td><span class="seg seg-Lost-High-Value">Lost - High Value</span></td>
+      <td class="life">🎂 Mar 20 · 💍 Jun 21</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">11</td>
+      <td>
+        <div class="name">RICKY LIMA</div>
+        <div class="contact"><span style="color:#9ca3af;font-size:11px;">rick.lima@gmail.com</span></div>
+      </td>
+      <td class="spend">$1,600</td>
+      <td class="days">1802d</td>
+      <td><span class="seg seg-Lost-High-Value">Lost - High Value</span></td>
+      <td class="life">💍 Jun 18</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">12</td>
+      <td>
+        <div class="name">JANET MUINA</div>
+        <div class="contact">(908) 600-2216 · <span style="color:#9ca3af;font-size:11px;">mmuina@comcast.net</span></div>
+      </td>
+      <td class="spend">$760</td>
+      <td class="days">1620d</td>
+      <td><span class="seg seg-Lost-High-Value">Lost - High Value</span></td>
+      <td class="life">🎂 Jul 20 · 💍 Jun 6</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">13</td>
+      <td>
+        <div class="name">CORY LEVINE</div>
+        <div class="contact">(732) 439-2028 · <span style="color:#9ca3af;font-size:11px;">clevine95@gmail.com</span></div>
+      </td>
+      <td class="spend">$595</td>
+      <td class="days">1592d</td>
+      <td><span class="seg seg-Lost-High-Value">Lost - High Value</span></td>
+      <td class="life">🎂 Aug 2 · 💍 Jun 19</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">14</td>
+      <td>
+        <div class="name">ROGER MORTISE</div>
+        <div class="contact">(850) 381-1598</div>
+      </td>
+      <td class="spend">$549</td>
+      <td class="days">1601d</td>
+      <td><span class="seg seg-Lost-High-Value">Lost - High Value</span></td>
+      <td class="life">🎂 Jun 10 · 💍 Nov 23</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">15</td>
+      <td>
+        <div class="name">MARK HECK</div>
+        <div class="contact"><span style="color:#9ca3af;font-size:11px;">markheck@mark-itservices.com</span></div>
+      </td>
+      <td class="spend">$314,689</td>
+      <td class="days">605d</td>
+      <td><span class="seg seg-Loyal">Loyal</span></td>
+      <td class="life">🎂 May 17 · 💍 Oct 18</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">16</td>
+      <td>
+        <div class="name">ERIK ESCOBAR</div>
+        <div class="contact">(732) 330-1429 · <span style="color:#9ca3af;font-size:11px;">esco1012@yahoo.com</span></div>
+      </td>
+      <td class="spend">$23,664</td>
+      <td class="days">1215d</td>
+      <td><span class="seg seg-At-Risk">At Risk</span></td>
+      <td class="life">🎂 Jun 16 · 💍 Dec 16</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">17</td>
+      <td>
+        <div class="name">GREG MESANKO</div>
+        <div class="contact">(732) 286-9895</div>
+      </td>
+      <td class="spend">$19,031</td>
+      <td class="days">849d</td>
+      <td><span class="seg seg-Loyal">Loyal</span></td>
+      <td class="life">💍 Jun 5</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">18</td>
+      <td>
+        <div class="name">VICKY GARCIA</div>
+        <div class="contact">(732) 644-0420 · <span style="color:#9ca3af;font-size:11px;">vickygarcia199@gmail.com</span></div>
+      </td>
+      <td class="spend">$17,916</td>
+      <td class="days">941d</td>
+      <td><span class="seg seg-Loyal">Loyal</span></td>
+      <td class="life">🎂 May 21</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">19</td>
+      <td>
+        <div class="name">DARREN MACGILLIVRAY, JR</div>
+        <div class="contact">(609) 488-0364 · <span style="color:#9ca3af;font-size:11px;">darrenmac92@gmail.com</span></div>
+      </td>
+      <td class="spend">$15,706</td>
+      <td class="days">1000d</td>
+      <td><span class="seg seg-At-Risk">At Risk</span></td>
+      <td class="life">🎂 Jun 21 · 💍 Aug 24</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">20</td>
+      <td>
+        <div class="name">CHRISTOPHER BIASETTI</div>
+        <div class="contact">(609) 713-3794 · <span style="color:#9ca3af;font-size:11px;">cjbiasetti@comcast.net</span></div>
+      </td>
+      <td class="spend">$7,884</td>
+      <td class="days">1007d</td>
+      <td><span class="seg seg-At-Risk">At Risk</span></td>
+      <td class="life">🎂 Jun 15</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">21</td>
+      <td>
+        <div class="name">BRIAN CROMBIE</div>
+        <div class="contact">(917) 807-1376</div>
+      </td>
+      <td class="spend">$7,340</td>
+      <td class="days">865d</td>
+      <td><span class="seg seg-Loyal">Loyal</span></td>
+      <td class="life">🎂 Jan 25 · 💍 Jun 16</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">22</td>
+      <td>
+        <div class="name">REBECCA DEMARTINO</div>
+        <div class="contact"><span style="color:#9ca3af;font-size:11px;">rdemartino78@comcast.net</span></div>
+      </td>
+      <td class="spend">$5,601</td>
+      <td class="days">1033d</td>
+      <td><span class="seg seg-At-Risk">At Risk</span></td>
+      <td class="life">🎂 Jul 8 · 💍 Jun 28</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">23</td>
+      <td>
+        <div class="name">LOU AVILES</div>
+        <div class="contact">(732) 281-4836</div>
+      </td>
+      <td class="spend">$5,153</td>
+      <td class="days">832d</td>
+      <td><span class="seg seg-Loyal">Loyal</span></td>
+      <td class="life">🎂 Apr 24 · 💍 Jun 2</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">24</td>
+      <td>
+        <div class="name">JASON PRIOR</div>
+        <div class="contact">(732) 779-9621</div>
+      </td>
+      <td class="spend">$4,800</td>
+      <td class="days">850d</td>
+      <td><span class="seg seg-Big-Spender">Big Spender</span></td>
+      <td class="life">🎂 May 27 · 💍 Aug 20</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">25</td>
+      <td>
+        <div class="name">JIM WILLIAMS</div>
+        <div class="contact">(848) 333-8793</div>
+      </td>
+      <td class="spend">$4,304</td>
+      <td class="days">1220d</td>
+      <td><span class="seg seg-At-Risk">At Risk</span></td>
+      <td class="life">🎂 Mar 22 · 💍 Jun 11</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">26</td>
+      <td>
+        <div class="name">MICHAEL SHANAHAN</div>
+        <div class="contact">(413) 244-3032</div>
+      </td>
+      <td class="spend">$4,040</td>
+      <td class="days">1073d</td>
+      <td><span class="seg seg-At-Risk">At Risk</span></td>
+      <td class="life">🎂 Feb 27 · 💍 May 13</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">27</td>
+      <td>
+        <div class="name">BRIAN GABRIEL</div>
+        <div class="contact">(732) 804-4940 · <span style="color:#9ca3af;font-size:11px;">bgabriel@monmouth.edu</span></div>
+      </td>
+      <td class="spend">$3,850</td>
+      <td class="days">859d</td>
+      <td><span class="seg seg-Big-Spender">Big Spender</span></td>
+      <td class="life">🎂 Feb 19 · 💍 Jun 28</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">28</td>
+      <td>
+        <div class="name">PAUL BABICK</div>
+        <div class="contact">(718) 986-8205 · <span style="color:#9ca3af;font-size:11px;">tiffanymbost@gmail.com</span></div>
+      </td>
+      <td class="spend">$3,729</td>
+      <td class="days">1112d</td>
+      <td><span class="seg seg-At-Risk">At Risk</span></td>
+      <td class="life">🎂 Jun 18 · 💍 Jul 17</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">29</td>
+      <td>
+        <div class="name">ROBERT VARGA JR.</div>
+        <div class="contact">(732) 267-8605 · <span style="color:#9ca3af;font-size:11px;">roertvargajr@gmail.com</span></div>
+      </td>
+      <td class="spend">$3,589</td>
+      <td class="days">1392d</td>
+      <td><span class="seg seg-At-Risk">At Risk</span></td>
+      <td class="life">🎂 May 5 · 💍 Jun 30</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">30</td>
+      <td>
+        <div class="name">MATT COOKSON</div>
+        <div class="contact">(908) 721-2985 · <span style="color:#9ca3af;font-size:11px;">mattcookson@comcast.net</span></div>
+      </td>
+      <td class="spend">$3,458</td>
+      <td class="days">1005d</td>
+      <td><span class="seg seg-At-Risk">At Risk</span></td>
+      <td class="life">🎂 Jun 25 · 💍 Jul 1</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">31</td>
+      <td>
+        <div class="name">JOE FEDERICI</div>
+        <div class="contact">(732) 929-9633</div>
+      </td>
+      <td class="spend">$3,285</td>
+      <td class="days">1421d</td>
+      <td><span class="seg seg-At-Risk">At Risk</span></td>
+      <td class="life">🎂 Jun 6 · 💍 Oct 21</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">32</td>
+      <td>
+        <div class="name">CHRISTOPHER DASTI</div>
+        <div class="contact">(609) 618-7125 · <span style="color:#9ca3af;font-size:11px;">m.e.buczynski@gmail.com</span></div>
+      </td>
+      <td class="spend">$3,168</td>
+      <td class="days">1136d</td>
+      <td><span class="seg seg-At-Risk">At Risk</span></td>
+      <td class="life">🎂 Mar 24 · 💍 May 17</td>
+      <td><span class="dbadge">Simon G</span></td>
+    </tr>
+<tr>
+      <td class="rank">33</td>
+      <td>
+        <div class="name">MATT SCHLOSSER</div>
+        <div class="contact"><span style="color:#9ca3af;font-size:11px;">1929sre@gmail.com</span></div>
+      </td>
+      <td class="spend">$3,100</td>
+      <td class="days">853d</td>
+      <td><span class="seg seg-Loyal">Loyal</span></td>
+      <td class="life">🎂 Jun 30 · 💍 Sep 28</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">34</td>
+      <td>
+        <div class="name">FORREST CHERRY</div>
+        <div class="contact">(616) 335-1141</div>
+      </td>
+      <td class="spend">$2,933</td>
+      <td class="days">1434d</td>
+      <td><span class="seg seg-At-Risk">At Risk</span></td>
+      <td class="life">🎂 May 18 · 💍 Jun 25</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">35</td>
+      <td>
+        <div class="name">ROSANN ZULAUF</div>
+        <div class="contact">(732) 674-4870</div>
+      </td>
+      <td class="spend">$2,619</td>
+      <td class="days">1131d</td>
+      <td><span class="seg seg-At-Risk">At Risk</span></td>
+      <td class="life">🎂 Jun 28</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">36</td>
+      <td>
+        <div class="name">KEVIN WISTUBA</div>
+        <div class="contact">(732) 286-0182</div>
+      </td>
+      <td class="spend">$2,043</td>
+      <td class="days">849d</td>
+      <td><span class="seg seg-Loyal">Loyal</span></td>
+      <td class="life">💍 May 21</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">37</td>
+      <td>
+        <div class="name">BETTY KIRALY</div>
+        <div class="contact">(732) 600-2588 · <span style="color:#9ca3af;font-size:11px;">bboop1466@gmail.com</span></div>
+      </td>
+      <td class="spend">$1,500</td>
+      <td class="days">1364d</td>
+      <td><span class="seg seg-At-Risk">At Risk</span></td>
+      <td class="life">🎂 Aug 22 · 💍 Jun 13</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">38</td>
+      <td>
+        <div class="name">DONALD KRAUTLE</div>
+        <div class="contact"><span style="color:#9ca3af;font-size:11px;">zzzknight@aol.com</span></div>
+      </td>
+      <td class="spend">$1,337</td>
+      <td class="days">1277d</td>
+      <td><span class="seg seg-At-Risk">At Risk</span></td>
+      <td class="life">🎂 Oct 22 · 💍 May 19</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">39</td>
+      <td>
+        <div class="name">DEE BAKSA</div>
+        <div class="contact">(973) 703-6858</div>
+      </td>
+      <td class="spend">$1,200</td>
+      <td class="days">1360d</td>
+      <td><span class="seg seg-At-Risk">At Risk</span></td>
+      <td class="life">🎂 May 3 · 💍 Feb 7</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">40</td>
+      <td>
+        <div class="name">BRIAN MURPHY</div>
+        <div class="contact"><span style="color:#9ca3af;font-size:11px;">bmurphy@fwhassociates.com</span></div>
+      </td>
+      <td class="spend">$1,065</td>
+      <td class="days">737d</td>
+      <td><span class="seg seg-Loyal">Loyal</span></td>
+      <td class="life">🎂 Feb 15 · 💍 Jun 10</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">41</td>
+      <td>
+        <div class="name">LISA FRIEDMAN</div>
+        <div class="contact">(732) 773-7413 · <span style="color:#9ca3af;font-size:11px;">lfriedman617@gmail.com</span></div>
+      </td>
+      <td class="spend">$924</td>
+      <td class="days">1096d</td>
+      <td><span class="seg seg-At-Risk">At Risk</span></td>
+      <td class="life">🎂 Jun 17 · 💍 Oct 5</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">42</td>
+      <td>
+        <div class="name">DENNIS RICHARD HAINES</div>
+        <div class="contact"><span style="color:#9ca3af;font-size:11px;">jersey22@aol.com</span></div>
+      </td>
+      <td class="spend">$900</td>
+      <td class="days">1140d</td>
+      <td><span class="seg seg-At-Risk">At Risk</span></td>
+      <td class="life">🎂 Jun 25 · 💍 Nov 13</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">43</td>
+      <td>
+        <div class="name">LUCIANNA BETTENCOURT</div>
+        <div class="contact">(732) 666-7730 · <span style="color:#9ca3af;font-size:11px;">lucianna.bettencourt@yahoo.com</span></div>
+      </td>
+      <td class="spend">$880</td>
+      <td class="days">1126d</td>
+      <td><span class="seg seg-At-Risk">At Risk</span></td>
+      <td class="life">🎂 Oct 3 · 💍 May 11</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">44</td>
+      <td>
+        <div class="name">JACKIE MARKEY</div>
+        <div class="contact">(609) 290-6464</div>
+      </td>
+      <td class="spend">$600</td>
+      <td class="days">1451d</td>
+      <td><span class="seg seg-At-Risk">At Risk</span></td>
+      <td class="life">🎂 Jun 27 · 💍 Sep 8</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">45</td>
+      <td>
+        <div class="name">SALLY KALKSMA</div>
+        <div class="contact">(908) 910-5325</div>
+      </td>
+      <td class="spend">$450</td>
+      <td class="days">1229d</td>
+      <td><span class="seg seg-At-Risk">At Risk</span></td>
+      <td class="life">🎂 Jun 19</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">46</td>
+      <td>
+        <div class="name">KATHLEEN BLEY</div>
+        <div class="contact">(201) 321-8394 · <span style="color:#9ca3af;font-size:11px;">goldie11444@aol.com</span></div>
+      </td>
+      <td class="spend">$410</td>
+      <td class="days">1215d</td>
+      <td><span class="seg seg-At-Risk">At Risk</span></td>
+      <td class="life">🎂 Jan 6 · 💍 May 16</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">47</td>
+      <td>
+        <div class="name">STEVEN DADD</div>
+        <div class="contact">(732) 232-2222</div>
+      </td>
+      <td class="spend">$158</td>
+      <td class="days">1152d</td>
+      <td><span class="seg seg-At-Risk">At Risk</span></td>
+      <td class="life">🎂 Jun 6</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">48</td>
+      <td>
+        <div class="name">BONNIE KOERNER</div>
+        <div class="contact">(732) 278-1056 · <span style="color:#9ca3af;font-size:11px;">drbkoerner@aol.com</span></div>
+      </td>
+      <td class="spend">$37,554</td>
+      <td class="days">1578d</td>
+      <td><span class="seg seg-Lost-High-Value">Lost - High Value</span></td>
+      <td class="life">🎂 Apr 25</td>
+      <td><span class="dbadge">Gabriel & Co</span><span class="dbadge">Simon G</span></td>
+    </tr>
+<tr>
+      <td class="rank">49</td>
+      <td>
+        <div class="name">RICHARD MITUKIEWICZ</div>
+        <div class="contact">(732) 600-1058</div>
+      </td>
+      <td class="spend">$14,767</td>
+      <td class="days">1507d</td>
+      <td><span class="seg seg-Lost-High-Value">Lost - High Value</span></td>
+      <td class="life">🎂 Nov 15</td>
+      <td><span class="dbadge">Gabriel & Co</span></td>
+    </tr>
+<tr>
+      <td class="rank">50</td>
+      <td>
+        <div class="name">DREW MCKELLAR</div>
+        <div class="contact">(616) 460-2645</div>
+      </td>
+      <td class="spend">$10,647</td>
+      <td class="days">1678d</td>
+      <td><span class="seg seg-Lost-High-Value">Lost - High Value</span></td>
+      <td class="life">🎂 Apr 29 · 💍 Apr 29</td>
+      <td><span class="dbadge">Gabriel & Co</span><span class="dbadge">Simon G</span></td>
+    </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="foot">
+    Corinne Jewelers · Leadership Rollup · Updated 2026-04-20T00:00:00
+    <br><a href="../">← Back to all associates</a>
+  </div>
+</div>
+</div>
+<script>
+(function() {
+  var STORAGE_KEY = 'corinne_auth';
+  function simpleHash(str) {
+    var hash = 5381;
+    for (var i = 0; i < str.length; i++) {
+      hash = ((hash << 5) + hash) + str.charCodeAt(i);
+      hash = hash & 0xFFFFFFFF;
+    }
+    return hash.toString(16);
+  }
+  var EXPECTED = simpleHash('Corinne64!');
+  function isAuthed() {
+    try { return sessionStorage.getItem(STORAGE_KEY) === EXPECTED; } catch(e) { return false; }
+  }
+  function setAuthed() {
+    try { sessionStorage.setItem(STORAGE_KEY, EXPECTED); } catch(e) {}
+  }
+  function showReport() {
+    var overlay = document.getElementById('auth-overlay');
+    var content = document.getElementById('report-content');
+    if (overlay) overlay.style.display = 'none';
+    if (content) content.style.display = 'block';
+  }
+  function buildOverlay() {
+    var content = document.getElementById('report-content');
+    if (content) content.style.display = 'none';
+    var overlay = document.createElement('div');
+    overlay.id = 'auth-overlay';
+    overlay.innerHTML =
+      '<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:#F5EDE0;font-family:Georgia,serif;">' +
+        '<div style="background:white;border-radius:12px;box-shadow:0 4px 24px rgba(107,29,42,0.12);padding:48px;max-width:400px;width:90%;text-align:center;">' +
+          '<h1 style="font-size:24px;color:#6B1D2A;margin-bottom:4px;letter-spacing:0.3px;">Corinne Jewelers</h1>' +
+          '<p style="color:#6b7280;font-size:14px;margin-bottom:32px;font-family:-apple-system,sans-serif;">Enter your password to view hit lists</p>' +
+          '<input type="password" id="auth-input" placeholder="Password" ' +
+            'style="width:100%;padding:12px 16px;border:1px solid #d1d5db;border-radius:8px;font-size:16px;margin-bottom:16px;outline:none;font-family:-apple-system,sans-serif;" ' +
+            'onfocus="this.style.borderColor=\'#6B1D2A\'" onblur="this.style.borderColor=\'#d1d5db\'">' +
+          '<button id="auth-btn" ' +
+            'style="width:100%;padding:12px;background:#6B1D2A;color:white;border:none;border-radius:8px;font-size:15px;font-weight:500;cursor:pointer;font-family:-apple-system,sans-serif;" ' +
+            'onmouseover="this.style.background=\'#8a2836\'" onmouseout="this.style.background=\'#6B1D2A\'">' +
+            'View Hit List</button>' +
+          '<p id="auth-error" style="color:#ef4444;font-size:13px;margin-top:12px;display:none;font-family:-apple-system,sans-serif;">Incorrect password. Please try again.</p>' +
+        '</div>' +
+      '</div>';
+    document.body.insertBefore(overlay, document.body.firstChild);
+    var input = document.getElementById('auth-input');
+    var btn = document.getElementById('auth-btn');
+    var error = document.getElementById('auth-error');
+    function tryAuth() {
+      if (simpleHash(input.value) === EXPECTED) { setAuthed(); showReport(); }
+      else { error.style.display = 'block'; input.style.borderColor = '#ef4444'; input.value = ''; input.focus(); }
+    }
+    btn.addEventListener('click', tryAuth);
+    input.addEventListener('keydown', function(e) { if (e.key === 'Enter') tryAuth(); });
+    setTimeout(function() { input.focus(); }, 100);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() { isAuthed() ? showReport() : buildOverlay(); });
+  } else { isAuthed() ? showReport() : buildOverlay(); }
+})();
+</script>
+</body>
+</html>

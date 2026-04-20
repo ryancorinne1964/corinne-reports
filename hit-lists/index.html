@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Corinne Jewelers — Anniversary Sale Hit Lists</title>
+<style>
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --burgundy: #6B1D2A;
+  --gold: #C9A84C;
+  --cream: #F5EDE0;
+  --ink: #1f2937;
+  --ink-soft: #4b5563;
+  --muted: #9ca3af;
+  --line: #e5e7eb;
+  --bg: #fafaf7;
+  --card: #ffffff;
+  --chip: #f3f4f6;
+  --chip-hover: #e5e7eb;
+  --active: var(--burgundy);
+  --success: #065f46;
+  --warn: #b45309;
+  --vip-bg: #fef3c7;
+  --vip-fg: #92400e;
+  --loyal-bg: #dcfce7;
+  --loyal-fg: #14532d;
+  --risk-bg: #fee2e2;
+  --risk-fg: #991b1b;
+  --big-bg: #e0e7ff;
+  --big-fg: #3730a3;
+  --new-bg: #cffafe;
+  --new-fg: #155e75;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.5;
+}
+.wrap { max-width: 1280px; margin: 0 auto; padding: 24px; }
+
+/* Header */
+.hdr {
+  background: linear-gradient(135deg, var(--burgundy) 0%, #8a2836 100%);
+  color: white; padding: 32px; border-radius: 12px; margin-bottom: 24px;
+  box-shadow: 0 2px 10px rgba(107,29,42,0.15);
+}
+.hdr h1 { font-family: Georgia, serif; font-size: 30px; font-weight: 400; letter-spacing: 0.3px; margin-bottom: 4px; }
+.hdr .sub { opacity: 0.85; font-size: 14px; }
+.hdr .stats { display: flex; gap: 32px; margin-top: 20px; flex-wrap: wrap; }
+.hdr .stat { }
+.hdr .stat-v { font-size: 24px; font-weight: 600; color: var(--gold); }
+.hdr .stat-l { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.8; }
+
+/* Presets */
+.presets {
+  background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+  padding: 18px; margin-bottom: 16px;
+}
+.presets-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; margin-bottom: 10px; }
+.preset-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.preset {
+  background: white; border: 1.5px solid var(--line); color: var(--ink);
+  padding: 8px 14px; border-radius: 20px; cursor: pointer; font-size: 13px;
+  font-weight: 500; transition: all 0.15s; white-space: nowrap;
+}
+.preset:hover { border-color: var(--burgundy); color: var(--burgundy); }
+.preset.active { background: var(--burgundy); color: white; border-color: var(--burgundy); }
+.preset.active:hover { background: #8a2836; }
+.preset .cnt { opacity: 0.65; margin-left: 4px; font-weight: 400; }
+
+/* Advanced drawer */
+.adv-toggle {
+  background: transparent; border: none; color: var(--ink-soft);
+  font-size: 13px; cursor: pointer; padding: 8px 0 0; font-weight: 500;
+  text-decoration: underline; text-decoration-color: var(--muted);
+  text-underline-offset: 3px;
+}
+.adv-toggle:hover { color: var(--burgundy); }
+.adv-body { display: none; margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--line); }
+.adv-body.on { display: block; }
+.adv-group { margin-bottom: 12px; }
+.adv-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; margin-bottom: 6px; }
+.chip-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  background: var(--chip); border: 1px solid transparent; color: var(--ink-soft);
+  padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 12px;
+  user-select: none;
+}
+.chip:hover { background: var(--chip-hover); }
+.chip.on { background: var(--burgundy); color: white; border-color: var(--burgundy); }
+.search-box {
+  width: 100%; padding: 8px 12px; border: 1px solid var(--line);
+  border-radius: 6px; font-size: 14px;
+}
+.clear-btn {
+  background: transparent; border: 1px solid var(--line); color: var(--ink-soft);
+  padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px;
+  margin-left: auto;
+}
+.clear-btn:hover { border-color: var(--burgundy); color: var(--burgundy); }
+
+/* Results bar */
+.resbar {
+  display: flex; align-items: center; gap: 16px;
+  padding: 12px 4px; font-size: 13px; color: var(--ink-soft);
+}
+.resbar strong { color: var(--ink); font-weight: 600; }
+
+/* Table */
+.tbl-wrap {
+  background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+  overflow: hidden;
+}
+table {
+  width: 100%; border-collapse: collapse; font-size: 13px;
+}
+thead { background: #f9fafb; }
+th {
+  text-align: left; padding: 10px 10px; font-weight: 600; color: var(--ink-soft);
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--line); cursor: pointer; user-select: none;
+  white-space: nowrap;
+}
+th:hover { color: var(--burgundy); }
+th.sorted::after { content: ' ↓'; color: var(--burgundy); }
+th.sorted.asc::after { content: ' ↑'; }
+td { padding: 10px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tbody tr:hover { background: #fafafa; }
+tbody tr:last-child td { border-bottom: none; }
+
+.rank { color: var(--muted); font-weight: 600; width: 36px; }
+.name { font-weight: 600; color: var(--ink); }
+.contact { font-size: 12px; color: var(--ink-soft); }
+.contact a { color: var(--ink-soft); text-decoration: none; }
+.contact a:hover { color: var(--burgundy); }
+.spend { text-align: right; font-variant-numeric: tabular-nums; font-weight: 500; }
+.visits { text-align: center; font-variant-numeric: tabular-nums; color: var(--ink-soft); }
+.days { text-align: right; font-variant-numeric: tabular-nums; color: var(--ink-soft); }
+
+.seg {
+  display: inline-block; padding: 2px 8px; border-radius: 4px;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.02em;
+}
+.seg-VIP { background: var(--vip-bg); color: var(--vip-fg); }
+.seg-Loyal { background: var(--loyal-bg); color: var(--loyal-fg); }
+.seg-Big-Spender { background: var(--big-bg); color: var(--big-fg); }
+.seg-At-Risk { background: var(--risk-bg); color: var(--risk-fg); }
+.seg-Lost---High-Value { background: var(--risk-bg); color: var(--risk-fg); }
+.seg-Needs-Attention { background: #fef3c7; color: #854d0e; }
+.seg-Promising { background: #e0e7ff; color: #4338ca; }
+.seg-New { background: var(--new-bg); color: var(--new-fg); }
+.seg-Hibernating { background: #f3e8ff; color: #6b21a8; }
+.seg-Other { background: var(--chip); color: var(--ink-soft); }
+
+.designer-badges { display: inline-flex; gap: 4px; flex-wrap: wrap; }
+.dbadge {
+  display: inline-block; background: var(--cream); color: var(--burgundy);
+  border: 1px solid #e8d9b5; padding: 1px 6px; border-radius: 3px;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.02em;
+}
+.rationale { font-size: 12px; color: var(--ink-soft); max-width: 260px; }
+.life { font-size: 12px; color: var(--ink-soft); white-space: nowrap; }
+.life b { color: var(--burgundy); font-weight: 600; }
+
+.empty {
+  padding: 48px; text-align: center; color: var(--muted); font-style: italic;
+}
+
+/* Footer */
+.foot { text-align: center; padding: 30px; color: var(--muted); font-size: 12px; }
+.foot a { color: var(--ink-soft); }
+
+/* Print */
+@media print {
+  body { background: white; }
+  .hdr { background: none !important; color: var(--ink); border-bottom: 2px solid var(--burgundy); box-shadow: none; border-radius: 0; }
+  .hdr h1, .hdr .stat-v { color: var(--burgundy) !important; }
+  .presets, .adv-body, .adv-toggle, .clear-btn, .foot { display: none !important; }
+  .tbl-wrap { border: none; }
+  th { color: var(--burgundy); background: #f5ede0; }
+  tbody tr { break-inside: avoid; }
+  .resbar { padding-top: 0; }
+}
+
+.landing-wrap { max-width: 640px; margin: 60px auto; padding: 20px; }
+.landing-card {
+  background: white; border-radius: 14px; padding: 48px 40px; text-align: center;
+  box-shadow: 0 4px 24px rgba(107,29,42,0.08); border: 1px solid var(--line);
+}
+.landing-card h1 { font-family: Georgia, serif; font-size: 32px; color: var(--burgundy); margin-bottom: 4px; }
+.landing-card .tag { color: var(--ink-soft); margin-bottom: 10px; font-size: 15px; }
+.landing-card .dates { color: var(--gold); font-weight: 600; font-size: 14px; margin-bottom: 32px; letter-spacing: 0.02em; }
+.assoc-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 12px; }
+.assoc-list a {
+  display: block; padding: 14px 16px; background: #fafaf7; border: 1.5px solid var(--line);
+  border-radius: 10px; color: var(--ink); text-decoration: none; font-weight: 600;
+  transition: all 0.15s; text-align: left;
+}
+.assoc-list a:hover { border-color: var(--burgundy); color: var(--burgundy); transform: translateY(-1px); }
+.assoc-list a .count { display: block; font-size: 12px; color: var(--muted); font-weight: 400; margin-top: 2px; }
+.leadership-link {
+  display: block; padding: 14px 16px; background: var(--burgundy); color: white !important;
+  border-radius: 10px; text-decoration: none; font-weight: 600; margin-top: 14px;
+}
+.leadership-link:hover { background: #8a2836; }
+</style>
+</head>
+<body>
+<div id="report-content">
+<div class="landing-wrap">
+  <div class="landing-card">
+    <h1>Corinne Jewelers</h1>
+    <div class="tag">62nd Anniversary Sale · Hit Lists</div>
+    <div class="dates">May 6–9, 2026</div>
+    <div class="assoc-list">
+<a href="./vicky/"><div>Vicky Romeo</div><span class="count">899 eligible</span></a>
+<a href="./essence/"><div>Essence Mayers</div><span class="count">756 eligible</span></a>
+<a href="./lisa/"><div>Lisa Boyle</div><span class="count">968 eligible</span></a>
+<a href="./laura/"><div>Laura O'Neil</div><span class="count">379 eligible</span></a>
+<a href="./taylor/"><div>Taylor Guadagno</div><span class="count">408 eligible</span></a>
+<a href="./gigi/"><div>Gabriela Flanagan</div><span class="count">648 eligible</span></a>
+    </div>
+    <a href="./leadership/" class="leadership-link">📊 Leadership Rollup →</a>
+    <div style="margin-top:28px;font-size:12px;color:var(--muted);">
+      Updated 2026-04-20T00:00:00 · Your list only — call your people.
+    </div>
+  </div>
+</div>
+</div>
+<script>
+(function() {
+  var STORAGE_KEY = 'corinne_auth';
+  function simpleHash(str) {
+    var hash = 5381;
+    for (var i = 0; i < str.length; i++) {
+      hash = ((hash << 5) + hash) + str.charCodeAt(i);
+      hash = hash & 0xFFFFFFFF;
+    }
+    return hash.toString(16);
+  }
+  var EXPECTED = simpleHash('Corinne64!');
+  function isAuthed() {
+    try { return sessionStorage.getItem(STORAGE_KEY) === EXPECTED; } catch(e) { return false; }
+  }
+  function setAuthed() {
+    try { sessionStorage.setItem(STORAGE_KEY, EXPECTED); } catch(e) {}
+  }
+  function showReport() {
+    var overlay = document.getElementById('auth-overlay');
+    var content = document.getElementById('report-content');
+    if (overlay) overlay.style.display = 'none';
+    if (content) content.style.display = 'block';
+  }
+  function buildOverlay() {
+    var content = document.getElementById('report-content');
+    if (content) content.style.display = 'none';
+    var overlay = document.createElement('div');
+    overlay.id = 'auth-overlay';
+    overlay.innerHTML =
+      '<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:#F5EDE0;font-family:Georgia,serif;">' +
+        '<div style="background:white;border-radius:12px;box-shadow:0 4px 24px rgba(107,29,42,0.12);padding:48px;max-width:400px;width:90%;text-align:center;">' +
+          '<h1 style="font-size:24px;color:#6B1D2A;margin-bottom:4px;letter-spacing:0.3px;">Corinne Jewelers</h1>' +
+          '<p style="color:#6b7280;font-size:14px;margin-bottom:32px;font-family:-apple-system,sans-serif;">Enter your password to view hit lists</p>' +
+          '<input type="password" id="auth-input" placeholder="Password" ' +
+            'style="width:100%;padding:12px 16px;border:1px solid #d1d5db;border-radius:8px;font-size:16px;margin-bottom:16px;outline:none;font-family:-apple-system,sans-serif;" ' +
+            'onfocus="this.style.borderColor=\'#6B1D2A\'" onblur="this.style.borderColor=\'#d1d5db\'">' +
+          '<button id="auth-btn" ' +
+            'style="width:100%;padding:12px;background:#6B1D2A;color:white;border:none;border-radius:8px;font-size:15px;font-weight:500;cursor:pointer;font-family:-apple-system,sans-serif;" ' +
+            'onmouseover="this.style.background=\'#8a2836\'" onmouseout="this.style.background=\'#6B1D2A\'">' +
+            'View Hit List</button>' +
+          '<p id="auth-error" style="color:#ef4444;font-size:13px;margin-top:12px;display:none;font-family:-apple-system,sans-serif;">Incorrect password. Please try again.</p>' +
+        '</div>' +
+      '</div>';
+    document.body.insertBefore(overlay, document.body.firstChild);
+    var input = document.getElementById('auth-input');
+    var btn = document.getElementById('auth-btn');
+    var error = document.getElementById('auth-error');
+    function tryAuth() {
+      if (simpleHash(input.value) === EXPECTED) { setAuthed(); showReport(); }
+      else { error.style.display = 'block'; input.style.borderColor = '#ef4444'; input.value = ''; input.focus(); }
+    }
+    btn.addEventListener('click', tryAuth);
+    input.addEventListener('keydown', function(e) { if (e.key === 'Enter') tryAuth(); });
+    setTimeout(function() { input.focus(); }, 100);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() { isAuthed() ? showReport() : buildOverlay(); });
+  } else { isAuthed() ? showReport() : buildOverlay(); }
+})();
+</script>
+</body>
+</html>
