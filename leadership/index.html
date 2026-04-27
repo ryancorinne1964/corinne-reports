@@ -20,8 +20,8 @@
             --orange-bg: #fffbeb;
             --orange-border: #fde68a;
             --red: #ef4444;
-            --blue: #6B1D2A;
-            --blue-light: #F5EDE0;
+            --blue: #6B1D2A;          /* Corinne burgundy (variable name kept for minimal diff) */
+            --blue-light: #F5EDE0;     /* Corinne cream */
 
             --gray-50: #f9fafb;
             --gray-100: #f3f4f6;
@@ -530,6 +530,51 @@
                 padding: 0.5rem;
             }
         }
+
+        /* Loose Diamond Mix section (Apr 2026) */
+        .mix-card {
+            border-left-width: 4px;
+            border-left-style: solid;
+        }
+        .mix-card.mix-on-track {
+            border-left-color: var(--green);
+        }
+        .mix-card.mix-behind {
+            border-left-color: var(--orange);
+        }
+        .mix-card.mix-neutral {
+            border-left-color: #999;
+        }
+        .mix-target {
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 400;
+            color: #666;
+            margin-top: 0.25rem;
+        }
+        .mix-sub {
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 400;
+            color: #555;
+            margin-top: 0.25rem;
+        }
+        .mix-note {
+            font-size: 0.85rem;
+            color: #555;
+            margin-top: 1rem;
+            line-height: 1.5;
+            font-style: italic;
+        }
+        .mix-pct.mix-on-track strong {
+            color: var(--green);
+        }
+        .mix-pct.mix-behind strong {
+            color: var(--orange);
+        }
+        .mix-pct.mix-neutral strong {
+            color: #555;
+        }
     
     </style>
 </head>
@@ -539,27 +584,27 @@
         <!-- Header -->
         <header class="report-header">
             <h1>Corinne Jewelers — Leadership Report</h1>
-            <p class="subtitle">APR April 2026 Weekly Report · Generated Apr 20, 2026</p>
+            <p class="subtitle">APR April 2026 Weekly Report · Generated Apr 27, 2026</p>
         </header>
 
         <!-- Store Status Banner -->
-        <div class="status-banner behind">
+        <div class="status-banner on-track">
             <div class="banner-content">
                 <div class="banner-left">
-                    <div class="big-number">$284,384</div>
+                    <div class="big-number">$381,758</div>
                     <div class="banner-label">Store Total MTD</div>
                 </div>
                 <div class="banner-right">
                     <div class="status-stat">
-                        <span class="stat-value">73.9%</span>
+                        <span class="stat-value">99.2%</span>
                         <span class="stat-label">of Goal</span>
                     </div>
                     <div class="status-stat">
-                        <span class="stat-value">110.9%</span>
+                        <span class="stat-value">110.3%</span>
                         <span class="stat-label">Pacing</span>
                     </div>
                     <div class="status-stat">
-                        <span class="stat-value">$426,576</span>
+                        <span class="stat-value">$424,176</span>
                         <span class="stat-label">Projected</span>
                     </div>
                 </div>
@@ -568,7 +613,7 @@
 
         <!-- Progress Bar -->
         <div class="progress-container">
-            <div class="progress-bar" style="width: 73.9%; background-color: var(--orange);"></div>
+            <div class="progress-bar" style="width: 99.2%; background-color: var(--green);"></div>
         </div>
 
         <!-- Store Last Week KPI Strip -->
@@ -576,41 +621,41 @@
             <h2>Last Week Summary</h2>
             <div class="kpi-grid kpi-grid-5">
                 <div class="kpi-card">
-                    <div class="kpi-value">$78,033</div>
+                    <div class="kpi-value">$97,374</div>
                     <div class="kpi-label">Total</div>
                 </div>
                 <div class="kpi-card">
-                    <div class="kpi-value">$69,494</div>
+                    <div class="kpi-value">$90,660</div>
                     <div class="kpi-label">Jewelry</div>
                 </div>
                 <div class="kpi-card">
-                    <div class="kpi-value">$48,535</div>
+                    <div class="kpi-value">$56,162</div>
                     <div class="kpi-label">Gross Profit</div>
                 </div>
                 <div class="kpi-card">
-                    <div class="kpi-value">$8,539</div>
+                    <div class="kpi-value">$6,714</div>
                     <div class="kpi-label">Repair</div>
                 </div>
                 <div class="kpi-card">
-                    <div class="kpi-value">2</div>
+                    <div class="kpi-value">3</div>
                     <div class="kpi-label">Credit Apps</div>
                 </div>
             </div>
             <div class="kpi-grid kpi-grid-5" style="margin-top: 1.5rem;">
                 <div class="kpi-card">
-                    <div class="kpi-value">69.8%</div>
+                    <div class="kpi-value">61.9%</div>
                     <div class="kpi-label">GP%</div>
                 </div>
                 <div class="kpi-card">
-                    <div class="kpi-value">$1,390</div>
+                    <div class="kpi-value">$1,929</div>
                     <div class="kpi-label">ATV</div>
                 </div>
                 <div class="kpi-card">
-                    <div class="kpi-value">50</div>
+                    <div class="kpi-value">47</div>
                     <div class="kpi-label">Transactions</div>
                 </div>
                 <div class="kpi-card">
-                    <div class="kpi-value">1.26</div>
+                    <div class="kpi-value">1.00</div>
                     <div class="kpi-label">UPT</div>
                 </div>
                 <div class="kpi-card">
@@ -641,51 +686,51 @@
                 <tbody>
                     <tr>
                         <td>Vicky Romeo</td>
-                        <td>$21,035</td>
-                        <td>$19,792</td>
-                        <td>$13,511</td>
-                        <td>$1,244</td>
-                        <td>68.3%</td>
-                        <td>$1,522</td>
-                        <td>13</td>
-                        <td>1.23</td>
+                        <td>$19,642</td>
+                        <td>$18,122</td>
+                        <td>$12,895</td>
+                        <td>$1,519</td>
+                        <td>71.2%</td>
+                        <td>$1,510</td>
+                        <td>12</td>
+                        <td>0.92</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>Taylor</td>
+                        <td>$15,908</td>
+                        <td>$12,392</td>
+                        <td>$9,999</td>
+                        <td>$3,516</td>
+                        <td>80.7%</td>
+                        <td>$1,239</td>
+                        <td>10</td>
+                        <td>0.80</td>
                         <td>0</td>
                     </tr>
                     <tr>
                         <td>Essence Mayers</td>
-                        <td>$19,440</td>
-                        <td>$16,374</td>
-                        <td>$13,102</td>
-                        <td>$3,067</td>
-                        <td>80.0%</td>
-                        <td>$1,260</td>
-                        <td>13</td>
-                        <td>1.23</td>
+                        <td>$15,671</td>
+                        <td>$15,344</td>
+                        <td>$9,769</td>
+                        <td>$327</td>
+                        <td>63.7%</td>
+                        <td>$1,534</td>
+                        <td>10</td>
+                        <td>0.90</td>
                         <td>0</td>
                     </tr>
                     <tr>
                         <td>Laura O'Neil</td>
-                        <td>$18,204</td>
-                        <td>$16,700</td>
-                        <td>$9,991</td>
-                        <td>$1,503</td>
-                        <td>59.8%</td>
-                        <td>$1,392</td>
-                        <td>12</td>
-                        <td>1.17</td>
-                        <td>0</td>
-                    </tr>
-                    <tr>
-                        <td>Taylor</td>
-                        <td>$14,534</td>
-                        <td>$13,120</td>
-                        <td>$8,855</td>
-                        <td>$1,414</td>
-                        <td>67.5%</td>
-                        <td>$1,312</td>
-                        <td>10</td>
+                        <td>$14,430</td>
+                        <td>$13,788</td>
+                        <td>$7,723</td>
+                        <td>$641</td>
+                        <td>56.0%</td>
+                        <td>$1,724</td>
+                        <td>8</td>
                         <td>1.00</td>
-                        <td>2</td>
+                        <td>1</td>
                     </tr>
                 </tbody>
             </table>
@@ -707,79 +752,79 @@
                 <tbody>
                     <tr>
                         <td>Jewelry Sales</td>
-                        <td>$262,927</td>
+                        <td>$353,587</td>
                         <td>$348,745</td>
-                        <td class="negative">−$85,818</td>
-                        <td>75.4%</td>
+                        <td class="positive">+$4,842</td>
+                        <td>101.4%</td>
                     </tr>
                     <tr>
                         <td>Repair Sales</td>
-                        <td>$21,457</td>
+                        <td>$28,172</td>
                         <td>$35,975</td>
-                        <td class="negative">−$14,518</td>
-                        <td>59.6%</td>
+                        <td class="negative">−$7,803</td>
+                        <td>78.3%</td>
                     </tr>
                     <tr>
                         <td>Gross Profit $</td>
-                        <td>$164,906</td>
+                        <td>$221,069</td>
                         <td>$181,347</td>
-                        <td class="negative">−$16,441</td>
-                        <td>90.9%</td>
+                        <td class="positive">+$39,721</td>
+                        <td>121.9%</td>
                     </tr>
                     <tr>
                         <td>GP%</td>
-                        <td colspan="2">58.0% vs 52.0%</td>
+                        <td colspan="2">57.9% vs 52.0%</td>
                         <td class="positive">+$6pp</td>
                         <td>—</td>
                     </tr>
                     <tr>
                         <td>Credit Apps</td>
-                        <td>5</td>
+                        <td>8</td>
                         <td>22</td>
-                        <td class="negative">−$17</td>
-                        <td>22.7%</td>
+                        <td class="negative">−$14</td>
+                        <td>36.4%</td>
                     </tr>
                     <tr>
                         <td>ATV</td>
-                        <td>$1,865</td>
+                        <td>$1,881</td>
                         <td colspan="2">—</td>
                         <td>—</td>
                     </tr>
                     <tr>
                         <td>Transactions</td>
-                        <td>141</td>
+                        <td>188</td>
                         <td colspan="2">—</td>
                         <td>—</td>
                     </tr>
                     <tr>
                         <td>UPT</td>
-                        <td>1.06</td>
+                        <td>1.04</td>
                         <td colspan="2">—</td>
                         <td>—</td>
                     </tr>
                     <tr>
                         <td>Conv Rate</td>
-                        <td>95.9%</td>
+                        <td>127.9%</td>
                         <td colspan="2">—</td>
                         <td>—</td>
                     </tr>
                     <tr>
                         <td>Clienteling Activities</td>
-                        <td>379</td>
+                        <td>712</td>
                         <td colspan="2">—</td>
                         <td>—</td>
                     </tr>
                     <tr class="total-row">
                         <td><strong>STORE TOTAL</strong></td>
-                        <td><strong>$284,384</strong></td>
+                        <td><strong>$381,758</strong></td>
                         <td><strong>$384,720</strong></td>
-                        <td class="negative"><strong>−$100,336</strong></td>
-                        <td><strong>73.9%</strong></td>
+                        <td class="negative"><strong>−$2,962</strong></td>
+                        <td><strong>99.2%</strong></td>
                     </tr>
                 </tbody>
             </table>
             <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--gray-600);">
-                Projected to finish at <strong>$426,576</strong> (110.9%)
+                Projected to finish at <strong>$424,176</strong> (110.3%)
             </p>
         </section>
 
@@ -804,51 +849,51 @@
                 <tbody>
                     <tr>
                         <td>Laura O'Neil</td>
-                        <td>$83,617</td>
-                        <td>$79,460</td>
-                        <td>$4,158</td>
+                        <td>$98,047</td>
+                        <td>$93,248</td>
+                        <td>$4,799</td>
                         <td>53.4%</td>
-                        <td>$1,892</td>
-                        <td>42</td>
+                        <td>$1,865</td>
+                        <td>50</td>
                         <td>0.98</td>
-                        <td>0</td>
-                        <td>120</td>
+                        <td>1</td>
+                        <td>175</td>
                     </tr>
                     <tr>
                         <td>Vicky Romeo</td>
-                        <td>$69,988</td>
-                        <td>$66,616</td>
-                        <td>$3,372</td>
-                        <td>57.5%</td>
-                        <td>$1,753</td>
-                        <td>38</td>
-                        <td>1.08</td>
-                        <td>0</td>
-                        <td>91</td>
+                        <td>$89,630</td>
+                        <td>$84,739</td>
+                        <td>$4,891</td>
+                        <td>59.3%</td>
+                        <td>$1,695</td>
+                        <td>50</td>
+                        <td>1.04</td>
+                        <td>2</td>
+                        <td>150</td>
                     </tr>
                     <tr>
                         <td>Essence Mayers</td>
-                        <td>$68,688</td>
-                        <td>$62,096</td>
-                        <td>$6,592</td>
-                        <td>61.4%</td>
-                        <td>$1,725</td>
-                        <td>36</td>
-                        <td>0.94</td>
+                        <td>$84,359</td>
+                        <td>$77,440</td>
+                        <td>$6,919</td>
+                        <td>61.6%</td>
+                        <td>$1,683</td>
+                        <td>46</td>
+                        <td>0.93</td>
                         <td>0</td>
-                        <td>70</td>
+                        <td>122</td>
                     </tr>
                     <tr>
                         <td>Taylor</td>
-                        <td>$43,619</td>
-                        <td>$40,308</td>
-                        <td>$3,311</td>
-                        <td>58.7%</td>
-                        <td>$1,753</td>
-                        <td>23</td>
-                        <td>0.91</td>
+                        <td>$59,527</td>
+                        <td>$52,700</td>
+                        <td>$6,828</td>
+                        <td>59.8%</td>
+                        <td>$1,597</td>
+                        <td>33</td>
+                        <td>0.88</td>
                         <td>5</td>
-                        <td>98</td>
+                        <td>201</td>
                     </tr>
                 </tbody>
             </table>
@@ -860,7 +905,7 @@
             <div class="individual-cards-grid">
                 <div class="individual-card on-track">
                     <h3>Laura O'Neil</h3>
-                    <p class="card-status">118.6% to goal · Pacing 177.8%</p>
+                    <p class="card-status">139.0% to goal · Pacing 154.5%</p>
                     <div class="progress-container" style="margin: 1rem 0;">
                         <div class="progress-bar" style="width: 100%; background-color: var(--blue);"></div>
                     </div>
@@ -868,91 +913,91 @@
                         <tbody>
                             <tr>
                                 <td>Jewelry</td>
-                                <td>$79,460</td>
+                                <td>$93,248</td>
                                 <td>$63,337</td>
                             </tr>
                             <tr>
                                 <td>Repair</td>
-                                <td>$4,158</td>
+                                <td>$4,799</td>
                                 <td>$7,195</td>
                             </tr>
                             <tr>
                                 <td>Gross Profit</td>
-                                <td>$44,654</td>
+                                <td>$52,377</td>
                                 <td>$32,935</td>
                             </tr>
                             <tr>
                                 <td>Credit</td>
-                                <td>0</td>
+                                <td>1</td>
                                 <td>4</td>
                             </tr>
                         </tbody>
                     </table>
                     <div style="font-size: 0.85rem; color: var(--gray-700); margin-top: 0.75rem;">
-                        GP% 53.4% · ATV $1,892 · UPT 0.98 · Trans 42
+                        GP% 53.4% · ATV $1,865 · UPT 0.98 · Trans 50
                     </div>
                     <div style="font-weight: 500; margin-top: 0.5rem; font-size: 0.9rem;">
-                        Commission: $1,784
+                        Commission: $2,089
                     </div>
                 </div>
                 <div class="individual-card behind">
                     <h3>Vicky Romeo</h3>
-                    <p class="card-status">68.2% to goal · Pacing 102.3%</p>
+                    <p class="card-status">87.4% to goal · Pacing 97.1%</p>
                     <div class="progress-container" style="margin: 1rem 0;">
-                        <div class="progress-bar" style="width: 68.2%; background-color: var(--blue);"></div>
+                        <div class="progress-bar" style="width: 87.4%; background-color: var(--blue);"></div>
                     </div>
                     <table class="mini-table">
                         <tbody>
                             <tr>
                                 <td>Jewelry</td>
-                                <td>$66,616</td>
+                                <td>$84,739</td>
                                 <td>$95,397</td>
                             </tr>
                             <tr>
                                 <td>Repair</td>
-                                <td>$3,372</td>
+                                <td>$4,891</td>
                                 <td>$7,195</td>
                             </tr>
                             <tr>
                                 <td>Gross Profit</td>
-                                <td>$40,259</td>
+                                <td>$53,154</td>
                                 <td>$49,606</td>
                             </tr>
                             <tr>
                                 <td>Credit</td>
-                                <td>0</td>
+                                <td>2</td>
                                 <td>6</td>
                             </tr>
                         </tbody>
                     </table>
                     <div style="font-size: 0.85rem; color: var(--gray-700); margin-top: 0.75rem;">
-                        GP% 57.5% · ATV $1,753 · UPT 1.08 · Trans 38
+                        GP% 59.3% · ATV $1,695 · UPT 1.04 · Trans 50
                     </div>
                     <div style="font-weight: 500; margin-top: 0.5rem; font-size: 0.9rem;">
-                        Commission: $1,597
+                        Commission: $2,094
                     </div>
                 </div>
-                <div class="individual-card behind">
+                <div class="individual-card on-track">
                     <h3>Essence Mayers</h3>
-                    <p class="card-status">76.5% to goal · Pacing 114.8%</p>
+                    <p class="card-status">94.0% to goal · Pacing 104.4%</p>
                     <div class="progress-container" style="margin: 1rem 0;">
-                        <div class="progress-bar" style="width: 76.5%; background-color: var(--blue);"></div>
+                        <div class="progress-bar" style="width: 94.0%; background-color: var(--blue);"></div>
                     </div>
                     <table class="mini-table">
                         <tbody>
                             <tr>
                                 <td>Jewelry</td>
-                                <td>$62,096</td>
+                                <td>$77,440</td>
                                 <td>$82,573</td>
                             </tr>
                             <tr>
                                 <td>Repair</td>
-                                <td>$6,592</td>
+                                <td>$6,919</td>
                                 <td>$7,195</td>
                             </tr>
                             <tr>
                                 <td>Gross Profit</td>
-                                <td>$42,208</td>
+                                <td>$51,977</td>
                                 <td>$42,938</td>
                             </tr>
                             <tr>
@@ -963,33 +1008,33 @@
                         </tbody>
                     </table>
                     <div style="font-size: 0.85rem; color: var(--gray-700); margin-top: 0.75rem;">
-                        GP% 61.4% · ATV $1,725 · UPT 0.94 · Trans 36
+                        GP% 61.6% · ATV $1,683 · UPT 0.93 · Trans 46
                     </div>
                     <div style="font-weight: 500; margin-top: 0.5rem; font-size: 0.9rem;">
-                        Commission: $1,605
+                        Commission: $1,996
                     </div>
                 </div>
                 <div class="individual-card on-track">
                     <h3>Taylor</h3>
-                    <p class="card-status">90.7% to goal · Pacing 136.1%</p>
+                    <p class="card-status">123.8% to goal · Pacing 137.5%</p>
                     <div class="progress-container" style="margin: 1rem 0;">
-                        <div class="progress-bar" style="width: 90.7%; background-color: var(--blue);"></div>
+                        <div class="progress-bar" style="width: 100%; background-color: var(--blue);"></div>
                     </div>
                     <table class="mini-table">
                         <tbody>
                             <tr>
                                 <td>Jewelry</td>
-                                <td>$40,308</td>
+                                <td>$52,700</td>
                                 <td>$40,895</td>
                             </tr>
                             <tr>
                                 <td>Repair</td>
-                                <td>$3,311</td>
+                                <td>$6,828</td>
                                 <td>$7,195</td>
                             </tr>
                             <tr>
                                 <td>Gross Profit</td>
-                                <td>$25,590</td>
+                                <td>$35,589</td>
                                 <td>$21,265</td>
                             </tr>
                             <tr>
@@ -1000,10 +1045,10 @@
                         </tbody>
                     </table>
                     <div style="font-size: 0.85rem; color: var(--gray-700); margin-top: 0.75rem;">
-                        GP% 58.7% · ATV $1,753 · UPT 0.91 · Trans 23
+                        GP% 59.8% · ATV $1,597 · UPT 0.88 · Trans 33
                     </div>
                     <div style="font-weight: 500; margin-top: 0.5rem; font-size: 0.9rem;">
-                        Commission: $984
+                        Commission: $1,330
                     </div>
                 </div>
             </div>
@@ -1017,7 +1062,7 @@
         <section class="closer-section">
             <h3>Summary</h3>
             <p>
-                Store is pacing 110.9% — ahead of goal with 10 days left. Jewelry (75.4%) is driving results; Repair (59.6%) is the drag. GP% at 58.0% is well above the 52% target. Credit at 5 of 22 — well behind, needs team-wide push. Laura, Vicky, Essence, Taylor are all above pace. Strong position across the board.
+                Store is pacing 110.3% — ahead of goal with 3 days left. Jewelry (101.4%) is driving results; Repair (78.3%) is the drag. GP% at 57.9% is well above the 52% target. Credit at 8 of 22 — well behind, needs team-wide push. Laura, Essence, Taylor are all above pace. Strong position across the board.
             </p>
         </section>
 
