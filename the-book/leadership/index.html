@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>The Book — Leadership view</title>
+  <style>
+    :root {
+      --burgundy: #6B1D2A;
+      --burgundy-light: #8a2836;
+      --gold: #C9A84C;
+      --cream: #F5EDE0;
+      --cream-dark: #EBE0CC;
+      --ink: #2b2018;
+      --muted: #7a6e63;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Calibri, Helvetica, Arial, sans-serif; background: var(--cream); color: var(--ink); font-size: 14px; line-height: 1.45; }
+
+    .auth-gate { position: fixed; inset: 0; z-index: 1000; background: var(--burgundy); display: flex; align-items: center; justify-content: center; }
+    .auth-box { background: var(--cream); padding: 48px 56px; border-radius: 4px; max-width: 380px; width: 90%; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+    .auth-box h1 { font-family: Georgia, serif; color: var(--burgundy); font-size: 28px; margin-bottom: 8px; }
+    .auth-box p { color: var(--muted); margin-bottom: 20px; font-size: 14px; }
+    .auth-box input { width: 100%; padding: 12px; font-size: 16px; border: 1px solid var(--cream-dark); background: white; border-radius: 2px; margin-bottom: 12px; }
+    .auth-box button { width: 100%; padding: 12px; font-size: 14px; letter-spacing: 0.5px; background: var(--burgundy); color: var(--cream); border: none; cursor: pointer; text-transform: uppercase; }
+    .auth-error { color: #a13a2a; font-size: 13px; margin-top: 8px; min-height: 18px; }
+
+    header { background: linear-gradient(135deg, var(--burgundy) 0%, var(--burgundy-light) 100%); color: var(--cream); padding: 32px 32px 28px; }
+    .header-inner { max-width: 1240px; margin: 0 auto; }
+    .eyebrow { font-size: 12px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+    h1.title { font-family: Georgia, serif; font-size: 34px; font-weight: 500; margin-bottom: 4px; }
+    .subtitle { font-style: italic; color: rgba(245, 237, 224, 0.85); font-size: 15px; }
+    .data-stamp { font-size: 11px; color: rgba(245, 237, 224, 0.6); margin-top: 14px; letter-spacing: 0.5px; }
+
+    main { max-width: 1240px; margin: 0 auto; padding: 24px; }
+
+    .summary-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 24px; }
+    .summary-card { background: white; border: 1px solid var(--cream-dark); padding: 16px; border-radius: 2px; }
+    .summary-card .label { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+    .summary-card .value { font-family: Georgia, serif; font-size: 28px; color: var(--burgundy); font-weight: 600; }
+    .summary-card .sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+    section { background: white; padding: 24px; border: 1px solid var(--cream-dark); border-radius: 2px; margin-bottom: 16px; }
+    section h2 { font-family: Georgia, serif; color: var(--burgundy); font-size: 22px; margin-bottom: 4px; font-weight: 500; }
+    section .section-sub { color: var(--muted); font-size: 13px; margin-bottom: 16px; font-style: italic; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--cream); }
+    thead th { background: var(--cream); color: var(--burgundy); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
+    tbody th { background: var(--cream); font-weight: 600; }
+    td.num { text-align: right; font-variant-numeric: tabular-nums; }
+    td.total, th.total { font-weight: 700; color: var(--burgundy); }
+    tr:hover td { background: var(--cream); }
+
+    .status-engagement { color: var(--burgundy); font-weight: 600; }
+    .status-bands { color: #4a7c4e; }
+
+    footer { max-width: 1240px; margin: 32px auto 24px; padding: 0 24px; font-size: 12px; color: var(--muted); text-align: center; }
+
+    @media (max-width: 700px) {
+      h1.title { font-size: 26px; }
+      header { padding: 24px 20px 20px; }
+      main { padding: 16px; }
+      section { padding: 18px; }
+      table { font-size: 12px; }
+      th, td { padding: 6px 8px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-gate" id="authGate">
+    <div class="auth-box">
+      <h1>The Book</h1>
+      <p>Enter the team password to continue</p>
+      <form id="authForm">
+        <input type="password" id="authPwd" autocomplete="off" autofocus>
+        <button type="submit">Enter</button>
+        <div class="auth-error" id="authError"></div>
+      </form>
+    </div>
+  </div>
+
+  <header>
+    <div class="header-inner">
+      <div class="eyebrow">The Book</div>
+      <h1 class="title">Leadership view</h1>
+      <div class="subtitle">Floor-wide intelligence — what every book looks like right now.</div>
+      <div class="data-stamp">Data as of May 20, 2026</div>
+    </div>
+  </header>
+
+  <main>
+    <div class="summary-row">
+      <div class="summary-card">
+        <div class="label">Eligible clients</div>
+        <div class="value">3,581</div>
+        <div class="sub">across the entire floor</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Wedding band opportunity</div>
+        <div class="value">152</div>
+        <div class="sub">bands still to sell</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Recent purchase</div>
+        <div class="value">277</div>
+        <div class="sub">0-60 days post-sale</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Orphan pool</div>
+        <div class="value">866</div>
+        <div class="sub">split between Gigi &amp; Taylor</div>
+      </div>
+    </div>
+
+    <section>
+      <h2>Segment matrix</h2>
+      <div class="section-sub">Each associate's book broken down by V2 segment.</div>
+      <table>
+        <thead>
+          <tr><th>Associate</th><th class="num">Top Customers</th><th class="num">Lapsed High Value</th><th class="num">Wedding Band Opportunity</th><th class="num">Growing</th><th class="num">One & Done</th><th class="num">Cold</th><th class="num total">Total</th></tr>
+        </thead>
+        <tbody>
+          <tr><th>Lisa</th><td class="num">63</td><td class="num">193</td><td class="num">24</td><td class="num">51</td><td class="num">123</td><td class="num">309</td><td class="num total">763</td></tr><tr><th>Vicky</th><td class="num">75</td><td class="num">141</td><td class="num">26</td><td class="num">63</td><td class="num">126</td><td class="num">324</td><td class="num total">755</td></tr><tr><th>Essence</th><td class="num">80</td><td class="num">97</td><td class="num">28</td><td class="num">59</td><td class="num">102</td><td class="num">245</td><td class="num total">611</td></tr><tr><th>Laura</th><td class="num">22</td><td class="num">22</td><td class="num">32</td><td class="num">51</td><td class="num">135</td><td class="num">48</td><td class="num total">310</td></tr><tr><th>Taylor</th><td class="num">3</td><td class="num">0</td><td class="num">3</td><td class="num">13</td><td class="num">35</td><td class="num">5</td><td class="num total">59</td></tr><tr><th>Gigi</th><td class="num">13</td><td class="num">11</td><td class="num">23</td><td class="num">29</td><td class="num">92</td><td class="num">41</td><td class="num total">209</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Wedding band opportunity</h2>
+      <div class="section-sub">Customers who bought the diamond or mount — bands still to sell. Earliest-trigger first.</div>
+      <table>
+        <thead>
+          <tr><th>Name</th><th class="num">Days since trigger</th><th>Assoc.</th><th>Status</th><th class="num">Spend</th><th>Designer</th></tr>
+        </thead>
+        <tbody>
+          
+        <tr>
+          <td>Evan Rodriguez-Engel</td>
+          <td class="num">3d</td>
+          <td>Essence Mayers</td>
+          <td><span class="status-engagement">Engagement window — fresh</span></td>
+          <td class="num">$5,062</td>
+          <td>—</td>
+        </tr>
+        
+        <tr>
+          <td>Johanna Cutler</td>
+          <td class="num">10d</td>
+          <td>Laura O'Neil</td>
+          <td><span class="status-engagement">Engagement window — fresh</span></td>
+          <td class="num">$2,744</td>
+          <td>Gabriel & Co</td>
+        </tr>
+        
+        <tr>
+          <td>David Owens</td>
+          <td class="num">10d</td>
+          <td>Essence Mayers</td>
+          <td><span class="status-engagement">Engagement window — fresh</span></td>
+          <td class="num">$4,648</td>
+          <td>Gabriel & Co</td>
+        </tr>
+        
+        <tr>
+          <td>Michael Madden</td>
+          <td class="num">11d</td>
+          <td>Vicky Romeo</td>
+          <td><span class="status-engagement">Engagement window — fresh</span></td>
+          <td class="num">$1,800</td>
+          <td>—</td>
+        </tr>
+        
+        <tr>
+          <td>John Hennedy</td>
+          <td class="num">11d</td>
+          <td>Vicky Romeo</td>
+          <td><span class="status-engagement">Engagement window — fresh</span></td>
+          <td class="num">$3,505</td>
+          <td>—</td>
+        </tr>
+        
+        <tr>
+          <td>Daniel Biel</td>
+          <td class="num">11d</td>
+          <td>Laura O'Neil</td>
+          <td><span class="status-engagement">Engagement window — fresh</span></td>
+          <td class="num">$2,250</td>
+          <td>—</td>
+        </tr>
+        
+        <tr>
+          <td>Evan Agrapides</td>
+          <td class="num">11d</td>
+          <td>Essence Mayers</td>
+          <td><span class="status-engagement">Engagement window — fresh</span></td>
+          <td class="num">$2,250</td>
+          <td>—</td>
+        </tr>
+        
+        <tr>
+          <td>Steven Shapiro</td>
+          <td class="num">14d</td>
+          <td>Gigi Flanagan</td>
+          <td><span class="status-engagement">Engagement window — fresh</span></td>
+          <td class="num">$10,072</td>
+          <td>Gabriel & Co</td>
+        </tr>
+        
+        <tr>
+          <td>Vincent Florie</td>
+          <td class="num">17d</td>
+          <td>Vicky Romeo</td>
+          <td><span class="status-engagement">Engagement window — fresh</span></td>
+          <td class="num">$6,164</td>
+          <td>—</td>
+        </tr>
+        
+        <tr>
+          <td>James Heeney</td>
+          <td class="num">25d</td>
+          <td>Essence Mayers</td>
+          <td><span class="status-engagement">Engagement window — fresh</span></td>
+          <td class="num">$4,995</td>
+          <td>—</td>
+        </tr>
+        
+        <tr>
+          <td>Michael Contey</td>
+          <td class="num">26d</td>
+          <td>Vicky Romeo</td>
+          <td><span class="status-engagement">Engagement window — fresh</span></td>
+          <td class="num">$5,200</td>
+          <td>Gabriel & Co</td>
+        </tr>
+        
+        <tr>
+          <td>Tammy Breen</td>
+          <td class="num">27d</td>
+          <td>Laura O'Neil</td>
+          <td><span class="status-engagement">Engagement window — fresh</span></td>
+          <td class="num">$4,308</td>
+          <td>—</td>
+        </tr>
+        
+        <tr>
+          <td>Danielle Dreyer</td>
+          <td class="num">34d</td>
+          <td>Vicky Romeo</td>
+          <td><span class="status-engagement">Engagement window — fresh</span></td>
+          <td class="num">$2,350</td>
+          <td>Gabriel & Co</td>
+        </tr>
+        
+        <tr>
+          <td>Brian Blake</td>
+          <td class="num">39d</td>
+          <td>Lisa Boyle</td>
+          <td><span class="status-engagement">Engagement window — fresh</span></td>
+          <td class="num">$1,800</td>
+          <td>—</td>
+        </tr>
+        
+        <tr>
+          <td>Bryan Powell</td>
+          <td class="num">40d</td>
+          <td>Essence Mayers</td>
+          <td><span class="status-engagement">Engagement window — fresh</span></td>
+          <td class="num">$4,700</td>
+          <td>Gabriel & Co</td>
+        </tr>
+        
+        <tr>
+          <td>Jeanine Golderer</td>
+          <td class="num">42d</td>
+          <td>Vicky Romeo</td>
+          <td><span class="status-engagement">Engagement window — fresh</span></td>
+          <td class="num">$4,425</td>
+          <td>Gabriel & Co</td>
+        </tr>
+        
+        <tr>
+          <td>Kenneth Adams</td>
+          <td class="num">46d</td>
+          <td>Laura O'Neil</td>
+          <td><span class="status-engagement">Engagement window — fresh</span></td>
+          <td class="num">$4,950</td>
+          <td>—</td>
+        </tr>
+        
+        <tr>
+          <td>Kim Fox</td>
+          <td class="num">49d</td>
+          <td>Vicky Romeo</td>
+          <td><span class="status-engagement">Engagement window — fresh</span></td>
+          <td class="num">$2,124</td>
+          <td>—</td>
+        </tr>
+        
+        <tr>
+          <td>Antonette Ross</td>
+          <td class="num">53d</td>
+          <td>Laura O'Neil</td>
+          <td><span class="status-engagement">Engagement window — fresh</span></td>
+          <td class="num">$1,775</td>
+          <td>Gabriel & Co</td>
+        </tr>
+        
+        <tr>
+          <td>Kathy Duelly</td>
+          <td class="num">53d</td>
+          <td>Essence Mayers</td>
+          <td><span class="status-engagement">Engagement window — fresh</span></td>
+          <td class="num">$1,705</td>
+          <td>Gabriel & Co</td>
+        </tr>
+        
+        <tr>
+          <td>Susan Bien</td>
+          <td class="num">54d</td>
+          <td>Vicky Romeo</td>
+          <td><span class="status-engagement">Engagement window — fresh</span></td>
+          <td class="num">$4,700</td>
+          <td>Gabriel & Co</td>
+        </tr>
+        
+        <tr>
+          <td>Krysta Berkowitz</td>
+          <td class="num">55d</td>
+          <td>Taylor Guadagno</td>
+          <td><span class="status-engagement">Engagement window — fresh</span></td>
+          <td class="num">$1,700</td>
+          <td>—</td>
+        </tr>
+        
+        <tr>
+          <td>Thomas Longsworth</td>
+          <td class="num">61d</td>
+          <td>Laura O'Neil</td>
+          <td><span class="status-engagement">Engagement window — fresh</span></td>
+          <td class="num">$3,650</td>
+          <td>Gabriel & Co</td>
+        </tr>
+        
+        <tr>
+          <td>Ryan Franzoni</td>
+          <td class="num">61d</td>
+          <td>Gabriela Flanagan</td>
+          <td><span class="status-engagement">Engagement window — fresh</span></td>
+          <td class="num">$4,825</td>
+          <td>—</td>
+        </tr>
+        
+        <tr>
+          <td>Jesse Hoydis</td>
+          <td class="num">61d</td>
+          <td>Laura O'Neil</td>
+          <td><span class="status-engagement">Engagement window — fresh</span></td>
+          <td class="num">$5,490</td>
+          <td>Gabriel & Co</td>
+        </tr>
+        
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Recent Sale Follow-Up board</h2>
+      <div class="section-sub">Customers who purchased 30-90 days ago. The "thank you / check-in / 5-star service" play.</div>
+      <table>
+        <thead>
+          <tr><th>Name</th><th class="num">Days ago</th><th>Assoc.</th><th>Segment</th><th class="num">Spend</th><th>Loves</th><th>Designer</th></tr>
+        </thead>
+        <tbody>
+          
+        <tr>
+          <td>Rich Soldo</td>
+          <td class="num">1d</td>
+          <td>orphan</td>
+          <td>Top Customers</td>
+          <td class="num">$14,660</td>
+          <td>Bracelets</td>
+          <td>Gabriel & Co · Shy Creation</td>
+        </tr>
+        
+        <tr>
+          <td>Debbie Day</td>
+          <td class="num">1d</td>
+          <td>Taylor Guadagno</td>
+          <td>Growing</td>
+          <td class="num">$3,320</td>
+          <td>Rings</td>
+          <td>Gabriel & Co</td>
+        </tr>
+        
+        <tr>
+          <td>James Heeney</td>
+          <td class="num">1d</td>
+          <td>Essence Mayers</td>
+          <td>Growing</td>
+          <td class="num">$4,995</td>
+          <td>Rings</td>
+          <td>—</td>
+        </tr>
+        
+        <tr>
+          <td>Dj O'Brien</td>
+          <td class="num">1d</td>
+          <td>Vicky Romeo</td>
+          <td>Growing</td>
+          <td class="num">$3,085</td>
+          <td>Pendants</td>
+          <td>—</td>
+        </tr>
+        
+        <tr>
+          <td>Kimberly Aiena</td>
+          <td class="num">4d</td>
+          <td>Vicky Romeo</td>
+          <td>Top Customers</td>
+          <td class="num">$8,876</td>
+          <td>Necklaces</td>
+          <td>Roberto Coin · Shy Creation</td>
+        </tr>
+        
+        <tr>
+          <td>Chris Wady</td>
+          <td class="num">4d</td>
+          <td>Essence Mayers</td>
+          <td>Top Customers</td>
+          <td class="num">$13,158</td>
+          <td>Pendants</td>
+          <td>Shy Creation</td>
+        </tr>
+        
+        <tr>
+          <td>Evan Rodriguez-Engel</td>
+          <td class="num">4d</td>
+          <td>Essence Mayers</td>
+          <td>Wedding Band Opportunity</td>
+          <td class="num">$5,062</td>
+          <td>Rings</td>
+          <td>—</td>
+        </tr>
+        
+        <tr>
+          <td>Martin Christian</td>
+          <td class="num">5d</td>
+          <td>Essence Mayers</td>
+          <td>Growing</td>
+          <td class="num">$4,143</td>
+          <td>Rings</td>
+          <td>Gabriel & Co · Shy Creation</td>
+        </tr>
+        
+        <tr>
+          <td>Sherri Oris</td>
+          <td class="num">5d</td>
+          <td>orphan</td>
+          <td>Growing</td>
+          <td class="num">$2,146</td>
+          <td>Pendants</td>
+          <td>—</td>
+        </tr>
+        
+        <tr>
+          <td>Bruce Crawford</td>
+          <td class="num">5d</td>
+          <td>Essence Mayers</td>
+          <td>Top Customers</td>
+          <td class="num">$10,429</td>
+          <td>Rings</td>
+          <td>Gabriel & Co</td>
+        </tr>
+        
+        <tr>
+          <td>Vincent Papa</td>
+          <td class="num">5d</td>
+          <td>Essence Mayers</td>
+          <td>Top Customers</td>
+          <td class="num">$21,805</td>
+          <td>Rings</td>
+          <td>Gabriel & Co</td>
+        </tr>
+        
+        <tr>
+          <td>Trent Stone</td>
+          <td class="num">6d</td>
+          <td>Essence Mayers</td>
+          <td>Growing</td>
+          <td class="num">$4,375</td>
+          <td>Pendants</td>
+          <td>Gabriel & Co</td>
+        </tr>
+        
+        <tr>
+          <td>Alex Leon</td>
+          <td class="num">6d</td>
+          <td>Essence Mayers</td>
+          <td>Top Customers</td>
+          <td class="num">$15,260</td>
+          <td>Pendants</td>
+          <td>Gabriel & Co · Roberto Coin · Shy Creation</td>
+        </tr>
+        
+        <tr>
+          <td>Mike Varcadipane</td>
+          <td class="num">6d</td>
+          <td>Essence Mayers</td>
+          <td>Top Customers</td>
+          <td class="num">$42,420</td>
+          <td>Rings</td>
+          <td>Gabriel & Co</td>
+        </tr>
+        
+        <tr>
+          <td>Eric Svelling</td>
+          <td class="num">6d</td>
+          <td>Vicky Romeo</td>
+          <td>One & Done</td>
+          <td class="num">$8,850</td>
+          <td>Rings</td>
+          <td>—</td>
+        </tr>
+        
+        <tr>
+          <td>Dawn Boughton</td>
+          <td class="num">6d</td>
+          <td>Laura O'Neil</td>
+          <td>Growing</td>
+          <td class="num">$2,595</td>
+          <td>Bracelets</td>
+          <td>—</td>
+        </tr>
+        
+        <tr>
+          <td>Beverly Morrison</td>
+          <td class="num">7d</td>
+          <td>Taylor Guadagno</td>
+          <td>One & Done</td>
+          <td class="num">$910</td>
+          <td>Pendants</td>
+          <td>Estate</td>
+        </tr>
+        
+        <tr>
+          <td>Jordan Tomlinson</td>
+          <td class="num">7d</td>
+          <td>Essence Mayers</td>
+          <td>One & Done</td>
+          <td class="num">$450</td>
+          <td>Necklaces</td>
+          <td>—</td>
+        </tr>
+        
+        <tr>
+          <td>Richard Nelson</td>
+          <td class="num">7d</td>
+          <td>orphan</td>
+          <td>Top Customers</td>
+          <td class="num">$6,405</td>
+          <td>Rings</td>
+          <td>Gabriel & Co · Shy Creation</td>
+        </tr>
+        
+        <tr>
+          <td>Janet Laing</td>
+          <td class="num">7d</td>
+          <td>Vicky Romeo</td>
+          <td>Growing</td>
+          <td class="num">$4,934</td>
+          <td>Rings</td>
+          <td>Estate · Gabriel & Co</td>
+        </tr>
+        
+        <tr>
+          <td>Michael Contey</td>
+          <td class="num">7d</td>
+          <td>Vicky Romeo</td>
+          <td>Wedding Band Opportunity</td>
+          <td class="num">$5,200</td>
+          <td>Loose Diamonds</td>
+          <td>Gabriel & Co</td>
+        </tr>
+        
+        <tr>
+          <td>George Hoernig</td>
+          <td class="num">7d</td>
+          <td>Laura O'Neil</td>
+          <td>Wedding Band Opportunity</td>
+          <td class="num">$2,710</td>
+          <td>Rings</td>
+          <td>—</td>
+        </tr>
+        
+        <tr>
+          <td>Matt Spinelli</td>
+          <td class="num">8d</td>
+          <td>Laura O'Neil</td>
+          <td>Top Customers</td>
+          <td class="num">$14,998</td>
+          <td>Rings</td>
+          <td>Gabriel & Co</td>
+        </tr>
+        
+        <tr>
+          <td>Sandy Vicidomini</td>
+          <td class="num">8d</td>
+          <td>Gigi Flanagan</td>
+          <td>One & Done</td>
+          <td class="num">$255</td>
+          <td>Necklaces</td>
+          <td>Gabriel & Co</td>
+        </tr>
+        
+        <tr>
+          <td>Christopher Lovell</td>
+          <td class="num">8d</td>
+          <td>Gigi Flanagan</td>
+          <td>Growing</td>
+          <td class="num">$2,655</td>
+          <td>Bracelets</td>
+          <td>Shy Creation</td>
+        </tr>
+        
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Designer loyalty matrix</h2>
+      <div class="section-sub">How many customers per associate have history with each watchlist designer.</div>
+      <table>
+        <thead>
+          <tr><th>Associate</th><th class="num">Gabriel & Co</th><th class="num">Simon G</th><th class="num">Shy Creation</th><th class="num">Roberto Coin</th><th class="num">Estate</th><th class="num total">Total touchpoints</th></tr>
+        </thead>
+        <tbody>
+          <tr><th>Lisa</th><td class="num">330</td><td class="num">41</td><td class="num">14</td><td class="num">2</td><td class="num">12</td><td class="num total">399</td></tr><tr><th>Vicky</th><td class="num">336</td><td class="num">44</td><td class="num">23</td><td class="num">13</td><td class="num">22</td><td class="num total">438</td></tr><tr><th>Essence</th><td class="num">256</td><td class="num">37</td><td class="num">33</td><td class="num">9</td><td class="num">19</td><td class="num total">354</td></tr><tr><th>Laura</th><td class="num">119</td><td class="num">6</td><td class="num">11</td><td class="num">2</td><td class="num">11</td><td class="num total">149</td></tr><tr><th>Taylor</th><td class="num">19</td><td class="num">2</td><td class="num">2</td><td class="num">2</td><td class="num">13</td><td class="num total">38</td></tr><tr><th>Gigi</th><td class="num">81</td><td class="num">2</td><td class="num">6</td><td class="num">1</td><td class="num">4</td><td class="num total">94</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer>
+    The Book — Leadership · Phase 1 (read-only) · Internal use only
+  </footer>
+
+  <script>
+    const AUTH_KEY = 'corinne-reports-auth';
+    const PWD_HASH = '446915f773542e3e287131b0b6827ac522a9c8fe110f987a4c5b643e7338f9bf';
+
+    async function sha256(text) {
+      const buf = new TextEncoder().encode(text);
+      const hash = await crypto.subtle.digest('SHA-256', buf);
+      return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    function hideGate() { document.getElementById('authGate').style.display = 'none'; }
+
+    if (sessionStorage.getItem(AUTH_KEY) === PWD_HASH) hideGate();
+
+    document.getElementById('authForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const val = document.getElementById('authPwd').value;
+      const hash = await sha256(val);
+      if (hash === PWD_HASH) {
+        sessionStorage.setItem(AUTH_KEY, hash);
+        hideGate();
+      } else {
+        document.getElementById('authError').textContent = 'Try again.';
+      }
+    });
+  </script>
+</body>
+</html>
