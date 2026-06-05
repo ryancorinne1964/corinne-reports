@@ -121674,6 +121674,16 @@
       }
     }
 
+    // Auto-stamped outreach type ("Play") — derived from why the dossier
+    // surfaced, zero extra taps. First match wins (Ryan 2026-06-05).
+    function derivePlay(d) {
+      if (d.dataset.bridal === '1') return 'Wedding Band';
+      if (parseInt(d.dataset.daysBday) <= 60 || parseInt(d.dataset.daysAnniv) <= 60) return 'Life Event';
+      if (d.dataset.rsf === '1') return 'Purchase Follow-Up';
+      if (d.dataset.seg === 'Lapsed High Value') return 'Win-Back';
+      return 'General';
+    }
+
     function saveLog(panel, outcome) {
       const sect = panel.closest('.log-section');
       const dossier = panel.closest('.dossier');
@@ -121689,6 +121699,7 @@
         note: note,
         segment: dossier.dataset.seg || '',
         book: dossier.dataset.book || LOG_ASSOCIATE,
+        play: derivePlay(dossier),
       };
 
       // Optimistic: the badge appears instantly, the save happens behind it.
@@ -121704,7 +121715,8 @@
       panel.remove();
       const confirmEl = document.createElement('span');
       confirmEl.className = 'log-confirm';
-      confirmEl.textContent = '✓ Logged — ' + channel + ' · ' + outcome;
+      confirmEl.textContent = '✓ Logged — ' + channel + ' · ' + outcome +
+        ' · ' + payload.play + ' play';
       sect.appendChild(confirmEl);
       sect.querySelector('.log-btn').hidden = false;
 
