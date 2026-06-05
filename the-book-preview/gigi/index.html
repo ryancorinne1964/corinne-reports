@@ -380,6 +380,26 @@
     .stats-month { font-size: 15px; }
     .stats-month b { color: var(--gold); }
     .stats-week { font-size: 12.5px; color: rgba(245,237,224,0.75); margin-top: 2px; }
+    .stats-board {
+      margin-top: 8px; padding-top: 8px;
+      border-top: 1px solid rgba(245,237,224,0.18);
+      font-size: 13px; line-height: 1.9;
+    }
+    .board-label {
+      font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--gold); font-weight: 600; margin-right: 4px;
+    }
+    .board-chip {
+      display: inline-block; padding: 2px 10px; margin-right: 4px;
+      background: rgba(245,237,224,0.1); border-radius: 12px;
+      color: var(--cream); white-space: nowrap;
+    }
+    .board-chip b { color: var(--gold); }
+    .board-chip.board-you {
+      background: var(--gold); color: var(--burgundy-dark); font-weight: 600;
+    }
+    .board-chip.board-you b, .board-chip.board-you .board-conv { color: var(--burgundy-dark); }
+    .board-conv { font-size: 11.5px; color: rgba(245,237,224,0.7); }
 
     /* Last-touch badge in the summary row */
     .touch-badge {
@@ -504,6 +524,7 @@
       <div class="stats-label">Your scoreboard</div>
       <div class="stats-month" id="statsMonth"></div>
       <div class="stats-week" id="statsWeek"></div>
+      <div class="stats-board" id="statsBoard" hidden></div>
     </div>
   </div>
 
@@ -531,6 +552,7 @@
         <button class="refine-btn" data-refine="anniv">💍 Anniversary within 60d <span class="btn-count">50</span></button>
         <button class="refine-btn" data-refine="rsf">🛍 Recent purchase 0–60d <span class="btn-count">10</span></button>
         <button class="refine-btn" data-refine="nyc" id="nycBtn">📒 Not yet contacted <span class="btn-count" id="nycCount">…</span></button>
+        <button class="refine-btn" data-refine="kw" id="kwBtn">🔁 Keep working <span class="btn-count" id="kwCount">…</span></button>
         <button class="expand-toggle" id="expandToggle">Expand all</button>
         <span class="filter-count" id="filterCount"></span>
         <span class="sort-note" id="sortNote"></span>
@@ -20730,6 +20752,10 @@
         } else if (r === 'nyc') {
           // Not yet contacted — no outreach logged for this client (any associate)
           if (!d.dataset.cid || lastTouch[d.dataset.cid]) return false;
+        } else if (r === 'kw') {
+          // Keep working — contacted, but the last touch didn't connect
+          const row = d.dataset.cid ? lastTouch[d.dataset.cid] : null;
+          if (!row || KEEP_WORKING.indexOf(row.outcome) === -1) return false;
         }
       }
       return true;
@@ -20774,15 +20800,22 @@
       return [d => parseFloat(d.dataset.score), 'desc', 'Sorted by today\'s intelligence score'];
     }
 
-    // Fresh-opportunities-first: clients contacted in the last SINK_DAYS
-    // (by anyone) sink below untouched ones in every sort, so the top of
-    // the book is always people who still need a touch. They keep their
-    // badge — moved down, never hidden. (Ryan 2026-06-05)
-    const SINK_DAYS = 30;
+    // Fresh-opportunities-first: contacted clients (by anyone) sink below
+    // untouched ones in every sort — badge kept, never hidden. The sink
+    // window is OUTCOME-AWARE (Ryan + Lisa 2026-06-05): touches that didn't
+    // connect resurface fast (multi-touch engagement is normal), real
+    // conversations rest longer, hard no's rest longest.
+    const SINK_BY_OUTCOME = {
+      'No Answer': 7, 'Follow-Up Needed': 7,
+      'Talked': 30, 'Booked Appt': 30,
+      'Not Interested': 90,
+    };
+    const KEEP_WORKING = ['No Answer', 'Follow-Up Needed'];
     function recentlyTouched(d) {
       const row = d.dataset.cid ? lastTouch[d.dataset.cid] : null;
       if (!row) return false;
-      return (Date.now() - new Date(row.at).getTime()) / 86400000 <= SINK_DAYS;
+      const win = SINK_BY_OUTCOME[row.outcome] || 30;
+      return (Date.now() - new Date(row.at).getTime()) / 86400000 <= win;
     }
 
     function apply() {
@@ -20884,6 +20917,7 @@
 
     let lastTouch = {};   // client_id -> most recent outreach row (any associate)
     let myRows = [];      // rows logged by LOG_ASSOCIATE — feeds the stats panel
+    let allOutreach = []; // every row — feeds the team leaderboard
 
     function timeAgo(iso) {
       const t = new Date(iso);
@@ -20924,6 +20958,12 @@
       const n = allDossiers.filter(d => d.dataset.cid && !lastTouch[d.dataset.cid]).length;
       const nycCount = document.getElementById('nycCount');
       if (nycCount) nycCount.textContent = n;
+      const kw = allDossiers.filter(d => {
+        const row = d.dataset.cid ? lastTouch[d.dataset.cid] : null;
+        return row && KEEP_WORKING.indexOf(row.outcome) !== -1;
+      }).length;
+      const kwCount = document.getElementById('kwCount');
+      if (kwCount) kwCount.textContent = kw;
     }
 
     function startOfWeek(dt) {  // Monday
@@ -20957,6 +20997,34 @@
       document.getElementById('statsWeek').textContent =
         'This week: ' + week.length + ' outreach' + (week.length === 1 ? '' : 'es') +
         ' (last week: ' + lastWeekN + ')';
+
+      // Team leaderboard — ranked by outreaches this month, conversations shown.
+      // Friendly competition: everyone sees the same board on their own page.
+      const board = document.getElementById('statsBoard');
+      if (board) {
+        const byAssoc = {};
+        for (const r of allOutreach) {
+          if (!r.associate || !between(r, mStart)) continue;
+          if (!byAssoc[r.associate]) byAssoc[r.associate] = { n: 0, conv: 0 };
+          byAssoc[r.associate].n++;
+          if (r.outcome === 'Talked' || r.outcome === 'Booked Appt') byAssoc[r.associate].conv++;
+        }
+        const ranked = Object.keys(byAssoc)
+          .map(a => ({ a: a, n: byAssoc[a].n, conv: byAssoc[a].conv }))
+          .sort((x, y) => y.n - x.n || y.conv - x.conv);
+        if (ranked.length) {
+          board.innerHTML = '<span class="board-label">🏆 Team this month:</span> ' +
+            ranked.map((r, i) => {
+              const me = r.a === LOG_ASSOCIATE;
+              return '<span class="board-chip' + (me ? ' board-you' : '') + '">' +
+                (i + 1) + '. ' + (me ? 'You' : r.a) + ' <b>' + r.n + '</b>' +
+                ' <span class="board-conv">(' + r.conv + ' conv)</span></span>';
+            }).join(' ');
+          board.hidden = false;
+        } else {
+          board.hidden = true;
+        }
+      }
       band.hidden = false;
     }
 
@@ -20992,8 +21060,8 @@
         });
         if (!resp.ok) throw new Error('read failed: ' + resp.status);
         const data = await resp.json();
-        lastTouch = {}; myRows = [];
-        for (const r of (data.outreach || [])) {
+        lastTouch = {}; myRows = []; allOutreach = data.outreach || [];
+        for (const r of allOutreach) {
           if (r.client_id) {
             const cur = lastTouch[r.client_id];
             if (!cur || new Date(r.at) > new Date(cur.at)) lastTouch[r.client_id] = r;
@@ -21076,6 +21144,7 @@
       const cur = lastTouch[payload.client_id];
       if (!cur || new Date(optimistic.at) > new Date(cur.at)) lastTouch[payload.client_id] = optimistic;
       myRows.push(optimistic);
+      allOutreach.push(optimistic);
       renderTouches(); renderStats();
 
       panel.remove();
