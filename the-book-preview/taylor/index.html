@@ -20806,7 +20806,7 @@
     // conversations rest longer, hard no's rest longest.
     const SINK_BY_OUTCOME = {
       'No Answer': 7, 'Follow-Up Needed': 7,
-      'In Conversation': 30, 'Talked': 30, 'Booked Appt': 30,
+      'In Conversation': 30, 'Talked': 30, 'All Set': 30, 'Booked Appt': 30,
       'Not Interested': 90,
     };
     // Keep working = the last touch left the relationship IN PLAY
@@ -20915,7 +20915,7 @@
     const BOOK_KEY = 'cjbook_31b88a31706a007a8fff8f7613b7c193';
     const LOG_ASSOCIATE = 'Taylor';
     const CHANNELS = ["Called", "Texted", "Emailed", "Note Sent", "In-Person"];
-    const OUTCOMES = ["No Answer", "In Conversation", "Booked Appt", "Not Interested", "Follow-Up Needed"];
+    const OUTCOMES = ["No Answer", "In Conversation", "All Set", "Booked Appt", "Not Interested", "Follow-Up Needed"];
     const CH_EMOJI = {'Called':'📞','Texted':'💬','Emailed':'✉️','Note Sent':'📝','In-Person':'🤝'};
     const QUEUE_KEY = 'thebook-outreach-queue';
 
@@ -20927,7 +20927,7 @@
     // Outcomes that DON'T connect (count as strikes). A connecting outcome
     // (In Conversation / Booked Appt / Not Interested) resets the count.
     const NON_CONNECT = ['No Answer', 'Follow-Up Needed'];
-    const CONVERSATION = ['In Conversation', 'Talked', 'Booked Appt'];
+    const CONVERSATION = ['In Conversation', 'Talked', 'All Set', 'Booked Appt'];
     const KW_STALE_DAYS = 60;   // untouched this long -> off Keep working
 
     // Keep working membership (Ryan + Lisa rules, 2026-06-05):
