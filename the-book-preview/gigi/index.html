@@ -20774,6 +20774,17 @@
       return [d => parseFloat(d.dataset.score), 'desc', 'Sorted by today\'s intelligence score'];
     }
 
+    // Fresh-opportunities-first: clients contacted in the last SINK_DAYS
+    // (by anyone) sink below untouched ones in every sort, so the top of
+    // the book is always people who still need a touch. They keep their
+    // badge — moved down, never hidden. (Ryan 2026-06-05)
+    const SINK_DAYS = 30;
+    function recentlyTouched(d) {
+      const row = d.dataset.cid ? lastTouch[d.dataset.cid] : null;
+      if (!row) return false;
+      return (Date.now() - new Date(row.at).getTime()) / 86400000 <= SINK_DAYS;
+    }
+
     function apply() {
       const [keyFn, dir, sortLabel] = getSortKey(activeCohort, activeRefines);
       const shows = d => passesAssociate(d) && passesCohort(d, activeCohort)
@@ -20781,6 +20792,8 @@
       const visible = allDossiers.filter(shows);
       const hidden = allDossiers.filter(d => !shows(d));
       visible.sort((a, b) => {
+        const ta = recentlyTouched(a) ? 1 : 0, tb = recentlyTouched(b) ? 1 : 0;
+        if (ta !== tb) return ta - tb;
         const va = keyFn(a), vb = keyFn(b);
         return dir === 'asc' ? va - vb : vb - va;
       });
@@ -20790,7 +20803,9 @@
       }
       for (const d of hidden) d.style.display = 'none';
       countEl.textContent = visible.length + ' showing';
-      sortNoteEl.textContent = '· ' + sortLabel;
+      let label = sortLabel;
+      if (visible.some(recentlyTouched)) label += ' · recently contacted moved down';
+      sortNoteEl.textContent = '· ' + label;
     }
 
     cohortBtns.forEach(btn => {
