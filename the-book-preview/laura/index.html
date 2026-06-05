@@ -20753,9 +20753,8 @@
           // Not yet contacted — no outreach logged for this client (any associate)
           if (!d.dataset.cid || lastTouch[d.dataset.cid]) return false;
         } else if (r === 'kw') {
-          // Keep working — contacted, but the last touch didn't connect
-          const row = d.dataset.cid ? lastTouch[d.dataset.cid] : null;
-          if (!row || KEEP_WORKING.indexOf(row.outcome) === -1) return false;
+          // Keep working — relationship in play (see inKeepWorking rules)
+          if (!d.dataset.cid || !inKeepWorking(d.dataset.cid)) return false;
         }
       }
       return true;
@@ -20807,14 +20806,19 @@
     // conversations rest longer, hard no's rest longest.
     const SINK_BY_OUTCOME = {
       'No Answer': 7, 'Follow-Up Needed': 7,
-      'Talked': 30, 'Booked Appt': 30,
+      'In Conversation': 30, 'Talked': 30, 'Booked Appt': 30,
       'Not Interested': 90,
     };
-    const KEEP_WORKING = ['No Answer', 'Follow-Up Needed'];
+    // Keep working = the last touch left the relationship IN PLAY
+    // (Ryan 2026-06-05): didn't connect yet, needs a follow-up, or an
+    // active phone/text dialogue. Booked Appt + Not Interested drop off.
+    const KEEP_WORKING = ['No Answer', 'Follow-Up Needed', 'In Conversation', 'Talked'];
     function recentlyTouched(d) {
       const row = d.dataset.cid ? lastTouch[d.dataset.cid] : null;
       if (!row) return false;
-      const win = SINK_BY_OUTCOME[row.outcome] || 30;
+      // Three strikes: 3+ consecutive non-connects → rest 90d like a "no"
+      const win = (strikes[d.dataset.cid] || 0) >= 3
+                  ? 90 : (SINK_BY_OUTCOME[row.outcome] || 30);
       return (Date.now() - new Date(row.at).getTime()) / 86400000 <= win;
     }
 
@@ -20911,13 +20915,50 @@
     const BOOK_KEY = 'cjbook_31b88a31706a007a8fff8f7613b7c193';
     const LOG_ASSOCIATE = 'Laura';
     const CHANNELS = ["Called", "Texted", "Emailed", "Note Sent", "In-Person"];
-    const OUTCOMES = ["No Answer", "Talked", "Booked Appt", "Not Interested", "Follow-Up Needed"];
+    const OUTCOMES = ["No Answer", "In Conversation", "Booked Appt", "Not Interested", "Follow-Up Needed"];
     const CH_EMOJI = {'Called':'📞','Texted':'💬','Emailed':'✉️','Note Sent':'📝','In-Person':'🤝'};
     const QUEUE_KEY = 'thebook-outreach-queue';
 
     let lastTouch = {};   // client_id -> most recent outreach row (any associate)
     let myRows = [];      // rows logged by LOG_ASSOCIATE — feeds the stats panel
     let allOutreach = []; // every row — feeds the team leaderboard
+    let strikes = {};     // client_id -> trailing consecutive non-connects
+
+    // Outcomes that DON'T connect (count as strikes). A connecting outcome
+    // (In Conversation / Booked Appt / Not Interested) resets the count.
+    const NON_CONNECT = ['No Answer', 'Follow-Up Needed'];
+    const CONVERSATION = ['In Conversation', 'Talked', 'Booked Appt'];
+    const KW_STALE_DAYS = 60;   // untouched this long -> off Keep working
+
+    // Keep working membership (Ryan + Lisa rules, 2026-06-05):
+    //  - last touch was No Answer / Follow-Up Needed / In Conversation
+    //  - fewer than 3 consecutive non-connects (three strikes -> rest 90d)
+    //  - last touch within 60 days (stale -> back to the normal pool)
+    function inKeepWorking(cid) {
+      const row = lastTouch[cid];
+      if (!row) return false;
+      if (KEEP_WORKING.indexOf(row.outcome) === -1) return false;
+      if ((strikes[cid] || 0) >= 3) return false;
+      return (Date.now() - new Date(row.at).getTime()) / 86400000 <= KW_STALE_DAYS;
+    }
+
+    function rebuildStrikes() {
+      strikes = {};
+      const byClient = {};
+      for (const r of allOutreach) {
+        if (!r.client_id) continue;
+        if (!byClient[r.client_id]) byClient[r.client_id] = [];
+        byClient[r.client_id].push(r);
+      }
+      for (const cid in byClient) {
+        byClient[cid].sort((a, b) => new Date(a.at) - new Date(b.at));
+        let s = 0;
+        for (const r of byClient[cid]) {
+          s = NON_CONNECT.indexOf(r.outcome) !== -1 ? s + 1 : 0;
+        }
+        strikes[cid] = s;
+      }
+    }
 
     function timeAgo(iso) {
       const t = new Date(iso);
@@ -20958,10 +20999,7 @@
       const n = allDossiers.filter(d => d.dataset.cid && !lastTouch[d.dataset.cid]).length;
       const nycCount = document.getElementById('nycCount');
       if (nycCount) nycCount.textContent = n;
-      const kw = allDossiers.filter(d => {
-        const row = d.dataset.cid ? lastTouch[d.dataset.cid] : null;
-        return row && KEEP_WORKING.indexOf(row.outcome) !== -1;
-      }).length;
+      const kw = allDossiers.filter(d => d.dataset.cid && inKeepWorking(d.dataset.cid)).length;
       const kwCount = document.getElementById('kwCount');
       if (kwCount) kwCount.textContent = kw;
     }
@@ -20985,7 +21023,7 @@
       const month = myRows.filter(r => between(r, mStart));
       const week = myRows.filter(r => between(r, wStart));
       const lastWeekN = myRows.filter(r => between(r, lwStart, wStart)).length;
-      const conv = month.filter(r => r.outcome === 'Talked' || r.outcome === 'Booked Appt').length;
+      const conv = month.filter(r => CONVERSATION.indexOf(r.outcome) !== -1).length;
       const appts = month.filter(r => r.outcome === 'Booked Appt').length;
       const fu = month.filter(r => r.outcome === 'Follow-Up Needed').length;
       const s = (n) => n === 1 ? '' : 's';
@@ -21007,7 +21045,7 @@
           if (!r.associate || !between(r, mStart)) continue;
           if (!byAssoc[r.associate]) byAssoc[r.associate] = { n: 0, conv: 0 };
           byAssoc[r.associate].n++;
-          if (r.outcome === 'Talked' || r.outcome === 'Booked Appt') byAssoc[r.associate].conv++;
+          if (CONVERSATION.indexOf(r.outcome) !== -1) byAssoc[r.associate].conv++;
         }
         const ranked = Object.keys(byAssoc)
           .map(a => ({ a: a, n: byAssoc[a].n, conv: byAssoc[a].conv }))
@@ -21068,6 +21106,7 @@
           }
           if (r.associate === LOG_ASSOCIATE) myRows.push(r);
         }
+        rebuildStrikes();
         renderTouches(); renderStats(); apply();
       } catch (e) {
         // offline or Worker unreachable — The Book still works read-only
@@ -21145,6 +21184,8 @@
       if (!cur || new Date(optimistic.at) > new Date(cur.at)) lastTouch[payload.client_id] = optimistic;
       myRows.push(optimistic);
       allOutreach.push(optimistic);
+      strikes[payload.client_id] = NON_CONNECT.indexOf(outcome) !== -1
+        ? (strikes[payload.client_id] || 0) + 1 : 0;
       renderTouches(); renderStats();
 
       panel.remove();
