@@ -170,6 +170,14 @@
     .trend-col { text-align: center; font-size: 11px; color: var(--muted); line-height: 1.35; }
     .trend-bar { width: 36px; background: var(--burgundy-light); border-radius: 2px 2px 0 0; margin: 0 auto 4px; }
     .activity-empty { color: var(--muted); font-style: italic; }
+    .activity-mix-head { display: flex; justify-content: space-between; align-items: baseline;
+      flex-wrap: wrap; gap: 8px; margin-top: 18px; margin-bottom: 8px; }
+    .activity-mix-head .activity-trend-title { margin-top: 0; }
+    .mix-btn { padding: 5px 12px; font-size: 12.5px; font-family: inherit; background: white;
+      border: 1px solid var(--cream-dark); color: var(--ink); cursor: pointer;
+      border-radius: 2px; transition: all 0.15s; }
+    .mix-btn.active { background: var(--burgundy); color: var(--cream); border-color: var(--burgundy); }
+    .mix-table td.zero { color: var(--cream-dark); }
 
     /* Filter bar */
     .filterbar {
@@ -613,6 +621,17 @@
         <tbody id="activityBoard"><tr><td colspan="6" class="activity-empty">Loading activity&#8230;</td></tr></tbody>
       </table>
       <div class="activity-hint">Tap a row to drill into an associate.</div>
+      <div class="activity-mix-head">
+        <div class="activity-trend-title">Outreach mix &#8212; what they&#8217;re working</div>
+        <div class="mix-toggle">
+          <button type="button" class="mix-btn active" data-dim="segment">By customer type</button>
+          <button type="button" class="mix-btn" data-dim="play">By play</button>
+        </div>
+      </div>
+      <table class="summary-table activity-table mix-table">
+        <thead id="mixHead"></thead>
+        <tbody id="mixBoard"></tbody>
+      </table>
       <div id="activityDrill" class="activity-drill" hidden></div>
       <div class="activity-trend-title">Store-wide trend &#8212; last 8 weeks</div>
       <div id="activityTrend" class="activity-trend"></div>
@@ -101678,9 +101697,59 @@
         renderActivity();
       }));
       renderFlags();
+      renderMix(range[0], range[1]);
       renderDrill(range[0], range[1]);
       renderTrend();
     }
+
+    // Outreach mix matrix — which parts of the book each associate is
+    // working. Two lenses on the same rows (Ryan 2026-06-10):
+    //   customer type = the segment stamped on each log row (who they called)
+    //   play          = the auto-stamped reason it surfaced (why they called)
+    let actMixDim = 'segment';
+    const MIX_DIMS = {
+      segment: [['Top Customers', 'VIPs'], ['Growing', 'Growing'],
+                ['One & Done', 'New / One & Done'], ['Lapsed High Value', 'Lapsed'],
+                ['Wedding Band Opportunity', 'Wedding Band'], ['Cold', 'Cold']],
+      play:    [['Wedding Band', 'Wedding Band'], ['Life Event', 'Bday / Anniv'],
+                ['Purchase Follow-Up', 'Recent buy'], ['Win-Back', 'Win-Back'],
+                ['General', 'General']],
+    };
+
+    function renderMix(s, e) {
+      const head = document.getElementById('mixHead');
+      const body = document.getElementById('mixBoard');
+      if (!head || !body) return;
+      const dims = MIX_DIMS[actMixDim];
+      head.innerHTML = '<tr><th>Associate</th>' +
+        dims.map(d => '<th class="num">' + d[1] + '</th>').join('') +
+        '<th class="num">Other</th><th class="num total">Total</th></tr>';
+      body.innerHTML = ACT_ASSOCIATES.map(a => {
+        const rows = allOutreach.filter(r => r.associate === a && inRange(r, s, e));
+        const c = {};
+        let other = 0;
+        for (const r of rows) {
+          const v = r[actMixDim] || '';
+          if (dims.some(d => d[0] === v)) c[v] = (c[v] || 0) + 1;
+          else other++;
+        }
+        const cells = dims.map(d => {
+          const n = c[d[0]] || 0;
+          return '<td class="num' + (n ? '' : ' zero') + '">' + (n || '\u00b7') + '</td>';
+        }).join('');
+        return '<tr><th>' + a + '</th>' + cells +
+          '<td class="num' + (other ? '' : ' zero') + '">' + (other || '\u00b7') + '</td>' +
+          '<td class="num total">' + rows.length + '</td></tr>';
+      }).join('');
+    }
+
+    document.querySelectorAll('.mix-btn').forEach(b => b.addEventListener('click', () => {
+      document.querySelectorAll('.mix-btn').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      actMixDim = b.dataset.dim;
+      const range = actRange(actWindow, 0);
+      renderMix(range[0], range[1]);
+    }));
 
     function renderFlags() {
       const el = document.getElementById('activityFlags');
