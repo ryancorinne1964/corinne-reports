@@ -136,6 +136,41 @@
     .shown-note { font-weight: 400; font-size: 11px; color: var(--muted); white-space: nowrap; }
     .summary-table tbody tr:hover td { background: var(--cream); }
 
+    /* Phase 3 — Activity dashboard (leadership) */
+    .activity { background: white; border-bottom: 1px solid var(--cream-dark); padding: 18px 24px 20px; }
+    .activity-inner { max-width: 1240px; margin: 0 auto; }
+    .activity-head { display: flex; justify-content: space-between; align-items: baseline;
+      flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+    .activity-title { font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--burgundy); font-weight: 700; }
+    .win-btn { padding: 6px 14px; font-size: 13px; font-family: inherit; background: white;
+      border: 1px solid var(--cream-dark); color: var(--ink); cursor: pointer;
+      border-radius: 2px; transition: all 0.15s; }
+    .win-btn.active { background: var(--burgundy); color: var(--cream); border-color: var(--burgundy); }
+    .activity-flags { background: #fdf8ee; border: 1px solid var(--gold); border-radius: 3px;
+      padding: 10px 14px; margin-bottom: 12px; font-size: 13.5px; }
+    .activity-flags .flag { margin: 3px 0; }
+    .activity-table tbody tr { cursor: pointer; }
+    .activity-table tbody tr.sel th, .activity-table tbody tr.sel td { background: var(--cream); }
+    .activity-hint { font-size: 11.5px; color: var(--muted); margin-top: 4px; font-style: italic; }
+    .activity-drill { background: var(--cream); border: 1px solid var(--cream-dark); border-radius: 3px;
+      padding: 14px 16px; margin-top: 12px; font-size: 13.5px; }
+    .drill-cols { display: flex; gap: 28px; flex-wrap: wrap; }
+    .drill-col { flex: 1 1 280px; min-width: 250px; }
+    .drill-h { font-weight: 700; color: var(--burgundy-dark); margin: 0 0 6px; font-size: 11.5px;
+      letter-spacing: 1px; text-transform: uppercase; }
+    .drill-row { padding: 3px 0; border-bottom: 1px dashed var(--cream-dark); }
+    .drill-big { font-size: 24px; font-weight: 700; color: var(--burgundy); }
+    .drill-big small { font-size: 13px; color: var(--muted); font-weight: 400; }
+    .mix-chip { display: inline-block; background: white; border: 1px solid var(--cream-dark);
+      border-radius: 12px; padding: 3px 10px; margin: 0 6px 6px 0; font-size: 12.5px; }
+    .activity-trend-title { margin-top: 16px; font-weight: 700; color: var(--burgundy-dark);
+      font-size: 11.5px; letter-spacing: 1px; text-transform: uppercase; }
+    .activity-trend { display: flex; gap: 12px; align-items: flex-end; margin-top: 10px; min-height: 96px; }
+    .trend-col { text-align: center; font-size: 11px; color: var(--muted); line-height: 1.35; }
+    .trend-bar { width: 36px; background: var(--burgundy-light); border-radius: 2px 2px 0 0; margin: 0 auto 4px; }
+    .activity-empty { color: var(--muted); font-style: italic; }
+
     /* Filter bar */
     .filterbar {
       background: white; border-bottom: 1px solid var(--cream-dark);
@@ -557,6 +592,7 @@
       <div class="stats-board" id="statsBoard" hidden></div>
     </div>
   </div>
+
 
   
   <div class="filterbar">
@@ -21146,6 +21182,172 @@
     }
     window.addEventListener('online', flushQueue);
 
+    // ===== Phase 3 — Activity dashboard (leadership view only) =====
+    // Everything below no-ops on associate pages (no #activityBoard).
+    const ACT_ASSOCIATES = ['Vicky', 'Essence', 'Laura', 'Gigi', 'Lisa'];
+    const ACT_SLUG = { Vicky: 'vicky', Essence: 'essence', Laura: 'laura',
+                       Gigi: 'gigi', Lisa: 'lisa' };
+    let actWindow = 'month';
+    let actSel = null;
+
+    function actRange(win, offset) {  // offset 0 = current period, 1 = previous…
+      const now = new Date();
+      if (win === 'week') {
+        const s = startOfWeek(now); s.setDate(s.getDate() - 7 * offset);
+        const e = new Date(s); e.setDate(e.getDate() + 7);
+        return [s, e];
+      }
+      return [new Date(now.getFullYear(), now.getMonth() - offset, 1),
+              new Date(now.getFullYear(), now.getMonth() - offset + 1, 1)];
+    }
+    function inRange(r, s, e) { const t = new Date(r.at); return t >= s && t < e; }
+
+    function actStats(assoc, s, e) {
+      const rows = allOutreach.filter(r => r.associate === assoc && inRange(r, s, e));
+      const conv = rows.filter(r => CONVERSATION.indexOf(r.outcome) !== -1).length;
+      const appts = rows.filter(r => r.outcome === 'Booked Appt').length;
+      return { rows: rows, n: rows.length, conv: conv, appts: appts,
+               rate: rows.length ? Math.round(100 * appts / rows.length) : null };
+    }
+
+    function overdueFU(assoc) {
+      // Latest touch per client by this associate is a Follow-Up Needed
+      // that's now 7+ days old — the resurface window has passed unworked.
+      const lastBy = {};
+      for (const r of allOutreach) {
+        if (r.associate !== assoc || !r.client_id) continue;
+        const cur = lastBy[r.client_id];
+        if (!cur || new Date(r.at) > new Date(cur.at)) lastBy[r.client_id] = r;
+      }
+      const cutoff = Date.now() - 7 * 86400000;
+      return Object.keys(lastBy).filter(cid =>
+        lastBy[cid].outcome === 'Follow-Up Needed' &&
+        new Date(lastBy[cid].at).getTime() < cutoff).length;
+    }
+
+    function renderActivity() {
+      const board = document.getElementById('activityBoard');
+      if (!board) return;
+      const range = actRange(actWindow, 0);
+      const stats = ACT_ASSOCIATES
+        .map(a => Object.assign({ a: a, fu: overdueFU(a) }, actStats(a, range[0], range[1])))
+        .sort((x, y) => y.n - x.n || y.appts - x.appts);
+      board.innerHTML = stats.map(st =>
+        '<tr data-assoc="' + st.a + '"' + (actSel === st.a ? ' class="sel"' : '') + '>' +
+        '<th>' + st.a + '</th>' +
+        '<td class="num">' + st.n + '</td>' +
+        '<td class="num">' + st.conv + '</td>' +
+        '<td class="num">' + st.appts + '</td>' +
+        '<td class="num">' + (st.rate === null ? '\u2014' : st.rate + '%') + '</td>' +
+        '<td class="num">' + (st.fu || '\u2014') + '</td></tr>').join('');
+      board.querySelectorAll('tr').forEach(tr => tr.addEventListener('click', () => {
+        actSel = (actSel === tr.dataset.assoc) ? null : tr.dataset.assoc;
+        renderActivity();
+      }));
+      renderFlags();
+      renderDrill(range[0], range[1]);
+      renderTrend();
+    }
+
+    function renderFlags() {
+      const el = document.getElementById('activityFlags');
+      if (!el) return;
+      const flags = [];
+      const cur = actRange('month', 0), prev = actRange('month', 1);
+      for (const a of ACT_ASSOCIATES) {
+        // Top Customers in their shown book with no touch (anyone) in 60+ days
+        const tops = allDossiers.filter(d =>
+          d.dataset.associate === ACT_SLUG[a] && d.dataset.seg === 'Top Customers');
+        const cold = tops.filter(d => {
+          const t = lastTouch[d.dataset.cid];
+          return !t || (Date.now() - new Date(t.at).getTime()) > 60 * 86400000;
+        }).length;
+        if (cold >= 5) flags.push('<b>' + a + '</b>: ' + cold +
+          ' Top Customers with no touch in 60+ days.');
+        const c = actStats(a, cur[0], cur[1]), p = actStats(a, prev[0], prev[1]);
+        if (c.n === 0) {
+          flags.push('<b>' + a + '</b>: no logged outreach this month.');
+        } else if (p.n >= 10 && c.n >= 10 && p.rate && c.rate !== null &&
+                   c.rate <= p.rate * 0.75) {
+          flags.push('<b>' + a + '</b>: conversion down from ' + p.rate +
+            '% to ' + c.rate + '% month over month.');
+        }
+      }
+      if (flags.length) {
+        el.innerHTML = '<div class="drill-h">Worth a conversation</div>' +
+          flags.map(f => '<div class="flag">\u2022 ' + f + '</div>').join('');
+        el.hidden = false;
+      } else { el.hidden = true; }
+    }
+
+    function renderDrill(s, e) {
+      const el = document.getElementById('activityDrill');
+      if (!el) return;
+      if (!actSel) { el.hidden = true; return; }
+      const st = actStats(actSel, s, e);
+      const touched = {};
+      for (const r of st.rows) if (r.client_id) touched[r.client_id] = true;
+      // DOM is fit-score order per book -> first 100 = their top 100
+      const top100 = allDossiers.filter(d =>
+        d.dataset.associate === ACT_SLUG[actSel]).slice(0, 100);
+      const covered = top100.filter(d => touched[d.dataset.cid]).length;
+      const mix = (key) => {
+        const c = {};
+        for (const r of st.rows) { const v = r[key] || '\u2014'; c[v] = (c[v] || 0) + 1; }
+        const keys = Object.keys(c).sort((x, y) => c[y] - c[x]);
+        return keys.length
+          ? keys.map(k => '<span class="mix-chip">' + k + ' <b>' + c[k] + '</b></span>').join('')
+          : '<span class="mix-chip">none yet</span>';
+      };
+      const timeline = st.rows.slice()
+        .sort((x, y) => new Date(y.at) - new Date(x.at)).slice(0, 12)
+        .map(r => {
+          const d = new Date(r.at);
+          return '<div class="drill-row">' + (d.getMonth() + 1) + '/' + d.getDate() +
+            ' \u2014 <b>' + (r.customer || r.client_id || '?') + '</b> \u00b7 ' +
+            (CH_EMOJI[r.channel] || '') + ' ' + r.channel + ' \u00b7 ' + r.outcome + '</div>';
+        }).join('') || '<div class="drill-row">No outreach in this window.</div>';
+      const winLabel = actWindow === 'week' ? 'this week' : 'this month';
+      el.innerHTML =
+        '<div class="drill-h">' + actSel + ' \u2014 drill-down (' + winLabel + ')</div>' +
+        '<div class="drill-cols">' +
+          '<div class="drill-col"><div class="drill-h">Latest outreach</div>' + timeline + '</div>' +
+          '<div class="drill-col">' +
+            '<div class="drill-h">Top-100 coverage</div>' +
+            '<div class="drill-big">' + covered + '<small> of their top 100 touched ' + winLabel + '</small></div>' +
+            '<div class="drill-h" style="margin-top:14px">Play mix</div>' + mix('play') +
+            '<div class="drill-h" style="margin-top:14px">Segments worked</div>' + mix('segment') +
+          '</div>' +
+        '</div>';
+      el.hidden = false;
+    }
+
+    function renderTrend() {
+      const el = document.getElementById('activityTrend');
+      if (!el) return;
+      const weeks = [];
+      for (let i = 7; i >= 0; i--) {
+        const r = actRange('week', i);
+        const rows = allOutreach.filter(x => inRange(x, r[0], r[1]));
+        const appts = rows.filter(x => x.outcome === 'Booked Appt').length;
+        weeks.push({ s: r[0], n: rows.length,
+                     rate: rows.length ? Math.round(100 * appts / rows.length) : null });
+      }
+      const max = Math.max(1, ...weeks.map(w => w.n));
+      el.innerHTML = weeks.map(w =>
+        '<div class="trend-col">' +
+        '<div class="trend-bar" style="height:' + Math.max(3, Math.round(64 * w.n / max)) + 'px"></div>' +
+        '<b>' + w.n + '</b><br>' + (w.rate === null ? '\u00b7' : w.rate + '%') +
+        '<br>' + (w.s.getMonth() + 1) + '/' + w.s.getDate() + '</div>').join('');
+    }
+
+    document.querySelectorAll('.win-btn').forEach(b => b.addEventListener('click', () => {
+      document.querySelectorAll('.win-btn').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      actWindow = b.dataset.win;
+      renderActivity();
+    }));
+
     async function fetchOutreach() {
       try {
         const resp = await fetch(WORKER_URL + '/outreach', {
@@ -21162,7 +21364,7 @@
           if (r.associate === LOG_ASSOCIATE) myRows.push(r);
         }
         rebuildStrikes();
-        renderTouches(); renderStats(); apply();
+        renderTouches(); renderStats(); renderActivity(); apply();
       } catch (e) {
         // offline or Worker unreachable — The Book still works read-only
       }
