@@ -20750,6 +20750,12 @@
       }
     });
 
+    // Setup link pasted into an ALREADY-OPEN page (no reload on hash change)
+    window.addEventListener('hashchange', async () => {
+      const m = location.hash.match(/[#&]k=([A-Za-z0-9_-]+)/);
+      if (m && await tryToken(m[1])) history.replaceState(null, '', location.pathname);
+    });
+
     // Offline app shell — the book opens on the floor with no signal
     if ('serviceWorker' in navigator && location.protocol === 'https:') {
       navigator.serviceWorker.register('sw.js').catch(() => {});

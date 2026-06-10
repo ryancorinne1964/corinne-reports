@@ -105,6 +105,10 @@
       if(!(await tryToken(document.getElementById('authPwd').value)))
         document.getElementById('authError').textContent="That key doesn't open The Book.";
     });
+    window.addEventListener('hashchange',async()=>{
+      const m=location.hash.match(/[#&]k=([A-Za-z0-9_-]+)/);
+      if(m&&await tryToken(m[1])) history.replaceState(null,'',location.pathname);
+    });
   </script>
 </body>
 </html>
