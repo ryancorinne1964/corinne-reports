@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>The Book — Corinne Jewelers</title>
+  <style>
+    :root {
+      --burgundy:#6B1D2A; --burgundy-light:#8a2836; --gold:#C9A84C;
+      --cream:#F5EDE0; --cream-dark:#EBE0CC; --ink:#2b2018; --muted:#7a6e63;
+    }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:Calibri,Helvetica,Arial,sans-serif; background:var(--cream); color:var(--ink); }
+    .auth-gate { position:fixed; inset:0; z-index:1000; background:var(--burgundy);
+      display:flex; align-items:center; justify-content:center; }
+    .auth-box { background:var(--cream); padding:48px 56px; border-radius:4px; max-width:380px;
+      width:90%; text-align:center; box-shadow:0 8px 32px rgba(0,0,0,0.3); }
+    .auth-box h1 { font-family:Georgia,serif; color:var(--burgundy); font-size:28px; margin-bottom:8px; }
+    .auth-box p { color:var(--muted); margin-bottom:20px; font-size:14px; }
+    .auth-box input { width:100%; padding:12px; font-size:16px; border:1px solid var(--cream-dark);
+      background:white; border-radius:2px; margin-bottom:12px; }
+    .auth-box button { width:100%; padding:12px; font-size:14px; letter-spacing:0.5px;
+      background:var(--burgundy); color:var(--cream); border:none; cursor:pointer; text-transform:uppercase; }
+    .auth-error { color:#a13a2a; font-size:13px; margin-top:8px; min-height:18px; }
+    header { background:linear-gradient(135deg,var(--burgundy) 0%,var(--burgundy-light) 100%);
+      color:var(--cream); padding:48px 32px 40px; text-align:center; }
+    header .eyebrow { font-size:12px; letter-spacing:3px; text-transform:uppercase;
+      color:var(--gold); margin-bottom:10px; }
+    header h1 { font-family:Georgia,serif; font-size:44px; font-weight:500; }
+    header .subtitle { font-style:italic; color:rgba(245,237,224,0.85); font-size:16px; margin-top:6px; }
+    main { max-width:840px; margin:0 auto; padding:36px 24px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:14px; }
+    .book-card { display:block; background:white; border:1px solid var(--cream-dark);
+      border-radius:3px; padding:22px 20px; text-decoration:none; transition:all 0.15s; }
+    .book-card:hover { border-color:var(--gold); transform:translateY(-2px); }
+    .card-name { font-family:Georgia,serif; font-size:21px; color:var(--burgundy); font-weight:600; }
+    .card-sub { font-size:13px; color:var(--muted); margin-top:4px; }
+    footer { text-align:center; font-size:12px; color:var(--muted); padding:24px; }
+  </style>
+</head>
+<body>
+  <div class="auth-gate" id="authGate">
+    <div class="auth-box">
+      <h1>The Book</h1>
+      <p>This device isn't set up for The Book yet.<br>
+         Open your setup link — or paste your device key below.</p>
+      <form id="authForm">
+        <input type="password" id="authPwd" placeholder="Device key" autocomplete="off">
+        <button type="submit">Unlock</button>
+        <div class="auth-error" id="authError"></div>
+      </form>
+    </div>
+  </div>
+  <header>
+    <div class="eyebrow">Corinne Jewelers</div>
+    <h1>The Book</h1>
+    <div class="subtitle">Client intelligence for the floor.</div>
+  </header>
+  <main>
+    <div class="grid">
+        <a class="book-card" href="vicky/">
+          <div class="card-name">Vicky Romeo</div>
+          <div class="card-sub">Personal clienteling book</div>
+        </a>
+        <a class="book-card" href="essence/">
+          <div class="card-name">Essence Mayers</div>
+          <div class="card-sub">Personal clienteling book</div>
+        </a>
+        <a class="book-card" href="laura/">
+          <div class="card-name">Laura O'Neil</div>
+          <div class="card-sub">Personal clienteling book</div>
+        </a>
+        <a class="book-card" href="gigi/">
+          <div class="card-name">Gigi Flanagan</div>
+          <div class="card-sub">Personal clienteling book</div>
+        </a>
+        <a class="book-card" href="leadership/">
+          <div class="card-name">Leadership view</div>
+          <div class="card-sub">Every book + floor summary</div>
+        </a></div>
+  </main>
+  <footer>Internal use only · Data as of July 6, 2026</footer>
+  <script>
+    // Device-bound auth — the landing accepts any of the team's device keys.
+    const TOKEN_KEY='the-book-device-token';
+    const ACCEPTED=["554b0a5cedb0052951991f6653bdd33146c39a0616dd272fa116f58ec2effb85", "7994d80b07b53c9b733bb1ea31462dca7822546389df824f0cbdace13cd475f4", "7b34257e4139919eddb9e1a61a21da1b9c4ca6ec5f13f75abfc236279cf42455", "fa629feb460d938c5a063e18a20bed83f6f46574fe61b98e9110a3c7067b6dac", "fcd776f383f5705abc6c0d88d06683ac969a8c3039bbe5734298950b4ac9f821", "fbd780e0c18f03310fb62ee7c07f84304f3483ff2b5e4b4c2b4bf824e9f14223"];
+    async function sha256(t){const b=new TextEncoder().encode(t);
+      const h=await crypto.subtle.digest('SHA-256',b);
+      return Array.from(new Uint8Array(h)).map(x=>x.toString(16).padStart(2,'0')).join('');}
+    function hideGate(){document.getElementById('authGate').style.display='none';}
+    async function tryToken(tok){
+      if(!tok) return false;
+      tok=tok.trim();
+      if(ACCEPTED.indexOf(await sha256(tok))===-1) return false;
+      localStorage.setItem(TOKEN_KEY,tok); hideGate(); return true;
+    }
+    (async()=>{
+      const m=(location.hash+location.search).match(/[#?&]k=([A-Za-z0-9_-]+)/);
+      if(m&&await tryToken(m[1])){history.replaceState(null,'',location.pathname);return;}
+      await tryToken(localStorage.getItem(TOKEN_KEY));
+    })();
+    document.getElementById('authForm').addEventListener('submit',async(e)=>{
+      e.preventDefault();
+      if(!(await tryToken(document.getElementById('authPwd').value)))
+        document.getElementById('authError').textContent="That key doesn't open The Book.";
+    });
+    window.addEventListener('hashchange',async()=>{
+      const m=location.hash.match(/[#&]k=([A-Za-z0-9_-]+)/);
+      if(m&&await tryToken(m[1])) history.replaceState(null,'',location.pathname);
+    });
+  </script>
+</body>
+</html>
