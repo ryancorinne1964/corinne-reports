@@ -1,0 +1,1683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <title>The Book — Danielle's clienteling intelligence</title>
+  <!-- iPad app (PWA) — Add to Home Screen opens full-screen, no Safari chrome -->
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icon-180.png">
+  <meta name="theme-color" content="#6B1D2A">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="The Book">
+  <style>
+    :root {
+      --burgundy: #6B1D2A;
+      --burgundy-dark: #5a1822;
+      --burgundy-light: #8a2836;
+      --gold: #C9A84C;
+      --cream: #F5EDE0;
+      --cream-dark: #EBE0CC;
+      --ink: #2b2018;
+      --muted: #7a6e63;
+      --green: #4a7c4e;
+      --orange: #c97a30;
+      --red: #a13a2a;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Calibri, "Helvetica Neue", Arial, sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+    /* Auth gate */
+    .auth-gate {
+      position: fixed; inset: 0; z-index: 1000; background: var(--burgundy);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .auth-box {
+      background: var(--cream); padding: 48px 56px; border-radius: 4px;
+      max-width: 380px; width: 90%; text-align: center;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+    .auth-box h1 {
+      font-family: Georgia, serif; color: var(--burgundy); font-size: 28px;
+      margin-bottom: 8px;
+    }
+    .auth-box p { color: var(--muted); margin-bottom: 20px; font-size: 14px; }
+    .auth-box input {
+      width: 100%; padding: 12px; font-size: 16px;
+      border: 1px solid var(--cream-dark); background: white;
+      border-radius: 2px; margin-bottom: 12px;
+    }
+    .auth-box button {
+      width: 100%; padding: 12px; font-size: 14px; letter-spacing: 0.5px;
+      background: var(--burgundy); color: var(--cream); border: none;
+      cursor: pointer; text-transform: uppercase;
+    }
+    .auth-box button:hover { background: var(--burgundy-dark); }
+    .auth-error { color: var(--red); font-size: 13px; margin-top: 8px; min-height: 18px; }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, var(--burgundy) 0%, var(--burgundy-light) 100%);
+      color: var(--cream); padding: 32px 32px 28px;
+    }
+    .header-inner { max-width: 1240px; margin: 0 auto; }
+    header .eyebrow {
+      font-size: 12px; letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 6px;
+    }
+    header h1 {
+      font-family: Georgia, serif; font-size: 34px; font-weight: 500;
+      letter-spacing: -0.5px; margin-bottom: 4px;
+    }
+    header .subtitle {
+      font-style: italic; color: rgba(245, 237, 224, 0.85); font-size: 15px;
+    }
+    header .data-stamp {
+      font-size: 11px; color: rgba(245, 237, 224, 0.6); margin-top: 14px;
+      letter-spacing: 0.5px;
+    }
+
+    /* Signal of the day */
+    .signal {
+      background: var(--cream-dark); border-left: 4px solid var(--gold);
+      padding: 16px 24px; margin: 0;
+    }
+    .signal-inner { max-width: 1240px; margin: 0 auto; }
+    .signal .signal-label {
+      font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--burgundy); font-weight: 600; margin-bottom: 4px;
+    }
+    .signal .signal-text { font-size: 15px; color: var(--ink); }
+    .signal-item {
+      font-size: 14.5px; color: var(--ink); padding: 3px 0;
+      padding-left: 16px; position: relative;
+    }
+    .signal-item::before {
+      content: "▸"; color: var(--gold); position: absolute; left: 0;
+    }
+    .signal-counts {
+      font-size: 12px; color: var(--muted); margin-top: 7px;
+      padding-top: 7px; border-top: 1px solid rgba(107,29,42,0.12);
+    }
+
+    /* Summary matrix (leadership view) */
+    .summary {
+      background: white; border-bottom: 1px solid var(--cream-dark);
+      padding: 16px 24px;
+    }
+    .summary-inner { max-width: 1240px; margin: 0 auto; overflow-x: auto; }
+    .summary-title {
+      font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--burgundy); font-weight: 600; margin-bottom: 8px;
+    }
+    .summary-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .summary-table th, .summary-table td {
+      padding: 6px 12px; text-align: left;
+      border-bottom: 1px solid var(--cream); white-space: nowrap;
+    }
+    .summary-table thead th {
+      background: var(--cream); color: var(--burgundy); font-size: 11px;
+      letter-spacing: 0.5px; text-transform: uppercase;
+    }
+    .summary-table tbody th { font-weight: 600; color: var(--ink); }
+    .summary-table td.num, .summary-table th.num {
+      text-align: right; font-variant-numeric: tabular-nums;
+    }
+    .summary-table td.total { font-weight: 700; color: var(--burgundy); }
+    .shown-note { font-weight: 400; font-size: 11px; color: var(--muted); white-space: nowrap; }
+    .summary-table tbody tr:hover td { background: var(--cream); }
+
+    /* Phase 3 — Activity dashboard (leadership) */
+    .activity { background: white; border-bottom: 1px solid var(--cream-dark); padding: 18px 24px 20px; }
+    .activity-inner { max-width: 1240px; margin: 0 auto; }
+    .soiree-tracker {
+      background: var(--gold); color: var(--burgundy);
+      border-radius: 8px; padding: 12px 18px; margin-bottom: 16px;
+      font-size: 16px; font-weight: 600; text-align: center;
+    }
+    .soiree-tracker .soiree-goal { opacity: 0.75; font-weight: 500; }
+    .activity-head { display: flex; justify-content: space-between; align-items: baseline;
+      flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+    .activity-title { font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--burgundy); font-weight: 700; }
+    .win-btn { padding: 6px 14px; font-size: 13px; font-family: inherit; background: white;
+      border: 1px solid var(--cream-dark); color: var(--ink); cursor: pointer;
+      border-radius: 2px; transition: all 0.15s; }
+    .win-btn.active { background: var(--burgundy); color: var(--cream); border-color: var(--burgundy); }
+    .activity-flags { background: #fdf8ee; border: 1px solid var(--gold); border-radius: 3px;
+      padding: 10px 14px; margin-bottom: 12px; font-size: 13.5px; }
+    .activity-flags .flag { margin: 3px 0; }
+    .activity-table tbody tr { cursor: pointer; }
+    .activity-table tbody tr.sel th, .activity-table tbody tr.sel td { background: var(--cream); }
+    .activity-hint { font-size: 11.5px; color: var(--muted); margin-top: 4px; font-style: italic; }
+    .activity-drill { background: var(--cream); border: 1px solid var(--cream-dark); border-radius: 3px;
+      padding: 14px 16px; margin-top: 12px; font-size: 13.5px; }
+    .drill-cols { display: flex; gap: 28px; flex-wrap: wrap; }
+    .drill-col { flex: 1 1 280px; min-width: 250px; }
+    .drill-h { font-weight: 700; color: var(--burgundy-dark); margin: 0 0 6px; font-size: 11.5px;
+      letter-spacing: 1px; text-transform: uppercase; }
+    .drill-row { padding: 3px 0; border-bottom: 1px dashed var(--cream-dark); }
+    .drill-big { font-size: 24px; font-weight: 700; color: var(--burgundy); }
+    .drill-big small { font-size: 13px; color: var(--muted); font-weight: 400; }
+    .mix-chip { display: inline-block; background: white; border: 1px solid var(--cream-dark);
+      border-radius: 12px; padding: 3px 10px; margin: 0 6px 6px 0; font-size: 12.5px; }
+    .activity-trend-title { margin-top: 16px; font-weight: 700; color: var(--burgundy-dark);
+      font-size: 11.5px; letter-spacing: 1px; text-transform: uppercase; }
+    .activity-trend { display: flex; gap: 12px; align-items: flex-end; margin-top: 10px; min-height: 96px; }
+    .trend-col { text-align: center; font-size: 11px; color: var(--muted); line-height: 1.35; }
+    .trend-bar { width: 36px; background: var(--burgundy-light); border-radius: 2px 2px 0 0; margin: 0 auto 4px; }
+    .activity-empty { color: var(--muted); font-style: italic; }
+    .appts-band { background: #fdf8ee; border-bottom: 1px solid var(--cream-dark); padding: 12px 24px 14px; }
+    .appts-inner { max-width: 900px; margin: 0 auto; }
+    .appts-head { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px; }
+    .appts-title { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--burgundy); font-weight: 700; }
+    .appts-count { color: var(--muted); font-weight: 600; letter-spacing: 0; text-transform: none; }
+    .awin-btn { padding: 4px 12px; font-size: 12.5px; font-family: inherit; background: white;
+      border: 1px solid var(--cream-dark); color: var(--ink); cursor: pointer; }
+    .awin-btn.active { background: var(--burgundy); color: var(--cream); border-color: var(--burgundy); }
+    .appt-row { display: flex; gap: 12px; align-items: baseline; padding: 6px 2px;
+      border-bottom: 1px dashed var(--cream-dark); font-size: 14.5px; }
+    .appt-row:last-child { border-bottom: none; }
+    .appt-date { color: var(--muted); font-size: 12.5px; min-width: 42px; }
+    .appt-name { font-weight: 600; color: var(--ink); }
+    .appt-assoc { color: var(--muted); font-size: 12.5px; }
+    .appt-evt { color: var(--burgundy); background: var(--gold); border-radius: 10px;
+      padding: 1px 8px; font-size: 11px; font-weight: 700; }
+    .appts-empty { color: var(--muted); font-style: italic; font-size: 13px; padding: 6px 0; }
+    .appts-note { margin-top: 6px; font-size: 11.5px; color: var(--muted); font-style: italic; }
+    .activity-mix-head { display: flex; justify-content: space-between; align-items: baseline;
+      flex-wrap: wrap; gap: 8px; margin-top: 18px; margin-bottom: 8px; }
+    .activity-mix-head .activity-trend-title { margin-top: 0; }
+    .mix-btn { padding: 5px 12px; font-size: 12.5px; font-family: inherit; background: white;
+      border: 1px solid var(--cream-dark); color: var(--ink); cursor: pointer;
+      border-radius: 2px; transition: all 0.15s; }
+    .mix-btn.active { background: var(--burgundy); color: var(--cream); border-color: var(--burgundy); }
+    .mix-table td.zero { color: var(--cream-dark); }
+
+    /* Filter bar */
+    .filterbar {
+      background: white; border-bottom: 1px solid var(--cream-dark);
+      padding: 14px 24px 12px; position: sticky; top: 0; z-index: 50;
+    }
+    .filterbar-inner {
+      max-width: 1240px; margin: 0 auto;
+    }
+    .filter-row {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      align-items: center; margin-bottom: 6px;
+    }
+    .filter-row:last-child { margin-bottom: 0; }
+    .filterbar-label {
+      font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--muted); margin-right: 6px; min-width: 60px;
+    }
+    .filter-btn, .refine-btn, .designer-btn {
+      padding: 6px 14px; font-size: 13px; font-family: inherit;
+      background: white; border: 1px solid var(--cream-dark);
+      color: var(--ink); cursor: pointer; border-radius: 2px;
+      transition: all 0.15s;
+    }
+    .filter-btn:hover, .refine-btn:hover, .designer-btn:hover { border-color: var(--burgundy); }
+    .filter-btn.active {
+      background: var(--burgundy); color: var(--cream); border-color: var(--burgundy);
+    }
+    /* Associate picker (leadership view) — the top-level "whose book" row */
+    .picker-row {
+      padding-bottom: 8px; margin-bottom: 8px;
+      border-bottom: 2px solid var(--cream-dark);
+    }
+    .picker-btn {
+      padding: 7px 16px; font-size: 13px; font-family: inherit;
+      background: white; border: 1px solid var(--gold); border-radius: 2px;
+      color: var(--burgundy-dark); cursor: pointer; transition: all 0.15s;
+    }
+    .picker-btn:hover { background: var(--cream); }
+    .picker-btn.active {
+      background: var(--burgundy); color: var(--cream); border-color: var(--burgundy);
+      font-weight: 600;
+    }
+    .picker-btn.active .btn-count { background: rgba(245,237,224,0.3); color: var(--cream); }
+    /* Summer Soiree — temporary event button; gold-filled to stand out as the push */
+    .refine-soiree {
+      background: var(--burgundy); color: var(--cream);
+      border-color: var(--burgundy); font-weight: 600;
+    }
+    .refine-soiree .btn-count { background: rgba(245,237,224,0.28); color: var(--cream); }
+    .refine-soiree.active {
+      background: var(--gold); color: var(--burgundy-dark); border-color: var(--gold);
+    }
+    .refine-soiree.active .btn-count { background: rgba(107,29,42,0.15); color: var(--burgundy-dark); }
+    .refine-btn.active {
+      background: var(--gold); color: var(--burgundy-dark);
+      border-color: var(--gold); font-weight: 600;
+    }
+    .designer-btn.active {
+      background: var(--burgundy-light); color: var(--cream);
+      border-color: var(--burgundy-light); font-weight: 600;
+    }
+    .expand-toggle {
+      padding: 6px 14px; font-size: 13px; font-family: inherit;
+      background: var(--cream); border: 1px solid var(--burgundy);
+      color: var(--burgundy); cursor: pointer; border-radius: 2px;
+      margin-left: 8px;
+    }
+    .expand-toggle:hover { background: var(--burgundy); color: var(--cream); }
+
+    /* Search box */
+    .search-box {
+      flex: 1; min-width: 180px; max-width: 420px;
+      padding: 7px 12px; font-size: 14px; font-family: inherit;
+      border: 1px solid var(--cream-dark); border-radius: 2px;
+      background: white; color: var(--ink);
+    }
+    .search-box:focus { outline: none; border-color: var(--burgundy); }
+
+    /* Count badge on filter buttons */
+    .btn-count {
+      display: inline-block; min-width: 16px; padding: 0 5px;
+      font-size: 11px; font-weight: 700; border-radius: 8px;
+      background: var(--cream-dark); color: var(--burgundy);
+      margin-left: 2px;
+    }
+    .filter-btn.active .btn-count { background: rgba(245,237,224,0.3); color: var(--cream); }
+    .refine-btn.active .btn-count { background: rgba(107,29,42,0.15); color: var(--burgundy-dark); }
+    .designer-btn.active .btn-count { background: rgba(245,237,224,0.3); color: var(--cream); }
+    .filter-count {
+      margin-left: auto; font-size: 13px; color: var(--muted);
+    }
+    .sort-note {
+      font-size: 11px; color: var(--muted); font-style: italic;
+      margin-left: 8px;
+    }
+
+    /* Main */
+    main { max-width: 1240px; margin: 0 auto; padding: 24px; }
+
+    /* Dossier card — collapsible <details> */
+    .dossier {
+      background: white; border: 1px solid var(--cream-dark);
+      margin-bottom: 10px; border-radius: 2px;
+      transition: border-color 0.15s;
+    }
+    .dossier:hover { border-color: var(--gold); }
+    .dossier[open] { border-color: var(--gold); }
+
+    /* Collapsed summary — always visible, the tap target */
+    .dossier-summary {
+      padding: 14px 18px; cursor: pointer; list-style: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .dossier-summary::-webkit-details-marker { display: none; }
+    .dossier-summary::marker { content: ""; }
+    .dossier[open] .dossier-summary {
+      border-bottom: 1px solid var(--cream-dark);
+    }
+    .summary-bottom {
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 12px; margin-top: 6px;
+    }
+    .chevron {
+      color: var(--gold); font-size: 16px; flex-shrink: 0;
+      transition: transform 0.15s;
+    }
+    .dossier[open] .chevron { transform: rotate(180deg); }
+
+    /* Expanded body */
+    .dossier-body { padding: 14px 18px 16px; }
+
+    .dossier-head {
+      display: flex; justify-content: space-between; align-items: baseline;
+      flex-wrap: wrap; gap: 8px;
+    }
+    .dossier-name {
+      font-family: Georgia, serif; font-size: 19px; font-weight: 600;
+      color: var(--burgundy);
+    }
+    /* "Vicky's client" tag — only shown in the leadership view */
+    .dossier-associate {
+      display: none; font-family: Calibri, sans-serif; font-size: 12px;
+      font-weight: normal; color: var(--muted); margin-left: 8px;
+      letter-spacing: 0.3px;
+    }
+    body.leadership .dossier-associate { display: inline; }
+    /* House-account tag always shows — flags a prospecting lead, not a client */
+    .dossier-associate.house-account { display: inline; font-style: italic; }
+    .dossier-badges { display: flex; flex-wrap: wrap; gap: 6px; }
+
+    /* Segment badges */
+    .seg-badge {
+      font-size: 11px; padding: 3px 10px; border-radius: 12px;
+      letter-spacing: 0.5px; text-transform: uppercase; font-weight: 600;
+    }
+    .seg-top { background: var(--burgundy); color: var(--cream); }
+    .seg-lapsed { background: var(--orange); color: white; }
+    .seg-bridal { background: #d4a14a; color: var(--burgundy-dark); }
+    .seg-growing { background: var(--green); color: white; }
+    .seg-onedone { background: var(--gold); color: var(--burgundy-dark); }
+    .seg-cold { background: var(--cream-dark); color: var(--muted); }
+
+    /* Bridal + RSF + event */
+    .bridal-badge {
+      font-size: 11px; padding: 3px 10px; border-radius: 12px;
+      background: #f5d56b; color: var(--burgundy-dark); font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+    .rsf-badge {
+      font-size: 11px; padding: 3px 10px; border-radius: 12px;
+      background: var(--green); color: white; font-weight: 600;
+    }
+    .event-chip {
+      font-size: 11px; padding: 3px 8px; border-radius: 12px;
+      background: var(--cream); border: 1px solid var(--gold);
+      color: var(--burgundy-dark);
+    }
+
+    /* Meta stats */
+    .dossier-meta {
+      display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0;
+      font-size: 14px; color: var(--muted);
+    }
+    .meta-stat b { color: var(--ink); }
+
+    /* Why surfacing */
+    .dossier-why {
+      background: var(--cream); padding: 8px 12px; border-radius: 2px;
+      margin-bottom: 8px; font-size: 13px;
+    }
+    .why-label {
+      font-weight: 600; color: var(--burgundy); letter-spacing: 0.3px;
+      margin-right: 4px;
+    }
+
+    /* Suggested approach — the talk track */
+    .dossier-suggestion {
+      background: #fbf6ea; border: 1px solid var(--gold);
+      border-left: 3px solid var(--gold);
+      padding: 9px 12px; border-radius: 2px; margin-bottom: 8px;
+    }
+    .suggestion-label {
+      display: block; font-size: 11px; font-weight: 600;
+      letter-spacing: 0.8px; text-transform: uppercase;
+      color: var(--burgundy); margin-bottom: 3px;
+    }
+    .suggestion-text { font-size: 13.5px; color: var(--ink); line-height: 1.5; }
+
+    /* Context */
+    .dossier-context { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+    .context-label { color: var(--burgundy); font-weight: 600; }
+    .designer-chip {
+      display: inline-block; padding: 2px 8px; margin: 0 2px;
+      background: var(--cream); border: 1px solid var(--cream-dark);
+      border-radius: 12px; font-size: 11px; color: var(--burgundy-dark);
+    }
+
+    /* Last purchases */
+    .dossier-purchases { font-size: 13px; margin-bottom: 8px; }
+    .lp-list { list-style: none; margin: 4px 0 0; padding: 0; }
+    .lp-list li {
+      padding: 3px 0; border-bottom: 1px dotted var(--cream-dark);
+      display: flex; gap: 10px; align-items: baseline;
+    }
+    .lp-list li:last-child { border-bottom: none; }
+    .lp-date { color: var(--muted); font-size: 12px; min-width: 92px; }
+    .lp-item { flex: 1; color: var(--ink); }
+    .lp-price { color: var(--burgundy); font-weight: 600; }
+
+    /* Event line */
+    .dossier-events {
+      font-size: 12px; color: var(--muted); margin-bottom: 8px;
+    }
+
+    /* Contact */
+    .dossier-contact {
+      font-size: 13px; padding-top: 8px; border-top: 1px solid var(--cream-dark);
+    }
+    .contact-link { color: var(--burgundy); text-decoration: none; }
+    .contact-link:hover { text-decoration: underline; }
+    .contact-meta { color: var(--muted); }
+
+    /* Empty state */
+    .empty {
+      text-align: center; padding: 60px 20px; color: var(--muted);
+      font-style: italic;
+    }
+
+    /* ---- Phase 2: outreach logging ---- */
+
+    /* Personal stats band (associate pages) */
+    .stats-band {
+      background: var(--burgundy-dark); color: var(--cream);
+      padding: 12px 24px;
+    }
+    .stats-inner { max-width: 1240px; margin: 0 auto; }
+    .stats-label {
+      font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--gold); font-weight: 600; margin-bottom: 4px;
+    }
+    .stats-month { font-size: 15px; }
+    .stats-month b { color: var(--gold); }
+    .stats-week { font-size: 12.5px; color: rgba(245,237,224,0.75); margin-top: 2px; }
+    .stats-board {
+      margin-top: 8px; padding-top: 8px;
+      border-top: 1px solid rgba(245,237,224,0.18);
+      font-size: 13px; line-height: 1.9;
+    }
+    .board-label {
+      font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--gold); font-weight: 600; margin-right: 4px;
+    }
+    .board-chip {
+      display: inline-block; padding: 2px 10px; margin-right: 4px;
+      background: rgba(245,237,224,0.1); border-radius: 12px;
+      color: var(--cream); white-space: nowrap;
+    }
+    .board-chip b { color: var(--gold); }
+    .board-chip.board-you {
+      background: var(--gold); color: var(--burgundy-dark); font-weight: 600;
+    }
+    .board-chip.board-you b, .board-chip.board-you .board-conv { color: var(--burgundy-dark); }
+    .board-conv { font-size: 11.5px; color: rgba(245,237,224,0.7); }
+
+    /* Last-touch badge in the summary row */
+    .touch-badge {
+      font-size: 11px; padding: 3px 10px; border-radius: 12px;
+      background: #eef2ee; border: 1px solid var(--green);
+      color: var(--green); font-weight: 600;
+    }
+    .touch-badge.touch-stale {
+      background: var(--cream); border-color: var(--cream-dark);
+      color: var(--muted);
+    }
+
+    /* Log section in the dossier body */
+    .log-section {
+      margin-top: 10px; padding-top: 10px;
+      border-top: 1px dashed var(--cream-dark);
+    }
+    .log-btn {
+      padding: 7px 16px; font-size: 13px; font-family: inherit;
+      background: var(--burgundy); color: var(--cream);
+      border: none; border-radius: 2px; cursor: pointer;
+      letter-spacing: 0.3px;
+    }
+    .log-btn:hover { background: var(--burgundy-dark); }
+    .last-touch-detail {
+      font-size: 12.5px; color: var(--muted); margin-left: 10px;
+      font-style: italic;
+    }
+    .log-panel {
+      margin-top: 10px; padding: 12px; background: var(--cream);
+      border: 1px solid var(--cream-dark); border-radius: 2px;
+    }
+    .log-step { margin-bottom: 8px; }
+    .log-step:last-child { margin-bottom: 0; }
+    .log-step-label {
+      display: block; font-size: 11px; font-weight: 600;
+      letter-spacing: 1px; text-transform: uppercase;
+      color: var(--burgundy); margin-bottom: 5px;
+    }
+    .log-chip {
+      padding: 8px 14px; font-size: 13.5px; font-family: inherit;
+      background: white; border: 1px solid var(--cream-dark);
+      color: var(--ink); cursor: pointer; border-radius: 16px;
+      margin: 0 6px 6px 0; transition: all 0.12s;
+    }
+    .log-chip:hover { border-color: var(--burgundy); }
+    .log-chip.selected {
+      background: var(--burgundy); color: var(--cream);
+      border-color: var(--burgundy); font-weight: 600;
+    }
+    /* Summer Soiree event sub-step (Booked Appt only) */
+    .log-event { margin-top: 10px; padding-top: 8px; border-top: 1px dashed var(--cream-dark); }
+    .log-chip.evt-soiree { border-color: var(--gold); }
+    .log-chip.evt-soiree.selected { background: var(--gold); color: var(--burgundy); border-color: var(--gold); }
+    .log-note {
+      width: 100%; padding: 8px 10px; font-size: 13px; font-family: inherit;
+      border: 1px solid var(--cream-dark); border-radius: 2px;
+      background: white; color: var(--ink); margin-top: 2px;
+    }
+    .log-note:focus { outline: none; border-color: var(--burgundy); }
+    .log-cancel {
+      background: none; border: none; color: var(--muted);
+      font-size: 12px; cursor: pointer; text-decoration: underline;
+      margin-top: 6px; padding: 0; font-family: inherit;
+    }
+    .log-confirm {
+      font-size: 13px; color: var(--green); font-weight: 600;
+    }
+    .log-confirm.log-queued { color: var(--orange); }
+
+    /* Footer */
+    footer {
+      max-width: 1240px; margin: 32px auto 24px; padding: 0 24px;
+      font-size: 12px; color: var(--muted); text-align: center;
+    }
+
+    /* Mobile */
+    @media (max-width: 700px) {
+      header h1 { font-size: 26px; }
+      header { padding: 24px 20px 20px; }
+      .filterbar { padding: 12px 16px; }
+      .filter-btn, .refine-btn, .designer-btn { font-size: 12px; padding: 5px 11px; }
+      main { padding: 16px; }
+      .dossier-summary { padding: 12px 14px; }
+      .dossier-body { padding: 12px 14px 14px; }
+      .dossier-meta { gap: 6px 12px; font-size: 13px; }
+      .dossier-name { font-size: 17px; }
+      .log-chip { padding: 10px 14px; font-size: 14px; }  /* iPad/phone tap targets */
+      .log-btn { padding: 9px 16px; }
+      .stats-band { padding: 10px 16px; }
+    }
+
+    /* Touch devices (the work iPads) — comfortable tap targets at any
+       width; the 700px query above only caught phones. */
+    @media (pointer: coarse) {
+      .filter-btn, .refine-btn, .designer-btn { padding: 9px 16px; font-size: 14px; }
+      .picker-btn { padding: 9px 16px; font-size: 14px; }
+      .log-chip { padding: 10px 16px; font-size: 14.5px; }
+      .log-btn { padding: 10px 18px; font-size: 14px; }
+      .dossier-summary { padding: 16px 18px; }
+      button, .dossier-summary { -webkit-tap-highlight-color: rgba(107,29,42,0.12); }
+    }
+
+    /* Home-screen app mode (iPad PWA) — content extends under the status
+       bar with black-translucent; pad the header + sticky filter bar. */
+    @media (display-mode: standalone) {
+      header { padding-top: env(safe-area-inset-top, 0px); }
+      .filterbar { padding-top: calc(14px + env(safe-area-inset-top, 0px) / 2); }
+      body { -webkit-user-select: none; user-select: none; }
+      input, textarea { -webkit-user-select: auto; user-select: auto; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Auth gate -->
+  <div class="auth-gate" id="authGate">
+    <div class="auth-box">
+      <h1>The Book</h1>
+      <p>This device isn't set up for this book yet.<br>
+         Open your setup link — or paste your device key below.</p>
+      <form id="authForm">
+        <input type="password" id="authPwd" placeholder="Device key" autocomplete="off">
+        <button type="submit">Unlock</button>
+        <div class="auth-error" id="authError"></div>
+      </form>
+    </div>
+  </div>
+
+  <header>
+    <div class="header-inner">
+      <div class="eyebrow">The Book</div>
+      <h1>Danielle's clienteling intelligence</h1>
+      <div class="subtitle">Opportunities to create — prioritized by who needs you today.</div>
+      <div class="data-stamp">Data as of July 13, 2026 · Showing top 0 of 0 eligible clients</div>
+    </div>
+  </header>
+
+  <div class="signal">
+    <div class="signal-inner">
+      <div class="signal-label">Today's intelligence</div>
+      <div class="signal-text"><div class="signal-item">Open your book — opportunities are waiting.</div></div>
+    </div>
+  </div>
+
+  <div class="stats-band" id="statsBand" hidden>
+    <div class="stats-inner">
+      <div class="stats-label">Your scoreboard</div>
+      <div class="stats-month" id="statsMonth"></div>
+      <div class="stats-week" id="statsWeek"></div>
+      <div class="stats-board" id="statsBoard" hidden></div>
+    </div>
+  </div>
+  <div class="appts-band" id="apptsBand" hidden>
+    <div class="appts-inner">
+      <div class="appts-head">
+        <span class="appts-title">Appointments booked <span class="appts-count" id="apptsCount"></span></span>
+        <span class="appts-toggle">
+          <button type="button" class="awin-btn active" data-awin="month">This month</button>
+          <button type="button" class="awin-btn" data-awin="week">This week</button>
+        </span>
+      </div>
+      <div id="apptsList" class="appts-list"></div>
+      <div class="appts-note">The appointment itself still gets booked in ClientBook &#8212; this is the recap of what you&#8217;ve logged.</div>
+    </div>
+  </div>
+
+
+  
+  <div class="filterbar">
+    <div class="filterbar-inner">
+      <div class="filter-row">
+        <span class="filterbar-label">Find:</span>
+        <input type="search" id="searchBox" class="search-box"
+               placeholder="Search by name…" autocomplete="off">
+      </div>
+      <div class="filter-row">
+        <span class="filterbar-label">Cohort:</span>
+        <button class="filter-btn active" data-cohort="all">Everyone <span class="btn-count">0</span></button>
+        <button class="filter-btn" data-cohort="Top Customers">Top customers <span class="btn-count">0</span></button>
+        <button class="filter-btn" data-cohort="Lapsed High Value">Lapsed high value <span class="btn-count">0</span></button>
+        <button class="filter-btn" data-cohort="Growing">Growing <span class="btn-count">0</span></button>
+        <button class="filter-btn" data-cohort="One &amp; Done">One &amp; done <span class="btn-count">0</span></button>
+        <button class="filter-btn" data-cohort="Cold">Cold <span class="btn-count">0</span></button>
+        <button class="filter-btn" data-cohort="Wedding Band Opportunity">Wedding band opportunity <span class="btn-count">0</span></button>
+      </div>
+      <div class="filter-row">
+        <span class="filterbar-label">Refine:</span>
+        <button class="refine-btn" data-refine="bday">🎂 Birthday within 60d <span class="btn-count">0</span></button>
+        <button class="refine-btn" data-refine="anniv">💍 Anniversary within 60d <span class="btn-count">0</span></button>
+        <button class="refine-btn" data-refine="rsf">🛍 Recent purchase 0–60d <span class="btn-count">0</span></button>
+        
+        <button class="refine-btn" data-refine="nyc" id="nycBtn">📒 Not yet contacted <span class="btn-count" id="nycCount">…</span></button>
+        <button class="refine-btn" data-refine="kw" id="kwBtn">🔁 Keep working <span class="btn-count" id="kwCount">…</span></button>
+        <button class="expand-toggle" id="expandToggle">Expand all</button>
+        <span class="filter-count" id="filterCount"></span>
+        <span class="sort-note" id="sortNote"></span>
+      </div>
+      <div class="filter-row">
+        <span class="filterbar-label">Loves:</span>
+        <button class="designer-btn" data-designer="Gabriel &amp; Co">Gabriel &amp; Co <span class="btn-count">0</span></button>
+        <button class="designer-btn" data-designer="Simon G">Simon G <span class="btn-count">0</span></button>
+        <button class="designer-btn" data-designer="Shy Creation">Shy Creation <span class="btn-count">0</span></button>
+        <button class="designer-btn" data-designer="Roberto Coin">Roberto Coin <span class="btn-count">0</span></button>
+        <button class="designer-btn" data-designer="Estate">Estate <span class="btn-count">0</span></button>
+      </div>
+    </div>
+  </div>
+
+  <main id="dossiers">
+    
+  </main>
+
+
+  <footer>
+    The Book — Phase 2 (outreach logging) · Internal use only · Generated 2026-07-13
+  </footer>
+
+  <script>
+    // Device-bound auth (2026-06-10) — no team password. The page accepts
+    // only the device keys whose hashes are baked in below. Key arrives once
+    // via the setup link (#k=...), then lives in localStorage forever.
+    const TOKEN_KEY = 'the-book-device-token';
+    const ACCEPTED = ["f2eb9f0f99eee19be7994d09207bc32857846feab85b7e117b4ce42d28b3eab8", "fbd780e0c18f03310fb62ee7c07f84304f3483ff2b5e4b4c2b4bf824e9f14223", "fcd776f383f5705abc6c0d88d06683ac969a8c3039bbe5734298950b4ac9f821"];
+
+    async function sha256(text) {
+      const buf = new TextEncoder().encode(text);
+      const hash = await crypto.subtle.digest('SHA-256', buf);
+      return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    function hideGate() {
+      document.getElementById('authGate').style.display = 'none';
+    }
+
+    async function tryToken(tok) {
+      if (!tok) return false;
+      tok = tok.trim();
+      const hash = await sha256(tok);
+      if (ACCEPTED.indexOf(hash) === -1) return false;
+      localStorage.setItem(TOKEN_KEY, tok);
+      hideGate();
+      return true;
+    }
+
+    (async () => {
+      // 1. key in the setup link (hash or query)
+      const m = (location.hash + location.search).match(/[#?&]k=([A-Za-z0-9_-]+)/);
+      if (m && await tryToken(m[1])) {
+        history.replaceState(null, '', location.pathname);  // tidy the URL
+        return;
+      }
+      // 2. key already on this device
+      await tryToken(localStorage.getItem(TOKEN_KEY));
+    })();
+
+    document.getElementById('authForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!(await tryToken(document.getElementById('authPwd').value))) {
+        document.getElementById('authError').textContent = "That key doesn't open this book.";
+      }
+    });
+
+    // Setup link pasted into an ALREADY-OPEN page (no reload on hash change)
+    window.addEventListener('hashchange', async () => {
+      const m = location.hash.match(/[#&]k=([A-Za-z0-9_-]+)/);
+      if (m && await tryToken(m[1])) history.replaceState(null, '', location.pathname);
+    });
+
+    // Offline app shell — the book opens on the floor with no signal
+    if ('serviceWorker' in navigator && location.protocol === 'https:') {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    }
+
+    // Three-tier filter (cohort + refine + designer) with filter-aware sort
+    const dossierContainer = document.getElementById('dossiers');
+    const allDossiers = Array.from(document.querySelectorAll('.dossier'));
+    const cohortBtns = document.querySelectorAll('.filter-btn');
+    const refineBtns = document.querySelectorAll('.refine-btn');
+    const designerBtns = document.querySelectorAll('.designer-btn');
+    const pickerBtns = document.querySelectorAll('.picker-btn');
+    const countEl = document.getElementById('filterCount');
+    const sortNoteEl = document.getElementById('sortNote');
+
+    let activeCohort = 'all';
+    const activeRefines = new Set();
+    const activeDesigners = new Set();  // multi-select — OR logic (combined lists)
+    let searchQuery = '';
+    let activeAssociate = 'all';      // leadership picker — inert on associate pages
+
+    const EVENT_WINDOW = 60;         // days — "coming up soon"
+
+    function passesSearch(d) {
+      return !searchQuery || nameMatches(d.dataset.name || '', searchQuery);
+    }
+    // Word-aware matching: every typed word must match a name-word prefix or
+    // substring — so "jeff nycz" finds "Jeffrey Nycz".
+    function nameMatches(name, q) {
+      if (name.indexOf(q) !== -1) return true;
+      const words = name.split(/\s+/);
+      return q.split(/\s+/).every(t =>
+        words.some(w => w.indexOf(t) === 0) || name.indexOf(t) !== -1);
+    }
+
+    function passesAssociate(d) {
+      // data-associate may hold multiple slugs ("vicky essence") for a shared
+      // (co-lead) client — match if the selected book is any of them.
+      return activeAssociate === 'all' ||
+        (d.dataset.associate || '').split(' ').indexOf(activeAssociate) !== -1;
+    }
+
+    function passesCohort(d, cohort) {
+      if (cohort === 'all') return true;
+      // Bridal-only customers are excluded from RFM cohorts.
+      // They ONLY appear in 'Wedding Band Opportunity' cohort or 'Everyone'.
+      if (d.dataset.bridalOnly === '1' && cohort !== 'Wedding Band Opportunity') return false;
+      if (cohort === 'Wedding Band Opportunity') return d.dataset.bridal === '1';
+      return d.dataset.seg === cohort;
+    }
+
+    function passesRefines(d) {
+      for (const r of activeRefines) {
+        if (r === 'bday') {
+          if (parseInt(d.dataset.daysBday) > EVENT_WINDOW) return false;
+        } else if (r === 'anniv') {
+          if (parseInt(d.dataset.daysAnniv) > EVENT_WINDOW) return false;
+        } else if (r === 'rsf') {
+          if (d.dataset.rsf !== '1') return false;
+        } else if (r === 'soiree') {
+          if (d.dataset.soiree !== '1') return false;
+        } else if (r === 'nyc') {
+          // Not yet contacted — no outreach logged for this client (any associate)
+          if (!d.dataset.cid || lastTouch[d.dataset.cid]) return false;
+        } else if (r === 'kw') {
+          // Keep working — relationship in play (see inKeepWorking rules)
+          if (!d.dataset.cid || !inKeepWorking(d.dataset.cid)) return false;
+        }
+      }
+      return true;
+    }
+
+    function passesDesigner(d) {
+      if (activeDesigners.size === 0) return true;
+      // data-designers is a pipe-delimited list. OR logic — a customer matches
+      // if they have ANY of the selected designers (combined event lists).
+      const list = d.dataset.designers ? d.dataset.designers.split('|') : [];
+      for (const dz of activeDesigners) {
+        if (list.includes(dz)) return true;
+      }
+      return false;
+    }
+
+    function getSortKey(cohort, refines) {
+      // Event refinements take sort priority — "what's coming up fastest"
+      if (refines.has('bday') && refines.has('anniv')) {
+        return [d => Math.min(parseFloat(d.dataset.daysBday), parseFloat(d.dataset.daysAnniv)),
+                'asc', 'Sorted by soonest birthday or anniversary'];
+      }
+      if (refines.has('bday')) {
+        return [d => parseFloat(d.dataset.daysBday), 'asc', 'Sorted by soonest birthday'];
+      }
+      if (refines.has('anniv')) {
+        return [d => parseFloat(d.dataset.daysAnniv), 'asc', 'Sorted by soonest anniversary'];
+      }
+      // Wedding Band Opportunity cohort → sort by urgency (days since trigger asc)
+      if (cohort === 'Wedding Band Opportunity') {
+        return [d => parseFloat(d.dataset.bridalDays), 'asc', 'Sorted by engagement-clock urgency'];
+      }
+      // "Recent purchase" refinement → sort by most recent
+      if (refines.has('rsf')) {
+        return [d => parseFloat(d.dataset.recency), 'asc', 'Sorted by most recent purchase'];
+      }
+      // Specific RFM cohort, or designers selected → sort by spend desc (volume)
+      if (cohort !== 'all' || activeDesigners.size > 0) {
+        return [d => parseFloat(d.dataset.spend), 'desc', 'Sorted by lifetime spend'];
+      }
+      // Default: today's intelligence score
+      return [d => parseFloat(d.dataset.score), 'desc', 'Sorted by today\'s intelligence score'];
+    }
+
+    // Fresh-opportunities-first: contacted clients (by anyone) sink below
+    // untouched ones in every sort — badge kept, never hidden. The sink
+    // window is OUTCOME-AWARE (Ryan + Lisa 2026-06-05): touches that didn't
+    // connect resurface fast (multi-touch engagement is normal), real
+    // conversations rest longer, hard no's rest longest.
+    const SINK_BY_OUTCOME = {
+      'No Answer': 7, 'Follow-Up Needed': 7,
+      'In Conversation': 30, 'Talked': 30, 'All Set': 30, 'Booked Appt': 30,
+      'Not Interested': 90,
+    };
+    // Keep working = the last touch left the relationship IN PLAY
+    // (Ryan 2026-06-05): didn't connect yet, needs a follow-up, or an
+    // active phone/text dialogue. Booked Appt + Not Interested drop off.
+    const KEEP_WORKING = ['No Answer', 'Follow-Up Needed', 'In Conversation', 'Talked'];
+    function recentlyTouched(d) {
+      const row = d.dataset.cid ? lastTouch[d.dataset.cid] : null;
+      if (!row) return false;
+      // Three strikes: 3+ consecutive non-connects → rest 90d like a "no"
+      const win = (strikes[d.dataset.cid] || 0) >= 3
+                  ? 90 : (SINK_BY_OUTCOME[row.outcome] || 30);
+      return (Date.now() - new Date(row.at).getTime()) / 86400000 <= win;
+    }
+
+    function apply() {
+      const [keyFn, dir, sortLabel] = getSortKey(activeCohort, activeRefines);
+      const shows = d => passesAssociate(d) && passesCohort(d, activeCohort)
+                         && passesRefines(d) && passesDesigner(d) && passesSearch(d);
+      const visible = allDossiers.filter(shows);
+      const hidden = allDossiers.filter(d => !shows(d));
+      visible.sort((a, b) => {
+        const ta = recentlyTouched(a) ? 1 : 0, tb = recentlyTouched(b) ? 1 : 0;
+        if (ta !== tb) return ta - tb;
+        const va = keyFn(a), vb = keyFn(b);
+        return dir === 'asc' ? va - vb : vb - va;
+      });
+      for (const d of visible) {
+        d.style.display = 'block';
+        dossierContainer.appendChild(d);
+      }
+      for (const d of hidden) d.style.display = 'none';
+      countEl.textContent = visible.length + ' showing';
+      let label = sortLabel;
+      if (visible.some(recentlyTouched)) label += ' · recently contacted moved down';
+      sortNoteEl.textContent = '· ' + label;
+    }
+
+    cohortBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        cohortBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeCohort = btn.dataset.cohort;
+        apply();
+      });
+    });
+
+    // Associate picker — leadership view only (no .picker-btn on associate pages)
+    pickerBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        pickerBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeAssociate = btn.dataset.associate;
+        apply();
+      });
+    });
+
+    refineBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const r = btn.dataset.refine;
+        if (activeRefines.has(r)) {
+          activeRefines.delete(r);
+          btn.classList.remove('active');
+        } else {
+          activeRefines.add(r);
+          btn.classList.add('active');
+        }
+        apply();
+      });
+    });
+
+    designerBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const dz = btn.dataset.designer;
+        if (activeDesigners.has(dz)) {
+          activeDesigners.delete(dz);
+          btn.classList.remove('active');
+        } else {
+          activeDesigners.add(dz);
+          btn.classList.add('active');
+        }
+        apply();
+      });
+    });
+
+    // Name search
+    const searchBox = document.getElementById('searchBox');
+    searchBox.addEventListener('input', () => {
+      searchQuery = searchBox.value.trim().toLowerCase();
+      apply();
+      renderReserve();
+    });
+
+    // ===== Lever 1 — full-book (reserve) search =====
+    // Your top 300 is your daily list; the rest of your book is your
+    // reserve — reachable by name search only, never on the daily list.
+    const RESERVE = [];
+    const RESERVE_SEG_CLASSES = {"Top Customers":"seg-top","Lapsed High Value":"seg-lapsed","Wedding Band Opportunity":"seg-bridal","Growing":"seg-growing","One & Done":"seg-onedone","Cold":"seg-cold"};
+    function escR(x) { return String(x == null ? '' : x).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]); }
+    function reserveCard(r) {
+      const segCls = RESERVE_SEG_CLASSES[r.segment] || 'seg-cold';
+      const lp = r.last_purchase
+        ? 'Last bought ' + escR(r.last_purchase.date) + ' — ' + escR(r.last_purchase.item)
+        : 'No purchase detail on file';
+      const bits = [];
+      if (r.purchase_count) bits.push('<b>' + r.purchase_count + '</b> purchase' + (r.purchase_count === 1 ? '' : 's'));
+      if (r.recency_phrase) bits.push('Last bought <b>' + escR(r.recency_phrase) + '</b>');
+      if (r.city) bits.push(escR(r.city));
+      const contact = (r.has_phone || r.has_email)
+        ? [r.has_phone ? 'phone on file' : null, r.has_email ? 'email on file' : null].filter(Boolean).join(' · ') + ' — full contact in Crystal / ClientBook'
+        : 'no contact info on file — capture it when you connect';
+      return '<details class="dossier reserve-dossier"' +
+        ' data-cid="' + escR(r.client_id) + '"' +
+        ' data-fullname="' + escR(r.name) + '"' +
+        ' data-name="' + escR(String(r.name).toLowerCase()) + '"' +
+        ' data-seg="' + escR(r.segment) + '"' +
+        ' data-bridal="' + (r.bridal_active ? 1 : 0) + '"' +
+        ' data-rsf="0" data-days-bday="99999" data-days-anniv="99999" data-soiree="0"' +
+        ' data-book="' + (r.house ? 'House' : '') + '">' +
+        '<summary class="dossier-summary"><div class="dossier-head">' +
+        '<h3 class="dossier-name">' + escR(r.name) + '</h3>' +
+        '<div class="dossier-badges"><span class="reserve-tag">Reserve</span>' +
+        '<span class="seg-badge ' + segCls + '">' + escR(r.segment) + '</span></div></div>' +
+        '<div class="summary-bottom"><div class="dossier-meta">' +
+        bits.map(b => '<span class="meta-stat">' + b + '</span>').join('') +
+        '</div><span class="chevron" aria-hidden="true">▾</span></div></summary>' +
+        '<div class="dossier-body">' +
+        '<div class="dossier-context">' + lp + '</div>' +
+        '<div class="dossier-contact"><span class="contact-meta">' + contact + '</span></div>' +
+        '<div class="log-section"><button class="log-btn" type="button">＋ Log outreach</button>' +
+        '<span class="last-touch-detail"></span></div>' +
+        '</div></details>';
+    }
+    const reserveSection = document.getElementById('reserveSection');
+    const reserveList = document.getElementById('reserveList');
+    const reserveCountEl = document.getElementById('reserveCount');
+    function renderReserve() {
+      if (!reserveSection || !reserveList) return;
+      if (!RESERVE.length || searchQuery.length < 2) {
+        reserveSection.hidden = true; reserveList.innerHTML = ''; return;
+      }
+      const matches = RESERVE.filter(r => nameMatches(String(r.name).toLowerCase(), searchQuery));
+      if (!matches.length) { reserveSection.hidden = true; reserveList.innerHTML = ''; return; }
+      reserveList.innerHTML = matches.slice(0, 25).map(reserveCard).join('');
+      reserveCountEl.textContent = matches.length + ' match' + (matches.length === 1 ? '' : 'es') +
+        ' in your reserve — not on your daily list' +
+        (matches.length > 25 ? ' (showing first 25, keep typing)' : '');
+      reserveSection.hidden = false;
+    }
+    if (reserveList) {
+      reserveList.addEventListener('click', (e) => {
+        const logBtn = e.target.closest('.log-btn');
+        if (logBtn) { e.preventDefault(); openLogPanel(logBtn.closest('.dossier')); return; }
+        const chip = e.target.closest('.log-chip');
+        if (chip) { e.preventDefault(); handleChip(chip); return; }
+        if (e.target.closest('.log-cancel')) { e.preventDefault(); closeLogPanel(); }
+      });
+    }
+
+
+    // Expand all / collapse all — acts on currently-visible dossiers
+    const expandToggle = document.getElementById('expandToggle');
+    let allExpanded = false;
+    expandToggle.addEventListener('click', () => {
+      allExpanded = !allExpanded;
+      for (const d of allDossiers) {
+        if (d.style.display !== 'none') d.open = allExpanded;
+      }
+      expandToggle.textContent = allExpanded ? 'Collapse all' : 'Expand all';
+    });
+
+    // ===== Phase 2 — outreach logging =====
+    const WORKER_URL = 'https://the-book-outreach.ryan-72e.workers.dev';
+    const BOOK_KEY = 'cjbook_31b88a31706a007a8fff8f7613b7c193';
+    const LOG_ASSOCIATE = 'Danielle';
+    const CHANNELS = ["Called", "Texted", "Emailed", "Note Sent", "In-Person"];
+    const OUTCOMES = ["No Answer", "In Conversation", "All Set", "Booked Appt", "Not Interested", "Follow-Up Needed"];
+    const CH_EMOJI = {'Called':'📞','Texted':'💬','Emailed':'✉️','Note Sent':'📝','In-Person':'🤝'};
+    // Summer Soiree active? When true, a Booked Appt asks whether it's FOR the event.
+    const SOIREE_ACTIVE = true;
+    const QUEUE_KEY = 'thebook-outreach-queue';
+
+    let lastTouch = {};   // client_id -> most recent outreach row (any associate)
+    let myRows = [];      // rows logged by LOG_ASSOCIATE — feeds the stats panel
+    let allOutreach = []; // every row — feeds the team leaderboard
+    let strikes = {};     // client_id -> trailing consecutive non-connects
+
+    // Outcomes that DON'T connect (count as strikes). A connecting outcome
+    // (In Conversation / Booked Appt / Not Interested) resets the count.
+    const NON_CONNECT = ['No Answer', 'Follow-Up Needed'];
+    const CONVERSATION = ['In Conversation', 'Talked', 'All Set', 'Booked Appt'];
+    const KW_STALE_DAYS = 60;   // untouched this long -> off Keep working
+
+    // Keep working membership (Ryan + Lisa rules, 2026-06-05):
+    //  - last touch was No Answer / Follow-Up Needed / In Conversation
+    //  - fewer than 3 consecutive non-connects (three strikes -> rest 90d)
+    //  - last touch within 60 days (stale -> back to the normal pool)
+    function inKeepWorking(cid) {
+      const row = lastTouch[cid];
+      if (!row) return false;
+      if (KEEP_WORKING.indexOf(row.outcome) === -1) return false;
+      if ((strikes[cid] || 0) >= 3) return false;
+      return (Date.now() - new Date(row.at).getTime()) / 86400000 <= KW_STALE_DAYS;
+    }
+
+    function rebuildStrikes() {
+      strikes = {};
+      const byClient = {};
+      for (const r of allOutreach) {
+        if (!r.client_id) continue;
+        if (!byClient[r.client_id]) byClient[r.client_id] = [];
+        byClient[r.client_id].push(r);
+      }
+      for (const cid in byClient) {
+        byClient[cid].sort((a, b) => new Date(a.at) - new Date(b.at));
+        let s = 0;
+        for (const r of byClient[cid]) {
+          s = NON_CONNECT.indexOf(r.outcome) !== -1 ? s + 1 : 0;
+        }
+        strikes[cid] = s;
+      }
+    }
+
+    function timeAgo(iso) {
+      const t = new Date(iso);
+      if (isNaN(t)) return '';
+      const days = Math.floor((Date.now() - t.getTime()) / 86400000);
+      if (days <= 0) return 'today';
+      if (days === 1) return 'yesterday';
+      if (days < 30) return days + ' days ago';
+      const mo = Math.floor(days / 30);
+      return mo + ' month' + (mo === 1 ? '' : 's') + ' ago';
+    }
+
+    function badgeText(row) {
+      let txt = (CH_EMOJI[row.channel] || '') + ' ' + row.channel +
+                ' · ' + row.outcome + ' · ' + timeAgo(row.at);
+      if (row.associate && row.associate !== LOG_ASSOCIATE) txt += ' · by ' + row.associate;
+      return txt;
+    }
+
+    function renderTouches() {
+      for (const d of allDossiers) {
+        const badge = d.querySelector('.touch-badge');
+        if (!badge) continue;
+        const detail = d.querySelector('.last-touch-detail');
+        const row = d.dataset.cid ? lastTouch[d.dataset.cid] : null;
+        if (row) {
+          badge.textContent = badgeText(row);
+          badge.hidden = false;
+          const days = Math.floor((Date.now() - new Date(row.at).getTime()) / 86400000);
+          badge.classList.toggle('touch-stale', days > 30);
+          if (detail) detail.textContent = 'Last touch: ' + badgeText(row) +
+            (row.note ? ' — “' + row.note + '”' : '');
+        } else {
+          badge.hidden = true;
+          if (detail) detail.textContent = '';
+        }
+      }
+      const n = allDossiers.filter(d => d.dataset.cid && !lastTouch[d.dataset.cid]).length;
+      const nycCount = document.getElementById('nycCount');
+      if (nycCount) nycCount.textContent = n;
+      const kw = allDossiers.filter(d => d.dataset.cid && inKeepWorking(d.dataset.cid)).length;
+      const kwCount = document.getElementById('kwCount');
+      if (kwCount) kwCount.textContent = kw;
+    }
+
+    function startOfWeek(dt) {  // Monday
+      const d = new Date(dt);
+      const day = (d.getDay() + 6) % 7;
+      d.setHours(0, 0, 0, 0);
+      d.setDate(d.getDate() - day);
+      return d;
+    }
+
+    function renderStats() {
+      const band = document.getElementById('statsBand');
+      if (!band) return;  // leadership view — Phase 3 owns activity there
+      const now = new Date();
+      const mStart = new Date(now.getFullYear(), now.getMonth(), 1);
+      const wStart = startOfWeek(now);
+      const lwStart = new Date(wStart); lwStart.setDate(lwStart.getDate() - 7);
+      const between = (r, a, b) => { const t = new Date(r.at); return t >= a && (!b || t < b); };
+      const month = myRows.filter(r => between(r, mStart));
+      const week = myRows.filter(r => between(r, wStart));
+      const lastWeekN = myRows.filter(r => between(r, lwStart, wStart)).length;
+      const conv = month.filter(r => CONVERSATION.indexOf(r.outcome) !== -1).length;
+      const appts = month.filter(r => r.outcome === 'Booked Appt').length;
+      const fu = month.filter(r => r.outcome === 'Follow-Up Needed').length;
+      const s = (n) => n === 1 ? '' : 's';
+      document.getElementById('statsMonth').innerHTML =
+        'Your month so far: <b>' + month.length + '</b> outreach' + (month.length === 1 ? '' : 'es') +
+        ' · <b>' + conv + '</b> conversation' + s(conv) +
+        ' · <b>' + appts + '</b> appointment' + s(appts) + ' booked' +
+        (fu ? ' · <b>' + fu + '</b> follow-up' + s(fu) + ' flagged' : '');
+      document.getElementById('statsWeek').textContent =
+        'This week: ' + week.length + ' outreach' + (week.length === 1 ? '' : 'es') +
+        ' (last week: ' + lastWeekN + ')';
+
+      // Team leaderboard — ranked by outreaches this month, conversations shown.
+      // Friendly competition: everyone sees the same board on their own page.
+      const board = document.getElementById('statsBoard');
+      if (board) {
+        const byAssoc = {};
+        for (const r of allOutreach) {
+          if (!r.associate || !between(r, mStart)) continue;
+          if (!byAssoc[r.associate]) byAssoc[r.associate] = { n: 0, conv: 0 };
+          byAssoc[r.associate].n++;
+          if (CONVERSATION.indexOf(r.outcome) !== -1) byAssoc[r.associate].conv++;
+        }
+        const ranked = Object.keys(byAssoc)
+          .map(a => ({ a: a, n: byAssoc[a].n, conv: byAssoc[a].conv }))
+          .sort((x, y) => y.n - x.n || y.conv - x.conv);
+        if (ranked.length) {
+          board.innerHTML = '<span class="board-label">🏆 Team this month:</span> ' +
+            ranked.map((r, i) => {
+              const me = r.a === LOG_ASSOCIATE;
+              return '<span class="board-chip' + (me ? ' board-you' : '') + '">' +
+                (i + 1) + '. ' + (me ? 'You' : r.a) + ' <b>' + r.n + '</b>' +
+                ' <span class="board-conv">(' + r.conv + ' conv)</span></span>';
+            }).join(' ');
+          board.hidden = false;
+        } else {
+          board.hidden = true;
+        }
+      }
+      band.hidden = false;
+    }
+
+    // ---- Appointments recap — associate band + leadership board ----
+    // A Booked Appt log is the win worth seeing again: associates get their own
+    // recap list; leadership gets the store total + every name behind it.
+    let apptWindow = 'month';
+    function apptEsc(x) { return String(x == null ? '' : x).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]); }
+    function apptRows(assocOnly, win) {
+      const now = new Date();
+      const start = win === 'week' ? startOfWeek(now)
+        : new Date(now.getFullYear(), now.getMonth(), 1);
+      const byKey = {};
+      for (const r of (assocOnly ? myRows : allOutreach)) {
+        if (r.outcome !== 'Booked Appt') continue;
+        const t = new Date(r.at);
+        if (!(t >= start)) continue;
+        const k = (r.client_id || r.customer || '') + '|' + (assocOnly ? '' : (r.associate || ''));
+        if (!byKey[k] || t > new Date(byKey[k].at)) byKey[k] = r;
+      }
+      return Object.values(byKey).sort((a, b) => new Date(b.at) - new Date(a.at));
+    }
+    function apptRowHtml(r, withAssoc) {
+      const d = new Date(r.at);
+      return '<div class="appt-row">' +
+        '<span class="appt-date">' + (d.getMonth() + 1) + '/' + d.getDate() + '</span>' +
+        '<span class="appt-name">' + apptEsc(r.customer || r.client_id || 'Client') + '</span>' +
+        (withAssoc ? '<span class="appt-assoc">' + apptEsc(r.associate || '') + '</span>' : '') +
+        (r.event ? '<span class="appt-evt">\uD83C\uDF89 ' + apptEsc(r.event) + '</span>' : '') +
+        '</div>';
+    }
+    function renderApptsPanels() {
+      const band = document.getElementById('apptsBand');   // associate pages only
+      if (band) {
+        const winLabel = apptWindow === 'week' ? 'this week' : 'this month';
+        const list = apptRows(true, apptWindow);
+        document.getElementById('apptsCount').textContent = '\u2014 ' + list.length + ' ' + winLabel;
+        document.getElementById('apptsList').innerHTML = list.length
+          ? list.map(r => apptRowHtml(r, false)).join('')
+          : '<div class="appts-empty">No appointments logged ' + winLabel +
+            ' yet \u2014 they land here the moment you tap Booked Appt.</div>';
+        band.hidden = false;
+      }
+      const boardEl = document.getElementById('apptsBoard');  // leadership only
+      if (boardEl) {
+        const list = apptRows(false, actWindow);  // follows the activity toggle
+        const totalEl = document.getElementById('apptsTotal');
+        if (totalEl) totalEl.textContent = list.length +
+          (actWindow === 'week' ? ' this week' : ' this month');
+        boardEl.innerHTML = list.length
+          ? list.map(r => apptRowHtml(r, true)).join('')
+          : '<div class="appts-empty">No appointments logged in this window yet.</div>';
+      }
+    }
+    document.querySelectorAll('.awin-btn').forEach(b => b.addEventListener('click', () => {
+      document.querySelectorAll('.awin-btn').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      apptWindow = b.dataset.awin;
+      renderApptsPanels();
+    }));
+
+    // ---- offline queue (localStorage) — a tap is never lost ----
+    function getQueue() {
+      try { return JSON.parse(localStorage.getItem(QUEUE_KEY)) || []; }
+      catch (e) { return []; }
+    }
+    function setQueue(q) { localStorage.setItem(QUEUE_KEY, JSON.stringify(q)); }
+
+    async function postLog(payload) {
+      const resp = await fetch(WORKER_URL + '/outreach', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Book-Key': BOOK_KEY },
+        body: JSON.stringify(payload),
+      });
+      if (!resp.ok) throw new Error('post failed: ' + resp.status);
+    }
+
+    async function flushQueue() {
+      let q = getQueue();
+      while (q.length) {
+        try { await postLog(q[0]); q.shift(); setQueue(q); }
+        catch (e) { break; }  // still offline — try again later
+      }
+    }
+    window.addEventListener('online', flushQueue);
+
+    // ===== Phase 3 — Activity dashboard (leadership view only) =====
+    // Everything below no-ops on associate pages (no #activityBoard).
+    const ACT_ASSOCIATES = ['Vicky', 'Essence', 'Laura', 'Gigi', 'Danielle', 'Lisa'];
+    const ACT_SLUG = { Vicky: 'vicky', Essence: 'essence', Laura: 'laura',
+                       Gigi: 'gigi', Danielle: 'danielle', Lisa: 'lisa' };
+    let actWindow = 'month';
+    let actSel = null;
+
+    function actRange(win, offset) {  // offset 0 = current period, 1 = previous…
+      const now = new Date();
+      if (win === 'week') {
+        const s = startOfWeek(now); s.setDate(s.getDate() - 7 * offset);
+        const e = new Date(s); e.setDate(e.getDate() + 7);
+        return [s, e];
+      }
+      return [new Date(now.getFullYear(), now.getMonth() - offset, 1),
+              new Date(now.getFullYear(), now.getMonth() - offset + 1, 1)];
+    }
+    function inRange(r, s, e) { const t = new Date(r.at); return t >= s && t < e; }
+
+    function actStats(assoc, s, e) {
+      const rows = allOutreach.filter(r => r.associate === assoc && inRange(r, s, e));
+      const conv = rows.filter(r => CONVERSATION.indexOf(r.outcome) !== -1).length;
+      const appts = rows.filter(r => r.outcome === 'Booked Appt').length;
+      return { rows: rows, n: rows.length, conv: conv, appts: appts,
+               rate: rows.length ? Math.round(100 * appts / rows.length) : null };
+    }
+
+    function overdueFU(assoc) {
+      // Latest touch per client by this associate is a Follow-Up Needed
+      // that's now 7+ days old — the resurface window has passed unworked.
+      const lastBy = {};
+      for (const r of allOutreach) {
+        if (r.associate !== assoc || !r.client_id) continue;
+        const cur = lastBy[r.client_id];
+        if (!cur || new Date(r.at) > new Date(cur.at)) lastBy[r.client_id] = r;
+      }
+      const cutoff = Date.now() - 7 * 86400000;
+      return Object.keys(lastBy).filter(cid =>
+        lastBy[cid].outcome === 'Follow-Up Needed' &&
+        new Date(lastBy[cid].at).getTime() < cutoff).length;
+    }
+
+    function renderActivity() {
+      const board = document.getElementById('activityBoard');
+      if (!board) return;
+
+      // Summer Soiree — store-wide appt tracker (leadership only, event active).
+      const soireeEl = document.getElementById('soireeTracker');
+      if (soireeEl && SOIREE_ACTIVE) {
+        const SOIREE_GOAL = 49;
+        const seen = {};
+        for (const r of allOutreach) {
+          if (r.outcome === 'Booked Appt' && r.event === 'Summer Soiree' && r.client_id) seen[r.client_id] = 1;
+        }
+        const n = Object.keys(seen).length;
+        soireeEl.innerHTML = '🎉 <b>Summer Soiree</b> — <b>' + n + '</b> appointment' +
+          (n === 1 ? '' : 's') + ' booked <span class="soiree-goal">of ' + SOIREE_GOAL + ' goal</span>';
+        soireeEl.hidden = false;
+      }
+
+      const range = actRange(actWindow, 0);
+      const stats = ACT_ASSOCIATES
+        .map(a => Object.assign({ a: a, fu: overdueFU(a) }, actStats(a, range[0], range[1])))
+        .sort((x, y) => y.n - x.n || y.appts - x.appts);
+      board.innerHTML = stats.map(st =>
+        '<tr data-assoc="' + st.a + '"' + (actSel === st.a ? ' class="sel"' : '') + '>' +
+        '<th>' + st.a + '</th>' +
+        '<td class="num">' + st.n + '</td>' +
+        '<td class="num">' + st.conv + '</td>' +
+        '<td class="num">' + st.appts + '</td>' +
+        '<td class="num">' + (st.rate === null ? '\u2014' : st.rate + '%') + '</td>' +
+        '<td class="num">' + (st.fu || '\u2014') + '</td></tr>').join('');
+      board.querySelectorAll('tr').forEach(tr => tr.addEventListener('click', () => {
+        actSel = (actSel === tr.dataset.assoc) ? null : tr.dataset.assoc;
+        renderActivity();
+      }));
+      renderFlags();
+      renderMix(range[0], range[1]);
+      renderDrill(range[0], range[1]);
+      renderTrend();
+    }
+
+    // Outreach mix matrix — which parts of the book each associate is
+    // working. Two lenses on the same rows (Ryan 2026-06-10):
+    //   customer type = the segment stamped on each log row (who they called)
+    //   play          = the auto-stamped reason it surfaced (why they called)
+    let actMixDim = 'segment';
+    const MIX_DIMS = {
+      segment: [['Top Customers', 'VIPs'], ['Growing', 'Growing'],
+                ['One & Done', 'New / One & Done'], ['Lapsed High Value', 'Lapsed'],
+                ['Wedding Band Opportunity', 'Wedding Band'], ['Cold', 'Cold']],
+      play:    [['Summer Soiree', 'Summer Soiree'], ['Wedding Band', 'Wedding Band'], ['Life Event', 'Bday / Anniv'],
+                ['Purchase Follow-Up', 'Recent buy'], ['Win-Back', 'Win-Back'],
+                ['General', 'General']],
+    };
+
+    function renderMix(s, e) {
+      const head = document.getElementById('mixHead');
+      const body = document.getElementById('mixBoard');
+      if (!head || !body) return;
+      const dims = MIX_DIMS[actMixDim];
+      head.innerHTML = '<tr><th>Associate</th>' +
+        dims.map(d => '<th class="num">' + d[1] + '</th>').join('') +
+        '<th class="num">Other</th><th class="num total">Total</th></tr>';
+      body.innerHTML = ACT_ASSOCIATES.map(a => {
+        const rows = allOutreach.filter(r => r.associate === a && inRange(r, s, e));
+        const c = {};
+        let other = 0;
+        for (const r of rows) {
+          const v = r[actMixDim] || '';
+          if (dims.some(d => d[0] === v)) c[v] = (c[v] || 0) + 1;
+          else other++;
+        }
+        const cells = dims.map(d => {
+          const n = c[d[0]] || 0;
+          return '<td class="num' + (n ? '' : ' zero') + '">' + (n || '\u00b7') + '</td>';
+        }).join('');
+        return '<tr><th>' + a + '</th>' + cells +
+          '<td class="num' + (other ? '' : ' zero') + '">' + (other || '\u00b7') + '</td>' +
+          '<td class="num total">' + rows.length + '</td></tr>';
+      }).join('');
+    }
+
+    document.querySelectorAll('.mix-btn').forEach(b => b.addEventListener('click', () => {
+      document.querySelectorAll('.mix-btn').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      actMixDim = b.dataset.dim;
+      const range = actRange(actWindow, 0);
+      renderMix(range[0], range[1]);
+    }));
+
+    function renderFlags() {
+      const el = document.getElementById('activityFlags');
+      if (!el) return;
+      const flags = [];
+      const cur = actRange('month', 0), prev = actRange('month', 1);
+      for (const a of ACT_ASSOCIATES) {
+        // Top Customers in their shown book with no touch (anyone) in 60+ days
+        const tops = allDossiers.filter(d =>
+          d.dataset.associate === ACT_SLUG[a] && d.dataset.seg === 'Top Customers');
+        const cold = tops.filter(d => {
+          const t = lastTouch[d.dataset.cid];
+          return !t || (Date.now() - new Date(t.at).getTime()) > 60 * 86400000;
+        }).length;
+        if (cold >= 5) flags.push('<b>' + a + '</b>: ' + cold +
+          ' Top Customers with no touch in 60+ days.');
+        const c = actStats(a, cur[0], cur[1]), p = actStats(a, prev[0], prev[1]);
+        if (c.n === 0) {
+          flags.push('<b>' + a + '</b>: no logged outreach this month.');
+        } else if (p.n >= 10 && c.n >= 10 && p.rate && c.rate !== null &&
+                   c.rate <= p.rate * 0.75) {
+          flags.push('<b>' + a + '</b>: conversion down from ' + p.rate +
+            '% to ' + c.rate + '% month over month.');
+        }
+      }
+      if (flags.length) {
+        el.innerHTML = '<div class="drill-h">Worth a conversation</div>' +
+          flags.map(f => '<div class="flag">\u2022 ' + f + '</div>').join('');
+        el.hidden = false;
+      } else { el.hidden = true; }
+    }
+
+    function renderDrill(s, e) {
+      const el = document.getElementById('activityDrill');
+      if (!el) return;
+      if (!actSel) { el.hidden = true; return; }
+      const st = actStats(actSel, s, e);
+      const touched = {};
+      for (const r of st.rows) if (r.client_id) touched[r.client_id] = true;
+      // DOM is fit-score order per book -> first 100 = their top 100
+      const top100 = allDossiers.filter(d =>
+        d.dataset.associate === ACT_SLUG[actSel]).slice(0, 100);
+      const covered = top100.filter(d => touched[d.dataset.cid]).length;
+      const mix = (key) => {
+        const c = {};
+        for (const r of st.rows) { const v = r[key] || '\u2014'; c[v] = (c[v] || 0) + 1; }
+        const keys = Object.keys(c).sort((x, y) => c[y] - c[x]);
+        return keys.length
+          ? keys.map(k => '<span class="mix-chip">' + k + ' <b>' + c[k] + '</b></span>').join('')
+          : '<span class="mix-chip">none yet</span>';
+      };
+      const timeline = st.rows.slice()
+        .sort((x, y) => new Date(y.at) - new Date(x.at)).slice(0, 12)
+        .map(r => {
+          const d = new Date(r.at);
+          return '<div class="drill-row">' + (d.getMonth() + 1) + '/' + d.getDate() +
+            ' \u2014 <b>' + (r.customer || r.client_id || '?') + '</b> \u00b7 ' +
+            (CH_EMOJI[r.channel] || '') + ' ' + r.channel + ' \u00b7 ' + r.outcome + '</div>';
+        }).join('') || '<div class="drill-row">No outreach in this window.</div>';
+      const winLabel = actWindow === 'week' ? 'this week' : 'this month';
+      el.innerHTML =
+        '<div class="drill-h">' + actSel + ' \u2014 drill-down (' + winLabel + ')</div>' +
+        '<div class="drill-cols">' +
+          '<div class="drill-col"><div class="drill-h">Latest outreach</div>' + timeline + '</div>' +
+          '<div class="drill-col">' +
+            '<div class="drill-h">Top-100 coverage</div>' +
+            '<div class="drill-big">' + covered + '<small> of their top 100 touched ' + winLabel + '</small></div>' +
+            '<div class="drill-h" style="margin-top:14px">Play mix</div>' + mix('play') +
+            '<div class="drill-h" style="margin-top:14px">Segments worked</div>' + mix('segment') +
+          '</div>' +
+        '</div>';
+      el.hidden = false;
+    }
+
+    function renderTrend() {
+      const el = document.getElementById('activityTrend');
+      if (!el) return;
+      const weeks = [];
+      for (let i = 7; i >= 0; i--) {
+        const r = actRange('week', i);
+        const rows = allOutreach.filter(x => inRange(x, r[0], r[1]));
+        const appts = rows.filter(x => x.outcome === 'Booked Appt').length;
+        weeks.push({ s: r[0], n: rows.length,
+                     rate: rows.length ? Math.round(100 * appts / rows.length) : null });
+      }
+      const max = Math.max(1, ...weeks.map(w => w.n));
+      el.innerHTML = weeks.map(w =>
+        '<div class="trend-col">' +
+        '<div class="trend-bar" style="height:' + Math.max(3, Math.round(64 * w.n / max)) + 'px"></div>' +
+        '<b>' + w.n + '</b><br>' + (w.rate === null ? '\u00b7' : w.rate + '%') +
+        '<br>' + (w.s.getMonth() + 1) + '/' + w.s.getDate() + '</div>').join('');
+    }
+
+    document.querySelectorAll('.win-btn').forEach(b => b.addEventListener('click', () => {
+      document.querySelectorAll('.win-btn').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      actWindow = b.dataset.win;
+      renderActivity(); renderApptsPanels();
+    }));
+
+    async function fetchOutreach() {
+      try {
+        const resp = await fetch(WORKER_URL + '/outreach', {
+          headers: { 'X-Book-Key': BOOK_KEY },
+        });
+        if (!resp.ok) throw new Error('read failed: ' + resp.status);
+        const data = await resp.json();
+        lastTouch = {}; myRows = []; allOutreach = data.outreach || [];
+        for (const r of allOutreach) {
+          if (r.client_id) {
+            const cur = lastTouch[r.client_id];
+            if (!cur || new Date(r.at) > new Date(cur.at)) lastTouch[r.client_id] = r;
+          }
+          if (r.associate === LOG_ASSOCIATE) myRows.push(r);
+        }
+        rebuildStrikes();
+        renderTouches(); renderStats(); renderActivity(); renderApptsPanels(); apply();
+      } catch (e) {
+        // offline or Worker unreachable — The Book still works read-only
+      }
+    }
+
+    // ---- the 3-tap log panel (built on demand, one at a time) ----
+    function closeLogPanel() {
+      const p = document.querySelector('.log-panel');
+      if (p) {
+        const sect = p.closest('.log-section');
+        if (sect) sect.querySelector('.log-btn').hidden = false;
+        p.remove();
+      }
+    }
+
+    function chipRow(label, items, key) {
+      return '<div class="log-step"><span class="log-step-label">' + label + '</span>' +
+        items.map(v => '<button type="button" class="log-chip" data-' + key + '="' +
+                       v + '">' + (key === 'ch' ? (CH_EMOJI[v] || '') + ' ' : '') + v + '</button>').join('') +
+        '</div>';
+    }
+
+    function openLogPanel(dossier) {
+      closeLogPanel();
+      const sect = dossier.querySelector('.log-section');
+      if (!sect || !dossier.dataset.cid) return;
+      sect.querySelector('.log-btn').hidden = true;
+      const panel = document.createElement('div');
+      panel.className = 'log-panel';
+      panel.innerHTML =
+        chipRow('Tap 1 — how?', CHANNELS, 'ch') +
+        '<div class="log-step log-outcomes" hidden>' +
+          '<span class="log-step-label">Tap 2 — what happened? (tapping saves)</span>' +
+          OUTCOMES.map(v => '<button type="button" class="log-chip" data-out="' + v + '">' + v + '</button>').join('') +
+          '<input class="log-note" type="text" maxlength="200" placeholder="Optional note — never blocks the save">' +
+        '</div>' +
+        '<button type="button" class="log-cancel">Cancel</button>';
+      sect.appendChild(panel);
+    }
+
+    function handleChip(chip) {
+      const panel = chip.closest('.log-panel');
+      if (!panel) return;
+      if (chip.dataset.ch) {
+        panel.querySelectorAll('[data-ch]').forEach(c => c.classList.remove('selected'));
+        chip.classList.add('selected');
+        panel.dataset.channel = chip.dataset.ch;
+        panel.querySelector('.log-outcomes').hidden = false;
+      } else if (chip.dataset.out) {
+        // Summer Soiree: a Booked Appt must say whether it's FOR the event.
+        if (chip.dataset.out === 'Booked Appt' && SOIREE_ACTIVE) {
+          showEventStep(panel, chip);
+        } else {
+          saveLog(panel, chip.dataset.out, '');
+        }
+      } else if (chip.dataset.evt !== undefined) {
+        saveLog(panel, 'Booked Appt', chip.dataset.evt);
+      }
+    }
+
+    // Soiree sub-step: shown only after Booked Appt while the event is live.
+    function showEventStep(panel, apptChip) {
+      panel.querySelectorAll('[data-out]').forEach(c => c.classList.remove('selected'));
+      apptChip.classList.add('selected');
+      if (panel.querySelector('.log-event')) return;
+      const dossier = panel.closest('.dossier');
+      const flagged = dossier && dossier.dataset.soiree === '1';
+      const step = document.createElement('div');
+      step.className = 'log-step log-event';
+      step.innerHTML =
+        '<span class="log-step-label">Is this appointment for the Summer Soiree?</span>' +
+        '<button type="button" class="log-chip evt-soiree' + (flagged ? ' selected' : '') +
+          '" data-evt="Summer Soiree">🎉 Yes — Summer Soiree</button>' +
+        '<button type="button" class="log-chip" data-evt="">No — regular appt</button>';
+      panel.querySelector('.log-outcomes').appendChild(step);
+    }
+
+    // Auto-stamped outreach type ("Play") — derived from why the dossier
+    // surfaced, zero extra taps. First match wins (Ryan 2026-06-05).
+    function derivePlay(d) {
+      if (d.dataset.soiree === '1') return 'Summer Soiree';
+      if (d.dataset.bridal === '1') return 'Wedding Band';
+      if (parseInt(d.dataset.daysBday) <= 60 || parseInt(d.dataset.daysAnniv) <= 60) return 'Life Event';
+      if (d.dataset.rsf === '1') return 'Purchase Follow-Up';
+      if (d.dataset.seg === 'Lapsed High Value') return 'Win-Back';
+      return 'General';
+    }
+
+    function saveLog(panel, outcome, event) {
+      const sect = panel.closest('.log-section');
+      const dossier = panel.closest('.dossier');
+      const channel = panel.dataset.channel;
+      if (!channel) return;
+      const note = (panel.querySelector('.log-note').value || '').trim();
+      const payload = {
+        client_id: dossier.dataset.cid,
+        customer: dossier.dataset.fullname || '',
+        associate: LOG_ASSOCIATE,
+        channel: channel,
+        outcome: outcome,
+        note: note,
+        segment: dossier.dataset.seg || '',
+        book: dossier.dataset.book || LOG_ASSOCIATE,
+        play: derivePlay(dossier),
+        event: event || '',
+      };
+
+      // Optimistic: the badge appears instantly, the save happens behind it.
+      const optimistic = Object.assign({ at: new Date().toISOString() }, payload);
+      const cur = lastTouch[payload.client_id];
+      if (!cur || new Date(optimistic.at) > new Date(cur.at)) lastTouch[payload.client_id] = optimistic;
+      myRows.push(optimistic);
+      allOutreach.push(optimistic);
+      strikes[payload.client_id] = NON_CONNECT.indexOf(outcome) !== -1
+        ? (strikes[payload.client_id] || 0) + 1 : 0;
+      renderTouches(); renderStats(); renderApptsPanels();
+
+      panel.remove();
+      const confirmEl = document.createElement('span');
+      confirmEl.className = 'log-confirm';
+      confirmEl.textContent = '✓ Logged — ' + channel + ' · ' + outcome +
+        (payload.event ? ' · ' + payload.event : '') + ' · ' + payload.play + ' play';
+      sect.appendChild(confirmEl);
+      sect.querySelector('.log-btn').hidden = false;
+
+      postLog(payload).catch(() => {
+        const q = getQueue(); q.push(payload); setQueue(q);
+        confirmEl.textContent = '✓ Saved offline — will sync when back online';
+        confirmEl.classList.add('log-queued');
+      });
+      setTimeout(() => confirmEl.remove(), 6000);
+    }
+
+    dossierContainer.addEventListener('click', (e) => {
+      const logBtn = e.target.closest('.log-btn');
+      if (logBtn) { e.preventDefault(); openLogPanel(logBtn.closest('.dossier')); return; }
+      const chip = e.target.closest('.log-chip');
+      if (chip) { e.preventDefault(); handleChip(chip); return; }
+      if (e.target.closest('.log-cancel')) { e.preventDefault(); closeLogPanel(); }
+    });
+
+    // Boot: send anything queued from a past offline session, then load history.
+    flushQueue().then(fetchOutreach);
+
+    apply();
+  </script>
+</body>
+</html>
