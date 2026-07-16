@@ -194,6 +194,31 @@
       padding: 1px 8px; font-size: 11px; font-weight: 700; }
     .appts-empty { color: var(--muted); font-style: italic; font-size: 13px; padding: 6px 0; }
     .appts-note { margin-top: 6px; font-size: 11.5px; color: var(--muted); font-style: italic; }
+    /* Appointment cancel (2026-07-15) + per-associate totals strip */
+    .appts-byassoc { margin: 8px 0 4px; display: flex; flex-wrap: wrap; gap: 8px; }
+    .appt-total-chip { background: white; border: 1px solid var(--cream-dark);
+      border-radius: 12px; padding: 3px 10px; font-size: 12.5px; }
+    .appt-total-chip b { color: var(--burgundy); }
+    .appt-row.appt-cancelled .appt-name { text-decoration: line-through;
+      color: var(--muted); font-weight: 400; }
+    .appt-row.appt-cancelled .appt-evt { opacity: 0.45; }
+    .appt-cx { margin-left: auto; color: var(--muted); font-size: 10.5px;
+      text-transform: uppercase; letter-spacing: 1px;
+      border: 1px solid var(--cream-dark); border-radius: 10px; padding: 1px 8px; }
+    .appt-x { margin-left: auto; background: none; border: 1px solid var(--cream-dark);
+      color: var(--muted); border-radius: 50%; width: 26px; height: 26px;
+      line-height: 1; cursor: pointer; font-size: 13px; flex-shrink: 0; }
+    .appt-x:hover { color: var(--burgundy); border-color: var(--burgundy); }
+    .appt-confirm { margin-left: auto; font-size: 12.5px; color: var(--ink);
+      display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+    .appt-confirm button { font-family: inherit; font-size: 12px; padding: 3px 10px;
+      cursor: pointer; border-radius: 2px; }
+    .appt-yes { background: var(--burgundy); color: var(--cream); border: 1px solid var(--burgundy); }
+    .appt-no { background: white; border: 1px solid var(--cream-dark); color: var(--ink); }
+    .soiree-per { display: block; margin-top: 7px; font-size: 13px; font-weight: 400; }
+    .soiree-chip { display: inline-block; background: rgba(255,255,255,0.55);
+      border-radius: 10px; padding: 2px 9px; margin: 2px 6px 0 0; }
+    .soiree-of { color: var(--muted); }
     .activity-mix-head { display: flex; justify-content: space-between; align-items: baseline;
       flex-wrap: wrap; gap: 8px; margin-top: 18px; margin-bottom: 8px; }
     .activity-mix-head .activity-trend-title { margin-top: 0; }
@@ -585,6 +610,8 @@
       .picker-btn { padding: 9px 16px; font-size: 14px; }
       .log-chip { padding: 10px 16px; font-size: 14.5px; }
       .log-btn { padding: 10px 18px; font-size: 14px; }
+      .appt-x { width: 38px; height: 38px; font-size: 16px; }
+      .appt-confirm button { padding: 8px 14px; font-size: 13.5px; }
       .dossier-summary { padding: 16px 18px; }
       button, .dossier-summary { -webkit-tap-highlight-color: rgba(107,29,42,0.12); }
     }
@@ -619,7 +646,7 @@
       <div class="eyebrow">The Book</div>
       <h1>Danielle's clienteling intelligence</h1>
       <div class="subtitle">Opportunities to create — prioritized by who needs you today.</div>
-      <div class="data-stamp">Data as of July 13, 2026 · Showing top 0 of 0 eligible clients</div>
+      <div class="data-stamp">Data as of July 15, 2026 · Showing top 0 of 0 eligible clients</div>
     </div>
   </header>
 
@@ -648,7 +675,7 @@
         </span>
       </div>
       <div id="apptsList" class="appts-list"></div>
-      <div class="appts-note">The appointment itself still gets booked in ClientBook &#8212; this is the recap of what you&#8217;ve logged.</div>
+      <div class="appts-note">The appointment itself still gets booked in ClientBook &#8212; this is the recap of what you&#8217;ve logged. Plans change? Tap &#10005; to mark one cancelled.</div>
     </div>
   </div>
 
@@ -700,7 +727,7 @@
 
 
   <footer>
-    The Book — Phase 2 (outreach logging) · Internal use only · Generated 2026-07-13
+    The Book — Phase 2 (outreach logging) · Internal use only · Generated 2026-07-15
   </footer>
 
   <script>
@@ -1066,6 +1093,43 @@
     const CONVERSATION = ['In Conversation', 'Talked', 'All Set', 'Booked Appt'];
     const KW_STALE_DAYS = 60;   // untouched this long -> off Keep working
 
+    // ---- Appointment cancellation (Ryan 2026-07-15) ----
+    // Plans change: tapping ✕ on a recap row appends an 'Appt Cancelled' log
+    // (append-only — the history survives for event recaps) and every count
+    // nets it out. Latest appt-status row per client wins. A cancelled client
+    // does NOT resurface on the call list (rests like any 30d touch) and
+    // cancel rows never count as outreach/conversations.
+    const APPT_SET = ['Booked Appt', 'Appt Cancelled'];
+    function isCancelRow(r) { return r.outcome === 'Appt Cancelled'; }
+    // Per-associate Soiree appt goals (playbooks 2026-06-30; 49 total).
+    // Retires with the Soiree layer after Jul 23. Danielle un-goaled.
+    const SOIREE_GOALS = {'Vicky': 14, 'Essence': 14, 'Gigi': 9, 'Laura': 6, 'Lisa': 6};
+
+    // Latest appt-status row (Booked Appt / Appt Cancelled) per key —
+    // scanned over ALL rows so a cancel outside the window still nets out.
+    function apptStatusMap(rows, withAssoc) {
+      const m = {};
+      for (const r of rows) {
+        if (APPT_SET.indexOf(r.outcome) === -1) continue;
+        const k = (r.client_id || r.customer || '') + '|' + (withAssoc ? (r.associate || '') : '');
+        if (!m[k] || new Date(r.at) > new Date(m[k].at)) m[k] = r;
+      }
+      return m;
+    }
+    // Active (not-cancelled) appointments booked in [s, e), deduped by client.
+    function netAppts(rows, s, e, withAssoc) {
+      const status = apptStatusMap(rows, withAssoc);
+      const byKey = {};
+      for (const r of rows) {
+        if (r.outcome !== 'Booked Appt') continue;
+        const t = new Date(r.at);
+        if (!(t >= s) || (e && !(t < e))) continue;
+        const k = (r.client_id || r.customer || '') + '|' + (withAssoc ? (r.associate || '') : '');
+        if (!byKey[k] || t > new Date(byKey[k].at)) byKey[k] = r;
+      }
+      return Object.keys(byKey).filter(k => status[k].outcome === 'Booked Appt').length;
+    }
+
     // Keep working membership (Ryan + Lisa rules, 2026-06-05):
     //  - last touch was No Answer / Follow-Up Needed / In Conversation
     //  - fewer than 3 consecutive non-connects (three strikes -> rest 90d)
@@ -1156,11 +1220,12 @@
       const wStart = startOfWeek(now);
       const lwStart = new Date(wStart); lwStart.setDate(lwStart.getDate() - 7);
       const between = (r, a, b) => { const t = new Date(r.at); return t >= a && (!b || t < b); };
-      const month = myRows.filter(r => between(r, mStart));
-      const week = myRows.filter(r => between(r, wStart));
-      const lastWeekN = myRows.filter(r => between(r, lwStart, wStart)).length;
+      // Cancel rows are bookkeeping, not outreach — they never count as touches.
+      const month = myRows.filter(r => between(r, mStart) && !isCancelRow(r));
+      const week = myRows.filter(r => between(r, wStart) && !isCancelRow(r));
+      const lastWeekN = myRows.filter(r => between(r, lwStart, wStart) && !isCancelRow(r)).length;
       const conv = month.filter(r => CONVERSATION.indexOf(r.outcome) !== -1).length;
-      const appts = month.filter(r => r.outcome === 'Booked Appt').length;
+      const appts = netAppts(myRows, mStart, null, false);
       const fu = month.filter(r => r.outcome === 'Follow-Up Needed').length;
       const s = (n) => n === 1 ? '' : 's';
       document.getElementById('statsMonth').innerHTML =
@@ -1178,7 +1243,7 @@
       if (board) {
         const byAssoc = {};
         for (const r of allOutreach) {
-          if (!r.associate || !between(r, mStart)) continue;
+          if (!r.associate || !between(r, mStart) || isCancelRow(r)) continue;
           if (!byAssoc[r.associate]) byAssoc[r.associate] = { n: 0, conv: 0 };
           byAssoc[r.associate].n++;
           if (CONVERSATION.indexOf(r.outcome) !== -1) byAssoc[r.associate].conv++;
@@ -1206,36 +1271,56 @@
     // A Booked Appt log is the win worth seeing again: associates get their own
     // recap list; leadership gets the store total + every name behind it.
     let apptWindow = 'month';
+    let apptRowIndex = {};   // row key -> latest booked row (feeds cancelAppt)
     function apptEsc(x) { return String(x == null ? '' : x).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]); }
     function apptRows(assocOnly, win) {
       const now = new Date();
       const start = win === 'week' ? startOfWeek(now)
         : new Date(now.getFullYear(), now.getMonth(), 1);
+      const src = assocOnly ? myRows : allOutreach;
+      const status = apptStatusMap(src, !assocOnly);
       const byKey = {};
-      for (const r of (assocOnly ? myRows : allOutreach)) {
+      for (const r of src) {
         if (r.outcome !== 'Booked Appt') continue;
         const t = new Date(r.at);
         if (!(t >= start)) continue;
         const k = (r.client_id || r.customer || '') + '|' + (assocOnly ? '' : (r.associate || ''));
         if (!byKey[k] || t > new Date(byKey[k].at)) byKey[k] = r;
       }
-      return Object.values(byKey).sort((a, b) => new Date(b.at) - new Date(a.at));
+      return Object.keys(byKey).map(k => {
+        const r = Object.assign({}, byKey[k]);
+        r._k = k;
+        r._cancelled = status[k] && status[k].outcome === 'Appt Cancelled';
+        return r;
+      }).sort((a, b) => new Date(b.at) - new Date(a.at));
     }
     function apptRowHtml(r, withAssoc) {
       const d = new Date(r.at);
-      return '<div class="appt-row">' +
+      return '<div class="appt-row' + (r._cancelled ? ' appt-cancelled' : '') +
+        '" data-k="' + apptEsc(r._k || '') + '">' +
         '<span class="appt-date">' + (d.getMonth() + 1) + '/' + d.getDate() + '</span>' +
         '<span class="appt-name">' + apptEsc(r.customer || r.client_id || 'Client') + '</span>' +
         (withAssoc ? '<span class="appt-assoc">' + apptEsc(r.associate || '') + '</span>' : '') +
         (r.event ? '<span class="appt-evt">\uD83C\uDF89 ' + apptEsc(r.event) + '</span>' : '') +
+        (r._cancelled
+          ? '<span class="appt-cx">Cancelled</span>'
+          : '<button type="button" class="appt-x" aria-label="Mark this appointment cancelled">\u2715</button>') +
         '</div>';
     }
+    function apptCounts(list) {
+      const active = list.filter(r => !r._cancelled).length;
+      return { active: active, cx: list.length - active };
+    }
     function renderApptsPanels() {
+      apptRowIndex = {};
       const band = document.getElementById('apptsBand');   // associate pages only
       if (band) {
         const winLabel = apptWindow === 'week' ? 'this week' : 'this month';
         const list = apptRows(true, apptWindow);
-        document.getElementById('apptsCount').textContent = '\u2014 ' + list.length + ' ' + winLabel;
+        for (const r of list) apptRowIndex[r._k] = r;
+        const c = apptCounts(list);
+        document.getElementById('apptsCount').textContent = '\u2014 ' + c.active + ' ' + winLabel +
+          (c.cx ? ' \u00B7 ' + c.cx + ' cancelled' : '');
         document.getElementById('apptsList').innerHTML = list.length
           ? list.map(r => apptRowHtml(r, false)).join('')
           : '<div class="appts-empty">No appointments logged ' + winLabel +
@@ -1245,14 +1330,89 @@
       const boardEl = document.getElementById('apptsBoard');  // leadership only
       if (boardEl) {
         const list = apptRows(false, actWindow);  // follows the activity toggle
+        for (const r of list) apptRowIndex[r._k] = r;
+        const c = apptCounts(list);
         const totalEl = document.getElementById('apptsTotal');
-        if (totalEl) totalEl.textContent = list.length +
-          (actWindow === 'week' ? ' this week' : ' this month');
+        if (totalEl) totalEl.textContent = c.active +
+          (actWindow === 'week' ? ' this week' : ' this month') +
+          (c.cx ? ' \u00B7 ' + c.cx + ' cancelled' : '');
+        // Per-associate totals strip \u2014 the clean at-a-glance count Lisa asked
+        // for (2026-07-15). Zeros shown on purpose: a zero is the story.
+        const strip = document.getElementById('apptsByAssoc');
+        if (strip) {
+          const per = {};
+          for (const r of list) if (!r._cancelled) per[r.associate || '?'] = (per[r.associate || '?'] || 0) + 1;
+          const names = ACT_ASSOCIATES.slice()
+            .sort((a, b) => (per[b] || 0) - (per[a] || 0));
+          strip.innerHTML = names.map(a =>
+            '<span class="appt-total-chip">' + apptEsc(a) + ' <b>' + (per[a] || 0) + '</b></span>').join('');
+          strip.hidden = false;
+        }
         boardEl.innerHTML = list.length
           ? list.map(r => apptRowHtml(r, true)).join('')
           : '<div class="appts-empty">No appointments logged in this window yet.</div>';
       }
     }
+
+    // ---- cancel flow: \u2715 -> inline confirm -> append 'Appt Cancelled' ----
+    function cancelAppt(r) {
+      const payload = {
+        client_id: r.client_id || r.customer || 'unknown',
+        customer: r.customer || '',
+        associate: r.associate || LOG_ASSOCIATE,   // nets against the booker
+        channel: r.channel || 'Note Sent',
+        outcome: 'Appt Cancelled',
+        note: 'Cancelled from the recap' +
+          (LOG_ASSOCIATE !== (r.associate || LOG_ASSOCIATE) ? ' by ' + LOG_ASSOCIATE : ''),
+        segment: r.segment || '',
+        book: r.book || '',
+        play: r.play || '',
+        event: r.event || '',
+      };
+      const optimistic = Object.assign({ at: new Date().toISOString() }, payload);
+      allOutreach.push(optimistic);
+      if (payload.associate === LOG_ASSOCIATE) myRows.push(optimistic);
+      if (r.client_id) {
+        const cur = lastTouch[r.client_id];
+        if (!cur || new Date(optimistic.at) > new Date(cur.at)) lastTouch[r.client_id] = optimistic;
+      }
+      renderTouches(); renderStats(); renderActivity(); renderApptsPanels();
+      postLog(payload).catch(() => {
+        const q = getQueue(); q.push(payload); setQueue(q);
+      });
+    }
+    function handleApptClick(e) {
+      const x = e.target.closest('.appt-x');
+      if (x) {
+        const row = x.closest('.appt-row');
+        if (!row || row.querySelector('.appt-confirm')) return;
+        x.hidden = true;
+        const c = document.createElement('span');
+        c.className = 'appt-confirm';
+        c.innerHTML = 'Mark cancelled? ' +
+          '<button type="button" class="appt-yes">Yes, cancel it</button>' +
+          '<button type="button" class="appt-no">Keep</button>';
+        row.appendChild(c);
+        return;
+      }
+      if (e.target.closest('.appt-no')) {
+        const row = e.target.closest('.appt-row');
+        const conf = row && row.querySelector('.appt-confirm');
+        if (conf) conf.remove();
+        const xb = row && row.querySelector('.appt-x');
+        if (xb) xb.hidden = false;
+        return;
+      }
+      if (e.target.closest('.appt-yes')) {
+        const row = e.target.closest('.appt-row');
+        const r = row && apptRowIndex[row.dataset.k];
+        if (r && !r._cancelled) cancelAppt(r);
+      }
+    }
+    ['apptsList', 'apptsBoard'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('click', handleApptClick);
+    });
     document.querySelectorAll('.awin-btn').forEach(b => b.addEventListener('click', () => {
       document.querySelectorAll('.awin-btn').forEach(x => x.classList.remove('active'));
       b.classList.add('active');
@@ -1306,9 +1466,11 @@
     function inRange(r, s, e) { const t = new Date(r.at); return t >= s && t < e; }
 
     function actStats(assoc, s, e) {
-      const rows = allOutreach.filter(r => r.associate === assoc && inRange(r, s, e));
+      const assocRows = allOutreach.filter(r => r.associate === assoc);
+      const rows = assocRows.filter(r => inRange(r, s, e) && !isCancelRow(r));
       const conv = rows.filter(r => CONVERSATION.indexOf(r.outcome) !== -1).length;
-      const appts = rows.filter(r => r.outcome === 'Booked Appt').length;
+      // Net of cancellations, deduped by client — matches the recap list.
+      const appts = netAppts(assocRows, s, e, false);
       return { rows: rows, n: rows.length, conv: conv, appts: appts,
                rate: rows.length ? Math.round(100 * appts / rows.length) : null };
     }
@@ -1336,13 +1498,24 @@
       const soireeEl = document.getElementById('soireeTracker');
       if (soireeEl && SOIREE_ACTIVE) {
         const SOIREE_GOAL = 49;
-        const seen = {};
+        // Latest Soiree appt-status row per client wins — cancellations net out.
+        const last = {};
         for (const r of allOutreach) {
-          if (r.outcome === 'Booked Appt' && r.event === 'Summer Soiree' && r.client_id) seen[r.client_id] = 1;
+          if (APPT_SET.indexOf(r.outcome) === -1 || r.event !== 'Summer Soiree' || !r.client_id) continue;
+          if (!last[r.client_id] || new Date(r.at) > new Date(last[r.client_id].at)) last[r.client_id] = r;
         }
-        const n = Object.keys(seen).length;
+        const act = Object.keys(last).map(k => last[k]).filter(r => r.outcome === 'Booked Appt');
+        const n = act.length;
+        const per = {};
+        for (const r of act) per[r.associate || '?'] = (per[r.associate || '?'] || 0) + 1;
+        const chips = ACT_ASSOCIATES.filter(a => per[a] || SOIREE_GOALS[a])
+          .sort((a, b) => (per[b] || 0) - (per[a] || 0))
+          .map(a => '<span class="soiree-chip">' + a + ' <b>' + (per[a] || 0) + '</b>' +
+            (SOIREE_GOALS[a] ? '<span class="soiree-of">/' + SOIREE_GOALS[a] + '</span>' : '') +
+            '</span>').join('');
         soireeEl.innerHTML = '🎉 <b>Summer Soiree</b> — <b>' + n + '</b> appointment' +
-          (n === 1 ? '' : 's') + ' booked <span class="soiree-goal">of ' + SOIREE_GOAL + ' goal</span>';
+          (n === 1 ? '' : 's') + ' booked <span class="soiree-goal">of ' + SOIREE_GOAL + ' goal</span>' +
+          (chips ? '<span class="soiree-per">' + chips + '</span>' : '');
         soireeEl.hidden = false;
       }
 
@@ -1391,7 +1564,7 @@
         dims.map(d => '<th class="num">' + d[1] + '</th>').join('') +
         '<th class="num">Other</th><th class="num total">Total</th></tr>';
       body.innerHTML = ACT_ASSOCIATES.map(a => {
-        const rows = allOutreach.filter(r => r.associate === a && inRange(r, s, e));
+        const rows = allOutreach.filter(r => r.associate === a && inRange(r, s, e) && !isCancelRow(r));
         const c = {};
         let other = 0;
         for (const r of rows) {
@@ -1496,8 +1669,8 @@
       const weeks = [];
       for (let i = 7; i >= 0; i--) {
         const r = actRange('week', i);
-        const rows = allOutreach.filter(x => inRange(x, r[0], r[1]));
-        const appts = rows.filter(x => x.outcome === 'Booked Appt').length;
+        const rows = allOutreach.filter(x => inRange(x, r[0], r[1]) && !isCancelRow(x));
+        const appts = netAppts(allOutreach, r[0], r[1], true);
         weeks.push({ s: r[0], n: rows.length,
                      rate: rows.length ? Math.round(100 * appts / rows.length) : null });
       }
