@@ -79,16 +79,20 @@
           <div class="card-name">Danielle Devino</div>
           <div class="card-sub">Personal clienteling book</div>
         </a>
+        <a class="book-card" href="sabrina/">
+          <div class="card-name">Sabrina Guardascione</div>
+          <div class="card-sub">Personal clienteling book</div>
+        </a>
         <a class="book-card" href="leadership/">
           <div class="card-name">Leadership view</div>
           <div class="card-sub">Every book + floor summary</div>
         </a></div>
   </main>
-  <footer>Internal use only · Data as of July 27, 2026</footer>
+  <footer>Internal use only · Data as of July 29, 2026</footer>
   <script>
     // Device-bound auth — the landing accepts any of the team's device keys.
     const TOKEN_KEY='the-book-device-token';
-    const ACCEPTED=["554b0a5cedb0052951991f6653bdd33146c39a0616dd272fa116f58ec2effb85", "7994d80b07b53c9b733bb1ea31462dca7822546389df824f0cbdace13cd475f4", "7b34257e4139919eddb9e1a61a21da1b9c4ca6ec5f13f75abfc236279cf42455", "fa629feb460d938c5a063e18a20bed83f6f46574fe61b98e9110a3c7067b6dac", "fcd776f383f5705abc6c0d88d06683ac969a8c3039bbe5734298950b4ac9f821", "fbd780e0c18f03310fb62ee7c07f84304f3483ff2b5e4b4c2b4bf824e9f14223", "f2eb9f0f99eee19be7994d09207bc32857846feab85b7e117b4ce42d28b3eab8"];
+    const ACCEPTED=["554b0a5cedb0052951991f6653bdd33146c39a0616dd272fa116f58ec2effb85", "7994d80b07b53c9b733bb1ea31462dca7822546389df824f0cbdace13cd475f4", "7b34257e4139919eddb9e1a61a21da1b9c4ca6ec5f13f75abfc236279cf42455", "fa629feb460d938c5a063e18a20bed83f6f46574fe61b98e9110a3c7067b6dac", "fcd776f383f5705abc6c0d88d06683ac969a8c3039bbe5734298950b4ac9f821", "fbd780e0c18f03310fb62ee7c07f84304f3483ff2b5e4b4c2b4bf824e9f14223", "f2eb9f0f99eee19be7994d09207bc32857846feab85b7e117b4ce42d28b3eab8", "629cfde0855023a291daced5a1c26251d2c8ed2b6fcd554dc6c95a4348dc7e9f"];
     async function sha256(t){const b=new TextEncoder().encode(t);
       const h=await crypto.subtle.digest('SHA-256',b);
       return Array.from(new Uint8Array(h)).map(x=>x.toString(16).padStart(2,'0')).join('');}
