@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corinne Jewelers — Laura O'Neil Month-End Report</title>
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --green: #10b981;
+            --green-bg: #ecfdf5;
+            --green-border: #a7f3d0;
+            --orange: #f59e0b;
+            --orange-bg: #fffbeb;
+            --orange-border: #fde68a;
+            --red: #ef4444;
+            --blue: #6B1D2A;          /* Corinne burgundy (variable name kept for minimal diff) */
+            --blue-light: #F5EDE0;     /* Corinne cream */
+
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+            background-color: var(--gray-50);
+            color: var(--gray-900);
+            line-height: 1.6;
+            padding: 2rem 1rem;
+        }
+
+        main.individual-report {
+            max-width: 760px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        main.leadership-report {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .report-header {
+            padding: 2rem;
+            background: linear-gradient(135deg, #6B1D2A 0%, #8a2836 100%);
+            color: white;
+        }
+
+        .report-header h1 {
+            font-size: 2rem;
+            font-weight: 400;
+            font-family: Georgia, "Times New Roman", serif;
+            letter-spacing: 0.3px;
+            margin-bottom: 0.5rem;
+        }
+
+        .report-header .subtitle {
+            font-size: 0.9rem;
+            opacity: 0.95;
+            font-weight: 400;
+        }
+
+        .status-banner {
+            padding: 1.5rem 2rem;
+            margin: 2rem 2rem 0 2rem;
+            border-radius: 8px;
+            border-left: 4px solid;
+        }
+
+        .status-banner.on-track {
+            background-color: var(--green-bg);
+            border-left-color: var(--green);
+            color: var(--gray-900);
+        }
+
+        .status-banner.behind {
+            background-color: var(--orange-bg);
+            border-left-color: var(--orange);
+            color: var(--gray-900);
+        }
+
+        .banner-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 2rem;
+        }
+
+        .banner-left {
+            flex: 1;
+        }
+
+        .big-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .banner-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .banner-right {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .status-stat {
+            text-align: right;
+            min-width: 100px;
+        }
+
+        .stat-value {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .stat-label {
+            display: block;
+            font-size: 0.8rem;
+            opacity: 0.8;
+            margin-top: 0.25rem;
+        }
+
+        .progress-container {
+            margin: 1.5rem 2rem 0 2rem;
+            height: 8px;
+            background-color: var(--gray-200);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .kpi-section {
+            padding: 2rem;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .kpi-section h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--gray-900);
+        }
+
+        .kpi-section h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--gray-900);
+        }
+
+        .kpi-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .kpi-grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+
+        .kpi-grid-5 {
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        }
+
+        .kpi-card {
+            background-color: var(--gray-50);
+            padding: 1.25rem;
+            border-radius: 6px;
+            border: 1px solid var(--gray-200);
+            text-align: center;
+        }
+
+        .kpi-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .kpi-label {
+            font-size: 0.85rem;
+            color: var(--gray-600);
+            line-height: 1.4;
+        }
+
+        .bench-tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 3px;
+            margin-top: 0.5rem;
+            font-weight: 500;
+        }
+
+        .bench-tag.positive {
+            background-color: var(--green-bg);
+            color: var(--green);
+        }
+
+        .bench-tag.negative {
+            background-color: var(--orange-bg);
+            color: var(--orange);
+        }
+
+        .bench-tag.neutral {
+            background-color: var(--gray-200);
+            color: var(--gray-600);
+        }
+
+        .results-table,
+        .leaderboard-table,
+        .commission-table,
+        .mini-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .results-table th,
+        .leaderboard-table th {
+            background-color: var(--gray-100);
+            padding: 0.75rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid var(--gray-300);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .results-table td,
+        .leaderboard-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .results-table tr:hover,
+        .leaderboard-table tr:hover {
+            background-color: var(--gray-50);
+        }
+
+        .results-table .total-row {
+            background-color: var(--blue-light);
+            border-top: 2px solid var(--gray-300);
+            border-bottom: 2px solid var(--gray-300);
+        }
+
+        .results-table .total-row td {
+            font-weight: 600;
+        }
+
+        .positive {
+            color: var(--green);
+            font-weight: 500;
+        }
+
+        .negative {
+            color: var(--red);
+            font-weight: 500;
+        }
+
+        .neutral {
+            color: var(--gray-600);
+        }
+
+        .rank-badge {
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            min-width: 40px;
+        }
+
+        .rank-1 {
+            color: #d4af37;
+        }
+
+        .rank-2 {
+            color: #c0c0c0;
+        }
+
+        .rank-3 {
+            color: #cd7f32;
+        }
+
+        .highlight-row {
+            background-color: var(--blue-light);
+            font-weight: 500;
+        }
+
+        .commission-table {
+            background-color: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .commission-table th {
+            background-color: var(--gray-100);
+            padding: 0.75rem;
+            font-weight: 600;
+            border-bottom: 1px solid var(--gray-300);
+        }
+
+        .commission-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .commission-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .commission-table .amount {
+            text-align: right;
+            font-weight: 600;
+        }
+
+        .commission-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, #6B1D2A 0%, #8a2836 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 6px;
+            margin-top: 1rem;
+            font-weight: 600;
+        }
+
+        .commission-total .total-amount {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .mini-table {
+            background-color: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        .mini-table td {
+            padding: 0.5rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .mini-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .mini-table td:first-child {
+            font-weight: 600;
+            color: var(--gray-700);
+        }
+
+        .mini-table td:nth-child(2) {
+            text-align: right;
+            color: var(--gray-900);
+            font-weight: 600;
+        }
+
+        .mini-table td:nth-child(3) {
+            text-align: right;
+            color: var(--gray-600);
+        }
+
+        .individual-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .individual-card {
+            background-color: var(--gray-50);
+            border: 2px solid var(--gray-300);
+            border-radius: 8px;
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .individual-card.on-track {
+            border-left: 4px solid var(--green);
+            background-color: var(--green-bg);
+        }
+
+        .individual-card.behind {
+            border-left: 4px solid var(--orange);
+            background-color: var(--orange-bg);
+        }
+
+        .individual-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .individual-card .card-status {
+            font-size: 0.85rem;
+            color: var(--gray-600);
+            margin-bottom: 1rem;
+        }
+
+        .next-month-section {
+            border-top: 3px solid var(--primary);
+        }
+
+        .next-month-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .next-month-card {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .next-month-label {
+            font-size: 0.8rem;
+            color: var(--gray-600);
+            margin-bottom: 0.35rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .next-month-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .closer-section {
+            padding: 2rem;
+            background-color: var(--gray-800);
+            color: white;
+            border-top: 1px solid var(--gray-300);
+        }
+
+        .closer-section h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .closer-section p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--gray-100);
+        }
+
+        .report-footer {
+            padding: 1.5rem 2rem;
+            background-color: var(--gray-100);
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--gray-600);
+            border-top: 1px solid var(--gray-200);
+        }
+
+        @media (max-width: 768px) {
+            .banner-content {
+                flex-direction: column;
+            }
+
+            .banner-right {
+                justify-content: flex-start;
+            }
+
+            .status-stat {
+                text-align: left;
+            }
+
+            .kpi-grid-3,
+            .kpi-grid-5 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .individual-cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .results-table,
+            .leaderboard-table {
+                font-size: 0.8rem;
+            }
+
+            .results-table th,
+            .leaderboard-table th {
+                padding: 0.5rem;
+            }
+
+            .results-table td,
+            .leaderboard-table td {
+                padding: 0.5rem;
+            }
+        }
+
+        /* Loose Diamond Mix section (Apr 2026) */
+        .mix-card {
+            border-left-width: 4px;
+            border-left-style: solid;
+        }
+        .mix-card.mix-on-track {
+            border-left-color: var(--green);
+        }
+        .mix-card.mix-behind {
+            border-left-color: var(--orange);
+        }
+        .mix-card.mix-neutral {
+            border-left-color: #999;
+        }
+        .mix-target {
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 400;
+            color: #666;
+            margin-top: 0.25rem;
+        }
+        .mix-sub {
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 400;
+            color: #555;
+            margin-top: 0.25rem;
+        }
+        .mix-note {
+            font-size: 0.85rem;
+            color: #555;
+            margin-top: 1rem;
+            line-height: 1.5;
+            font-style: italic;
+        }
+        .mix-pct.mix-on-track strong {
+            color: var(--green);
+        }
+        .mix-pct.mix-behind strong {
+            color: var(--orange);
+        }
+        .mix-pct.mix-neutral strong {
+            color: #555;
+        }
+    
+    </style>
+</head>
+<body>
+    <main class="individual-report">
+        <!-- Header -->
+        <header class="report-header">
+            <h1>Laura O'Neil</h1>
+            <p class="subtitle">JUL July 2026 Month-End Report · Day 31 of 31 · Generated Aug 1, 2026</p>
+        </header>
+
+        <!-- Status Banner -->
+        <div class="status-banner on-track">
+            <div class="banner-content">
+                <div class="banner-left">
+                    <div class="big-number">$87,421</div>
+                    <div class="banner-label">Total MTD Sales</div>
+                </div>
+                <div class="banner-right">
+                    <div class="status-stat">
+                        <span class="stat-value">110.7%</span>
+                        <span class="stat-label">of Goal</span>
+                    </div>
+                    <div class="status-stat">
+                        <span class="stat-value">110.7%</span>
+                        <span class="stat-label">Pacing</span>
+                    </div>
+                    <div class="status-stat">
+                        <span class="stat-value">0</span>
+                        <span class="stat-label">Days Left</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar" style="width: 100%; background-color: var(--green);"></div>
+        </div>
+
+        <!-- MTD Results vs Goal -->
+        <section class="kpi-section">
+            <h2>MTD Results vs Goal</h2>
+            <table class="results-table">
+                <thead>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Actual</th>
+                        <th>Goal</th>
+                        <th>Variance</th>
+                        <th>% Goal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Jewelry Sales</td>
+                        <td>$79,942</td>
+                        <td>$70,323</td>
+                        <td class="positive">+$9,619</td>
+                        <td>113.7%</td>
+                    </tr>
+                    <tr>
+                        <td>Gross Profit</td>
+                        <td>$51,066</td>
+                        <td>$36,568</td>
+                        <td class="positive">+$14,498</td>
+                        <td>139.6%</td>
+                    </tr>
+                    <tr>
+                        <td>Repair Sales</td>
+                        <td>$7,479</td>
+                        <td>$8,613</td>
+                        <td class="negative">−$1,134</td>
+                        <td>86.8%</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td><strong>TOTAL</strong></td>
+                        <td><strong>$87,421</strong></td>
+                        <td><strong>$78,936</strong></td>
+                        <td class="positive"><strong>+$8,485</strong></td>
+                        <td><strong>110.7%</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Key Metrics MTD -->
+        <section class="kpi-section">
+            <h2>Key Metrics MTD</h2>
+            <div class="kpi-grid kpi-grid-3">
+                <div class="kpi-card">
+                    <div class="kpi-value">$1,567</div>
+                    <div class="kpi-label">ATV
+<span class="bench-tag negative">▼ 13% Below avg</span>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">0.92</div>
+                    <div class="kpi-label">UPT
+<span class="bench-tag positive">▲ 1% On par</span>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">51</div>
+                    <div class="kpi-label">Transactions
+<span class="bench-tag positive">▲ 24% Above avg</span>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">58.4%</div>
+                    <div class="kpi-label">GP%</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">1</div>
+                    <div class="kpi-label">Credit Apps
+<span class="bench-tag negative">▼ 64% Below avg</span>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">39</div>
+                    <div class="kpi-label">Clienteling
+<span class="bench-tag negative">▼ 19% Below avg</span>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">110.7%</div>
+                    <div class="kpi-label">Pacing</div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Loose Diamond Mix MTD -->
+        <section class="kpi-section">
+            <h2>Loose Diamond Mix MTD</h2>
+            <div class="kpi-grid kpi-grid-4">
+                <div class="kpi-card mix-card mix-behind">
+                    <div class="kpi-value">16.7%</div>
+                    <div class="kpi-label">Natural Unit Share<br>
+                        <span class="mix-target">Target 40% · Stretch 50%</span>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">1</div>
+                    <div class="kpi-label">Natural Units<br>
+                        <span class="mix-sub">$5,645 · avg $5,645</span>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">5</div>
+                    <div class="kpi-label">Lab Units<br>
+                        <span class="mix-sub">$8,320 · avg $1,664</span>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">$13,965</div>
+                    <div class="kpi-label">Loose Diamond $<br>
+                        <span class="mix-sub">6 stones MTD</span>
+                    </div>
+                </div>
+            </div>
+            <p class="mix-note">
+                Naturals carry roughly 5× the avg sale and 3× the GP$ per stone vs lab.
+                Defending the natural mix protects the high-ATV bridal anchor.
+                Splits count as 0.5 unit each.
+            </p>
+        </section>
+
+        <!-- Sales Leaderboard MTD -->
+        <section class="kpi-section">
+            <h2>Sales Leaderboard MTD</h2>
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Associate</th>
+                        <th>Total</th>
+                        <th>Jewelry</th>
+                        <th>Repair</th>
+                        <th>GP%</th>
+                        <th>ATV</th>
+                        <th>UPT</th>
+                        <th>Credit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="">
+                        <td class="rank-badge rank-1">1</td>
+                        <td>Vicky Romeo</td>
+                        <td>$156,515</td>
+                        <td>$144,106</td>
+                        <td>$12,409</td>
+                        <td>53.6%</td>
+                        <td>$3,515</td>
+                        <td>0.98</td>
+                        <td>6</td>
+                    </tr>
+                    <tr class="">
+                        <td class="rank-badge rank-2">2</td>
+                        <td>Essence Mayers</td>
+                        <td>$89,568</td>
+                        <td>$78,298</td>
+                        <td>$11,270</td>
+                        <td>60.2%</td>
+                        <td>$1,327</td>
+                        <td>0.98</td>
+                        <td>4</td>
+                    </tr>
+                    <tr class="">
+                        <td class="rank-badge rank-3">3</td>
+                        <td>Gigi Flanagan</td>
+                        <td>$89,082</td>
+                        <td>$81,272</td>
+                        <td>$7,811</td>
+                        <td>55.6%</td>
+                        <td>$1,806</td>
+                        <td>1.11</td>
+                        <td>3</td>
+                    </tr>
+                    <tr class="highlight-row">
+                        <td class="rank-badge rank-4">4</td>
+                        <td>Laura O'Neil</td>
+                        <td>$87,421</td>
+                        <td>$79,942</td>
+                        <td>$7,479</td>
+                        <td>58.4%</td>
+                        <td>$1,567</td>
+                        <td>0.92</td>
+                        <td>1</td>
+                    </tr>
+                    <tr class="">
+                        <td class="rank-badge rank-5">5</td>
+                        <td>Danielle Devino</td>
+                        <td>$5,696</td>
+                        <td>$5,696</td>
+                        <td>$0</td>
+                        <td>65.3%</td>
+                        <td>$814</td>
+                        <td>0.57</td>
+                        <td>0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Commission MTD -->
+        <section class="kpi-section">
+            <h2>Commission MTD</h2>
+            <table class="commission-table">
+                <tbody>
+                    <tr>
+                        <td>Jewelry Commission (4% of GP)</td>
+                        <td class="amount">$1,833</td>
+                    </tr>
+                    <tr>
+                        <td>Repair Commission (2% of Sales)</td>
+                        <td class="amount">$150</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="commission-total">
+                <div>Total Commission</div>
+                <div class="total-amount">$1,982</div>
+            </div>
+        </section>
+
+        
+        <!-- Looking Ahead -->
+        <section class="kpi-section next-month-section">
+            <h2>Looking Ahead — August</h2>
+            <div class="next-month-grid">
+                <div class="next-month-card">
+                    <div class="next-month-label">Total Goal</div>
+                    <div class="next-month-value">$83,127</div>
+                </div>
+                <div class="next-month-card">
+                    <div class="next-month-label">Jewelry Goal</div>
+                    <div class="next-month-value">$73,585</div>
+                </div>
+                <div class="next-month-card">
+                    <div class="next-month-label">GP Target (52%)</div>
+                    <div class="next-month-value">$38,264</div>
+                </div>
+                <div class="next-month-card">
+                    <div class="next-month-label">Repair Goal</div>
+                    <div class="next-month-value">$9,542</div>
+                </div>
+                <div class="next-month-card">
+                    <div class="next-month-label">Credit Goal</div>
+                    <div class="next-month-value">4</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Closer -->
+        <section class="closer-section">
+            <h3>Summary</h3>
+            <p>
+                You're pacing 110.7% of goal — strong position heading into the final 0 days. Jewelry is carrying the month at 113.7% of goal. Repair is the gap — $1,134 behind target (86.8%). GP% at 58.4% is well above the 52% target — strong margin management. Credit apps at 1 of 4 — needs a push to close the month. Keep the momentum going.
+            </p>
+        </section>
+
+        <!-- Footer -->
+        <footer class="report-footer">
+            Corinne Jewelers · Rev Ops · Auto-generated from Crystal POS data
+        </footer>
+    </main>
+</body>
+</html>
