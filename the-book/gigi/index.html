@@ -536,6 +536,10 @@
       letter-spacing: 0.3px;
     }
     .log-btn:hover { background: var(--burgundy-dark); }
+    /* Book Auto-Log (Ryan 2026-10-21): logging moved to ClientBook. The button
+       stays in the DOM (JS references it) but is never shown. */
+    .log-btn, .appt-x { display: none !important; }
+    .autolog-note { font-size: 12px; color: var(--muted); font-style: italic; }
     .last-touch-detail {
       font-size: 12.5px; color: var(--muted); margin-left: 10px;
       font-style: italic;
@@ -647,7 +651,7 @@
       <div class="eyebrow">The Book</div>
       <h1>Gigi's clienteling intelligence</h1>
       <div class="subtitle">Opportunities to create — prioritized by who needs you today.</div>
-      <div class="data-stamp">Data as of October 19, 2026 · Showing top 300 of 1939 eligible clients</div>
+      <div class="data-stamp">Data as of October 21, 2026 · Showing top 300 of 1939 eligible clients</div>
     </div>
   </header>
 
@@ -676,7 +680,7 @@
         </span>
       </div>
       <div id="apptsList" class="appts-list"></div>
-      <div class="appts-note">The appointment itself still gets booked in ClientBook &#8212; this is the recap of what you&#8217;ve logged. Plans change? Tap &#10005; to mark one cancelled.</div>
+      <div class="appts-note">Every appointment you book in ClientBook lands here the next morning. Plans change? Move or cancel it in ClientBook and it updates here.</div>
     </div>
   </div>
 
@@ -785,7 +789,8 @@
           <a href="tel:19082160284" class="contact-link">(908) 216-0284</a>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -853,7 +858,8 @@
           <a href="tel:17327422681" class="contact-link">(732) 742-2681</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -921,7 +927,8 @@
           <a href="tel:17326746174" class="contact-link">(732) 674-6174</a> · <span class="contact-meta">Brick Township, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -989,7 +996,8 @@
           <a href="tel:17329309285" class="contact-link">(732) 930-9285</a> · <a href="mailto:Atodaro111@gmail.com" class="contact-link">Atodaro111@gmail.com</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -1057,7 +1065,8 @@
           <a href="tel:17327594759" class="contact-link">(732) 759-4759</a> · <a href="mailto:tmike917@aol.com" class="contact-link">tmike917@aol.com</a> · <span class="contact-meta">Beachwood, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -1125,7 +1134,8 @@
           <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -1193,7 +1203,8 @@
           <a href="tel:16096184461" class="contact-link">(609) 618-4461</a> · <a href="mailto:jakesorbara@yahoo.com" class="contact-link">jakesorbara@yahoo.com</a> · <span class="contact-meta">Little Egg Harbor Township, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -1261,7 +1272,8 @@
           <a href="tel:19145645120" class="contact-link">(914) 564-5120</a> · <a href="mailto:mnovak2560@gmail.com" class="contact-link">mnovak2560@gmail.com</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -1329,7 +1341,8 @@
           <a href="tel:16093128462" class="contact-link">(609) 312-8462</a> · <a href="mailto:ltnolan32X2gmail.com" class="contact-link">ltnolan32X2gmail.com</a> · <span class="contact-meta">Stafford Township, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -1397,7 +1410,8 @@
           <a href="tel:18484596136" class="contact-link">(848) 459-6136</a> · <a href="mailto:josephmonahan6@gmail.com" class="contact-link">josephmonahan6@gmail.com</a> · <span class="contact-meta">Brick Township, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -1465,7 +1479,8 @@
           <a href="tel:12014216535" class="contact-link">(201) 421-6535</a>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -1533,7 +1548,8 @@
           <a href="tel:17172509695" class="contact-link">(717) 250-9695</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -1601,7 +1617,8 @@
           <a href="tel:19736708110" class="contact-link">(973) 670-8110</a> · <a href="mailto:mattcarter615@gmail.com" class="contact-link">mattcarter615@gmail.com</a> · <span class="contact-meta">Sparta, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -1669,7 +1686,8 @@
           <a href="tel:17325464124" class="contact-link">(732) 546-4124</a> · <span class="contact-meta">Middletown Township, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -1737,7 +1755,8 @@
           <a href="tel:17326913320" class="contact-link">(732) 691-3320</a> · <a href="mailto:bhpitw@aol.com" class="contact-link">bhpitw@aol.com</a> · <span class="contact-meta">Brick Township, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -1805,7 +1824,8 @@
           <a href="tel:16093347867" class="contact-link">(609) 334-7867</a> · <a href="mailto:gdisporto98@gmail.com" class="contact-link">gdisporto98@gmail.com</a> · <span class="contact-meta">Stafford Township, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -1873,7 +1893,8 @@
           <a href="tel:17329010012" class="contact-link">(732) 901-0012</a> · <a href="mailto:bjbarbod1@outlook.com" class="contact-link">bjbarbod1@outlook.com</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -1941,7 +1962,8 @@
           <a href="mailto:shoregirl880@aim.com" class="contact-link">shoregirl880@aim.com</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -2009,7 +2031,8 @@
           <a href="tel:17325800846" class="contact-link">(732) 580-0846</a> · <a href="mailto:mscs8@aol.com" class="contact-link">mscs8@aol.com</a> · <span class="contact-meta">Manchester Township, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -2077,7 +2100,8 @@
           <span class="contact-meta">Barnegat, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -2145,7 +2169,8 @@
           <a href="tel:16099010995" class="contact-link">(609) 901-0995</a> · <span class="contact-meta">Bordentown, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -2213,7 +2238,8 @@
           <a href="tel:19087586771" class="contact-link">(908) 758-6771</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -2281,7 +2307,8 @@
           <a href="tel:15513582698" class="contact-link">(551) 358-2698</a> · <span class="contact-meta">Jersey City, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -2349,7 +2376,8 @@
           <a href="tel:17322783079" class="contact-link">(732) 278-3079</a> · <a href="mailto:duffru9@hotmail.com" class="contact-link">duffru9@hotmail.com</a> · <span class="contact-meta">Seaside Heights, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -2417,7 +2445,8 @@
           <a href="tel:17323003320" class="contact-link">(732) 300-3320</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -2485,7 +2514,8 @@
           <a href="tel:17329654265" class="contact-link">(732) 965-4265</a> · <a href="mailto:bhalloran70@outlook.com" class="contact-link">bhalloran70@outlook.com</a> · <span class="contact-meta">Brick Township, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -2553,7 +2583,8 @@
           <a href="tel:16093394203" class="contact-link">(609) 339-4203</a> · <a href="mailto:miketaylor1992@hotmail.com" class="contact-link">miketaylor1992@hotmail.com</a> · <span class="contact-meta">Berkeley Township, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -2621,7 +2652,8 @@
           <a href="tel:18484484290" class="contact-link">(848) 448-4290</a> · <a href="mailto:matthewburr106@yahoo.com" class="contact-link">matthewburr106@yahoo.com</a> · <span class="contact-meta">Beachwood, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -2689,7 +2721,8 @@
           <a href="tel:19087834313" class="contact-link">(908) 783-4313</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -2757,7 +2790,8 @@
           <a href="tel:16095299552" class="contact-link">(609) 529-9552</a> · <a href="mailto:garybisogno@yahoo.com" class="contact-link">garybisogno@yahoo.com</a> · <span class="contact-meta">Bordentown, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -2825,7 +2859,8 @@
           <a href="tel:17327738432" class="contact-link">(732) 773-8432</a> · <span class="contact-meta">Manahawkin, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -2893,7 +2928,8 @@
           <span class="contact-meta">Beachwood, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -2961,7 +2997,8 @@
           <a href="tel:17322322940" class="contact-link">(732) 232-2940</a> · <a href="mailto:tlutcza@gmail.com" class="contact-link">tlutcza@gmail.com</a> · <span class="contact-meta">Barnegat Township, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -3029,7 +3066,8 @@
           <a href="tel:16096180733" class="contact-link">(609) 618-0733</a> · <a href="mailto:espan612@yahoo.com" class="contact-link">espan612@yahoo.com</a> · <span class="contact-meta">Little Egg Harbor Township, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -3097,7 +3135,8 @@
           <a href="tel:17326873516" class="contact-link">(732) 687-3516</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -3165,7 +3204,8 @@
           <a href="tel:19175660971" class="contact-link">(917) 566-0971</a> · <span class="contact-meta">Plainfield, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -3233,7 +3273,8 @@
           <a href="tel:17325510724" class="contact-link">(732) 551-0724</a> · <span class="contact-meta">Barnegat Township, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -3301,7 +3342,8 @@
           <a href="tel:18484803260" class="contact-link">(848) 480-3260</a> · <span class="contact-meta">Berkeley Township, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -3369,7 +3411,8 @@
           <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -3437,7 +3480,8 @@
           <a href="tel:17326009409" class="contact-link">(732) 600-9409</a> · <a href="mailto:bblake3223@gmail.com" class="contact-link">bblake3223@gmail.com</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -3505,7 +3549,8 @@
           <a href="tel:16092762016" class="contact-link">(609) 276-2016</a> · <span class="contact-meta">Eagleswood, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -3573,7 +3618,8 @@
           <a href="tel:17326146384" class="contact-link">(732) 614-6384</a> · <a href="mailto:cy32448@gmail.com" class="contact-link">cy32448@gmail.com</a> · <span class="contact-meta">Point Pleasant, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -3641,7 +3687,8 @@
           <a href="tel:17327791916" class="contact-link">(732) 779-1916</a> · <a href="mailto:chriseagle4587@gmail.com" class="contact-link">chriseagle4587@gmail.com</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -3709,7 +3756,8 @@
           <span class="contact-meta">no contact info</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -3777,7 +3825,8 @@
           <a href="tel:17327700673" class="contact-link">(732) 770-0673</a> · <a href="mailto:cjwaldron3333@gmail.com" class="contact-link">cjwaldron3333@gmail.com</a> · <span class="contact-meta">Lacey Township, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -3845,7 +3894,8 @@
           <a href="tel:16095161048" class="contact-link">(609) 516-1048</a> · <span class="contact-meta">Beach Haven, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -3913,7 +3963,8 @@
           <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -3981,7 +4032,8 @@
           <a href="tel:17325514185" class="contact-link">(732) 551-4185</a> · <a href="mailto:gleasont6@gmail.com" class="contact-link">gleasont6@gmail.com</a> · <span class="contact-meta">Forked River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -4049,7 +4101,8 @@
           <a href="tel:16096618953" class="contact-link">(609) 661-8953</a> · <a href="mailto:patdavis1026@gmail.com" class="contact-link">patdavis1026@gmail.com</a> · <span class="contact-meta">Lacey Township, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -4117,7 +4170,8 @@
           <a href="tel:+16098484484" class="contact-link">(609) 848-4484</a> · <a href="mailto:Anthonykakascik@yahoo.com" class="contact-link">Anthonykakascik@yahoo.com</a> · <span class="contact-meta">Point Pleasant, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -4185,7 +4239,8 @@
           <a href="tel:19739851730" class="contact-link">(973) 985-1730</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -4253,7 +4308,8 @@
           <a href="tel:17325527737" class="contact-link">(732) 552-7737</a> · <a href="mailto:kyleyankzz04@gmail.com" class="contact-link">kyleyankzz04@gmail.com</a> · <span class="contact-meta">Bayville, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -4321,7 +4377,8 @@
           <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -4389,7 +4446,8 @@
           <a href="tel:19086755075" class="contact-link">(908) 675-5075</a> · <span class="contact-meta">Brick Township, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -4457,7 +4515,8 @@
           <a href="tel:17324865344" class="contact-link">(732) 486-5344</a> · <span class="contact-meta">Beachwood, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -4525,7 +4584,8 @@
           <a href="tel:18563713664" class="contact-link">(856) 371-3664</a> · <span class="contact-meta">Cream Ridge, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -4593,7 +4653,8 @@
           <a href="tel:17328952616" class="contact-link">(732) 895-2616</a> · <span class="contact-meta">East Brunswick, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -4661,7 +4722,8 @@
           <a href="tel:17327791862" class="contact-link">(732) 779-1862</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -4729,7 +4791,8 @@
           <a href="tel:17323304730" class="contact-link">(732) 330-4730</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -4797,7 +4860,8 @@
           <a href="tel:17325582793" class="contact-link">(732) 558-2793</a> · <a href="mailto:johnkdaly62@gmail.com" class="contact-link">johnkdaly62@gmail.com</a> · <span class="contact-meta">Bayville, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -4865,7 +4929,8 @@
           <a href="tel:18562645047" class="contact-link">(856) 264-5047</a> · <span class="contact-meta">West Cape May, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -4933,7 +4998,8 @@
           <a href="tel:16095533233" class="contact-link">(609) 553-3233</a> · <span class="contact-meta">Pemberton Township, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -5001,7 +5067,8 @@
           <a href="tel:16317046765" class="contact-link">(631) 704-6765</a> · <span class="contact-meta">Barnegat Township, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -5069,7 +5136,8 @@
           <a href="tel:18483331464" class="contact-link">(848) 333-1464</a> · <a href="mailto:egd870@yahoo.com" class="contact-link">egd870@yahoo.com</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -5137,7 +5205,8 @@
           <a href="tel:16093423867" class="contact-link">(609) 342-3867</a> · <a href="mailto:fredwink20@gmail.com" class="contact-link">fredwink20@gmail.com</a> · <span class="contact-meta">Barnegat Township, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -5205,7 +5274,8 @@
           <a href="tel:16099338812" class="contact-link">(609) 933-8812</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -5273,7 +5343,8 @@
           <a href="tel:18489929674" class="contact-link">(848) 992-9674</a> · <span class="contact-meta">Seaside Heights, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -5341,7 +5412,8 @@
           <a href="tel:17322861895" class="contact-link">(732) 286-1895</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -5409,7 +5481,8 @@
           <a href="tel:17328032709" class="contact-link">(732) 803-2709</a> · <a href="mailto:robtrabattoni@gmail.com" class="contact-link">robtrabattoni@gmail.com</a> · <span class="contact-meta">Brick Township, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -5477,7 +5550,8 @@
           <a href="tel:16096187055" class="contact-link">(609) 618-7055</a> · <a href="mailto:collinoconn@gmail.com" class="contact-link">collinoconn@gmail.com</a> · <span class="contact-meta">Lacey Township, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -5545,7 +5619,8 @@
           <a href="tel:6095480469" class="contact-link">(609) 548-0469</a>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -5613,7 +5688,8 @@
           <a href="tel:17328870493" class="contact-link">(732) 887-0493</a>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -5681,7 +5757,8 @@
           <span class="contact-meta">no contact info</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -5749,7 +5826,8 @@
           <a href="tel:18455195057" class="contact-link">(845) 519-5057</a> · <span class="contact-meta">Little Egg Harbor Township, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -5817,7 +5895,8 @@
           <a href="tel:16099294154" class="contact-link">(609) 929-4154</a> · <a href="mailto:johnwb88@hotmail.com" class="contact-link">johnwb88@hotmail.com</a> · <span class="contact-meta">Lanoka Harbor, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -5885,7 +5964,8 @@
           <a href="tel:12016383111" class="contact-link">(201) 638-3111</a> · <a href="mailto:deekaynj@msn.com" class="contact-link">deekaynj@msn.com</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -5953,7 +6033,8 @@
           <a href="tel:17327631658" class="contact-link">(732) 763-1658</a> · <a href="mailto:louf58m@aol.com" class="contact-link">louf58m@aol.com</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -6021,7 +6102,8 @@
           <a href="tel:17165632539" class="contact-link">(716) 563-2539</a> · <a href="mailto:ashleymaree1223@gmail.com" class="contact-link">ashleymaree1223@gmail.com</a> · <span class="contact-meta">Lakehurst, NEW JERSEY</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -6089,7 +6171,8 @@
           <a href="tel:19086922952" class="contact-link">(908) 692-2952</a> · <a href="mailto:nicholasilva0530@gmail.com" class="contact-link">nicholasilva0530@gmail.com</a>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -6157,7 +6240,8 @@
           <a href="tel:17326641950" class="contact-link">(732) 664-1950</a> · <a href="mailto:sicily1964@yahoo.com" class="contact-link">sicily1964@yahoo.com</a> · <span class="contact-meta">Bayville, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -6225,7 +6309,8 @@
           <a href="tel:17322787490" class="contact-link">(732) 278-7490</a> · <a href="mailto:ferrignol@live.com" class="contact-link">ferrignol@live.com</a> · <span class="contact-meta">Brick Township, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -6293,7 +6378,8 @@
           <a href="tel:15166130589" class="contact-link">(516) 613-0589</a> · <a href="mailto:babydriver973@gmail.com" class="contact-link">babydriver973@gmail.com</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -6361,7 +6447,8 @@
           <a href="tel:19083304654" class="contact-link">(908) 330-4654</a> · <a href="mailto:painter104@yahoo.com" class="contact-link">painter104@yahoo.com</a> · <span class="contact-meta">Pemberton Township, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -6429,7 +6516,8 @@
           <a href="tel:16628366736" class="contact-link">(662) 836-6736</a> · <span class="contact-meta">Ferriday, LA</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -6497,7 +6585,8 @@
           <a href="tel:17327365655" class="contact-link">(732) 736-5655</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -6565,7 +6654,8 @@
           <span class="contact-meta">no contact info</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -6633,7 +6723,8 @@
           <a href="tel:18484485666" class="contact-link">(848) 448-5666</a> · <a href="mailto:petercook21@comcast.net" class="contact-link">petercook21@comcast.net</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -6701,7 +6792,8 @@
           <a href="tel:17742663307" class="contact-link">(774) 266-3307</a> · <span class="contact-meta">Belmar, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -6769,7 +6861,8 @@
           <a href="tel:17323002537" class="contact-link">(732) 300-2537</a> · <a href="mailto:brycet1995@yahoo.com" class="contact-link">brycet1995@yahoo.com</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -6837,7 +6930,8 @@
           <a href="tel:17327797275" class="contact-link">(732) 779-7275</a> · <a href="mailto:chris_oldock@yahoo.com" class="contact-link">chris_oldock@yahoo.com</a> · <span class="contact-meta">Bayville, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -6905,7 +6999,8 @@
           <a href="tel:17322282689" class="contact-link">(732) 228-2689</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -6973,7 +7068,8 @@
           <a href="tel:16097097134" class="contact-link">(609) 709-7134</a> · <a href="mailto:jddance83@gmail.com" class="contact-link">jddance83@gmail.com</a> · <span class="contact-meta">Lanoka Harbor, NEW JERSEY</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -7041,7 +7137,8 @@
           <a href="tel:16096184712" class="contact-link">(609) 618-4712</a> · <a href="mailto:bajadachristopher@gmail.com" class="contact-link">bajadachristopher@gmail.com</a> · <span class="contact-meta">Stafford Township, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -7109,7 +7206,8 @@
           <a href="tel:16092768338" class="contact-link">(609) 276-8338</a> · <a href="mailto:sharpeeye59@aim.com" class="contact-link">sharpeeye59@aim.com</a> · <span class="contact-meta">Lacey Township, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -7177,7 +7275,8 @@
           <a href="tel:17325970132" class="contact-link">(732) 597-0132</a> · <a href="mailto:bblumensteel@yahoo.com" class="contact-link">bblumensteel@yahoo.com</a> · <span class="contact-meta">Toms River, NEW JERSEY</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -7245,7 +7344,8 @@
           <a href="tel:19179417008" class="contact-link">(917) 941-7008</a> · <span class="contact-meta">Beachwood, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -7313,7 +7413,8 @@
           <a href="tel:17325138642" class="contact-link">(732) 513-8642</a> · <a href="mailto:cuttermnb@aol.com" class="contact-link">cuttermnb@aol.com</a> · <span class="contact-meta">Berkeley, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -7381,7 +7482,8 @@
           <a href="tel:19082786163" class="contact-link">(908) 278-6163</a> · <a href="mailto:johnmorton3rd@gmail.com" class="contact-link">johnmorton3rd@gmail.com</a> · <span class="contact-meta">Brick, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -7449,7 +7551,8 @@
           <a href="tel:17329667490" class="contact-link">(732) 966-7490</a> · <span class="contact-meta">Little Egg Harbor, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -7517,7 +7620,8 @@
           <a href="tel:17326723399" class="contact-link">(732) 672-3399</a> · <a href="mailto:holly@bycarls.com" class="contact-link">holly@bycarls.com</a> · <span class="contact-meta">Pine Beach, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -7585,7 +7689,8 @@
           <a href="tel:17328653779" class="contact-link">(732) 865-3779</a> · <span class="contact-meta">Seaside Heights, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -7653,7 +7758,8 @@
           <a href="mailto:alliedboiler@comcast.net" class="contact-link">alliedboiler@comcast.net</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -7721,7 +7827,8 @@
           <a href="tel:17325511949" class="contact-link">(732) 551-1949</a> · <span class="contact-meta">Holiday, FLORIDA</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -7789,7 +7896,8 @@
           <a href="tel:17326106449" class="contact-link">(732) 610-6449</a> · <span class="contact-meta">Tinton Falls, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -7857,7 +7965,8 @@
           <a href="tel:17324077802" class="contact-link">(732) 407-7802</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -7925,7 +8034,8 @@
           <a href="tel:17329660443" class="contact-link">(732) 966-0443</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -7993,7 +8103,8 @@
           <a href="tel:17322329925" class="contact-link">(732) 232-9925</a> · <a href="mailto:ethanlucas0311@gmail.com" class="contact-link">ethanlucas0311@gmail.com</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -8061,7 +8172,8 @@
           <a href="tel:19734629272" class="contact-link">(973) 462-9272</a> · <a href="mailto:castellano22@yahoo.com" class="contact-link">castellano22@yahoo.com</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -8129,7 +8241,8 @@
           <a href="tel:18484485320" class="contact-link">(848) 448-5320</a> · <span class="contact-meta">Mananhawkin, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -8197,7 +8310,8 @@
           <a href="tel:17324392065" class="contact-link">(732) 439-2065</a> · <a href="mailto:jhealy19910@gmail.com" class="contact-link">jhealy19910@gmail.com</a> · <span class="contact-meta">New Egypt, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -8265,7 +8379,8 @@
           <a href="mailto:demelomidia@yahoo.com" class="contact-link">demelomidia@yahoo.com</a> · <span class="contact-meta">Brick, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -8333,7 +8448,8 @@
           <a href="tel:19083287161" class="contact-link">(908) 328-7161</a> · <span class="contact-meta">Howell, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -8401,7 +8517,8 @@
           <a href="tel:17322374983" class="contact-link">(732) 237-4983</a> · <span class="contact-meta">Manahawkin, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -8469,7 +8586,8 @@
           <a href="tel:17323301429" class="contact-link">(732) 330-1429</a> · <a href="mailto:esco1012@yahoo.com" class="contact-link">esco1012@yahoo.com</a> · <span class="contact-meta">Lanoka Harbor, NEW JERSEY</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -8537,7 +8655,8 @@
           <a href="tel:17326001058" class="contact-link">(732) 600-1058</a> · <span class="contact-meta">Jupiter, FL</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -8605,7 +8724,8 @@
           <a href="tel:17322847812" class="contact-link">(732) 284-7812</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -8673,7 +8793,8 @@
           <a href="tel:12019887309" class="contact-link">(201) 988-7309</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -8741,7 +8862,8 @@
           <a href="tel:17326915596" class="contact-link">(732) 691-5596</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -8809,7 +8931,8 @@
           <a href="tel:17325031914" class="contact-link">(732) 503-1914</a> · <span class="contact-meta">Lacey Township, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -8877,7 +9000,8 @@
           <a href="tel:17325136678" class="contact-link">(732) 513-6678</a> · <a href="mailto:jilliantuosto@gmail.com" class="contact-link">jilliantuosto@gmail.com</a> · <span class="contact-meta">Pine Beach, NEW JERSEY</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -8945,7 +9069,8 @@
           <a href="tel:16097094602" class="contact-link">(609) 709-4602</a> · <a href="mailto:jacquesupsie@comcast.net" class="contact-link">jacquesupsie@comcast.net</a> · <span class="contact-meta">Lanoka Harbor, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -9013,7 +9138,8 @@
           <span class="contact-meta">Port Republic, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -9081,7 +9207,8 @@
           <a href="tel:17322814427" class="contact-link">(732) 281-4427</a> · <a href="mailto:anthonyvivona477@yahoo.com" class="contact-link">anthonyvivona477@yahoo.com</a> · <span class="contact-meta">Berkeley Township, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -9149,7 +9276,8 @@
           <a href="tel:19082296610" class="contact-link">(908) 229-6610</a> · <span class="contact-meta">Ttuckerton, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -9217,7 +9345,8 @@
           <a href="tel:12015277338" class="contact-link">(201) 527-7338</a> · <a href="mailto:kevincorrigan125@gmailo.com" class="contact-link">kevincorrigan125@gmailo.com</a> · <span class="contact-meta">Beachwod, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -9285,7 +9414,8 @@
           <a href="mailto:jrupprt@comcast.net" class="contact-link">jrupprt@comcast.net</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -9353,7 +9483,8 @@
           <a href="tel:17184402469" class="contact-link">(718) 440-2469</a> · <a href="mailto:jon.39.74@gmailcom" class="contact-link">jon.39.74@gmailcom</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -9421,7 +9552,8 @@
           <a href="tel:19732142055" class="contact-link">(973) 214-2055</a> · <a href="mailto:scott@fralleyelectric.com" class="contact-link">scott@fralleyelectric.com</a> · <span class="contact-meta">Ortley Beach, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -9489,7 +9621,8 @@
           <a href="mailto:robertcraft05@gmail.com" class="contact-link">robertcraft05@gmail.com</a> · <span class="contact-meta">Bayville, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -9557,7 +9690,8 @@
           <a href="tel:16092909945" class="contact-link">(609) 290-9945</a> · <a href="mailto:ryannmiller727@gmail.com" class="contact-link">ryannmiller727@gmail.com</a> · <span class="contact-meta">Manahawkin, NEW JERSEY</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -9625,7 +9759,8 @@
           <a href="tel:17322725698" class="contact-link">(732) 272-5698</a> · <a href="mailto:25ferlise@caradinalmail.cua.edu" class="contact-link">25ferlise@caradinalmail.cua.edu</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -9693,7 +9828,8 @@
           <span class="contact-meta">Wall, </span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -9761,7 +9897,8 @@
           <a href="tel:17327790252" class="contact-link">(732) 779-0252</a> · <a href="mailto:hrthrob101@aol.com" class="contact-link">hrthrob101@aol.com</a> · <span class="contact-meta">Brick, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -9829,7 +9966,8 @@
           <a href="tel:17325134463" class="contact-link">(732) 513-4463</a> · <a href="mailto:mikesouza0861@comcast.net" class="contact-link">mikesouza0861@comcast.net</a> · <span class="contact-meta">Tinton Falls, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -9897,7 +10035,8 @@
           <a href="tel:17324437325" class="contact-link">(732) 443-7325</a> · <span class="contact-meta">Toms River, NEW JERSEY</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -9965,7 +10104,8 @@
           <span class="contact-meta">Somerville, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -10033,7 +10173,8 @@
           <a href="tel:17322678752" class="contact-link">(732) 267-8752</a> · <span class="contact-meta">Pine Beach, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -10101,7 +10242,8 @@
           <a href="mailto:stuna18@verizon.net" class="contact-link">stuna18@verizon.net</a> · <span class="contact-meta">Manchester, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -10169,7 +10311,8 @@
           <a href="mailto:trgunnelle@gmail.com" class="contact-link">trgunnelle@gmail.com</a> · <span class="contact-meta">Manchester, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -10237,7 +10380,8 @@
           <a href="tel:12282385519" class="contact-link">(228) 238-5519</a> · <span class="contact-meta">Ocean Springs, MS</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -10305,7 +10449,8 @@
           <a href="tel:17325970646" class="contact-link">(732) 597-0646</a> · <a href="mailto:ewiedeke916@gmail.com" class="contact-link">ewiedeke916@gmail.com</a> · <span class="contact-meta">Bayville, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -10373,7 +10518,8 @@
           <a href="tel:17326842750" class="contact-link">(732) 684-2750</a> · <a href="mailto:hink021@aol.com" class="contact-link">hink021@aol.com</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -10441,7 +10587,8 @@
           <a href="tel:17325813321" class="contact-link">(732) 581-3321</a> · <span class="contact-meta">Point Pleasant, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -10509,7 +10656,8 @@
           <a href="tel:17325971117" class="contact-link">(732) 597-1117</a> · <span class="contact-meta">Bayville, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -10577,7 +10725,8 @@
           <a href="tel:16095216542" class="contact-link">(609) 521-6542</a> · <span class="contact-meta">Howell Township, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -10645,7 +10794,8 @@
           <a href="tel:17327707839" class="contact-link">(732) 770-7839</a> · <a href="mailto:fitzweissclan@gmail.com" class="contact-link">fitzweissclan@gmail.com</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -10713,7 +10863,8 @@
           <a href="mailto:elaine.ferlise@gmail.com" class="contact-link">elaine.ferlise@gmail.com</a> · <span class="contact-meta">Seaside Heights, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -10781,7 +10932,8 @@
           <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -10849,7 +11001,8 @@
           <a href="tel:17326748729" class="contact-link">(732) 674-8729</a> · <span class="contact-meta">Manchester, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -10917,7 +11070,8 @@
           <a href="tel:17329252242" class="contact-link">(732) 925-2242</a> · <a href="mailto:amshopping1213@aol.com" class="contact-link">amshopping1213@aol.com</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -10985,7 +11139,8 @@
           <a href="tel:12016211272" class="contact-link">(201) 621-1272</a> · <span class="contact-meta">Ortley Beach, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -11053,7 +11208,8 @@
           <a href="tel:16092273875" class="contact-link">(609) 227-3875</a> · <a href="mailto:vincent.bilardo@gmail.com" class="contact-link">vincent.bilardo@gmail.com</a> · <span class="contact-meta">Manahawkin, NEW JERSEY</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -11121,7 +11277,8 @@
           <a href="tel:17328145727" class="contact-link">(732) 814-5727</a> · <a href="mailto:rehabco@aol.com" class="contact-link">rehabco@aol.com</a> · <span class="contact-meta">Pine Beach, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -11189,7 +11346,8 @@
           <a href="tel:19147158713" class="contact-link">(914) 715-8713</a> · <span class="contact-meta">Barnagat, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -11257,7 +11415,8 @@
           <a href="tel:19082164293" class="contact-link">(908) 216-4293</a> · <a href="mailto:alexcofone@gmail.com" class="contact-link">alexcofone@gmail.com</a> · <span class="contact-meta">Bayville, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -11325,7 +11484,8 @@
           <a href="tel:17326749054" class="contact-link">(732) 674-9054</a> · <a href="mailto:Carla2010cymca@aol.com" class="contact-link">Carla2010cymca@aol.com</a> · <span class="contact-meta">Lacey Township, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -11393,7 +11553,8 @@
           <a href="tel:15704728367" class="contact-link">(570) 472-8367</a> · <a href="mailto:mattczahor27@gmail.com" class="contact-link">mattczahor27@gmail.com</a> · <span class="contact-meta">Stafford Township, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -11461,7 +11622,8 @@
           <a href="tel:17322723813" class="contact-link">(732) 272-3813</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -11529,7 +11691,8 @@
           <span class="contact-meta">Lavallette, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -11597,7 +11760,8 @@
           <a href="tel:19084519493" class="contact-link">(908) 451-9493</a> · <a href="mailto:neptunecityjim@comcast.net" class="contact-link">neptunecityjim@comcast.net</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -11665,7 +11829,8 @@
           <a href="tel:17328143022" class="contact-link">(732) 814-3022</a> · <span class="contact-meta">Seaside Heights, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -11733,7 +11898,8 @@
           <a href="tel:17322884160" class="contact-link">(732) 288-4160</a> · <a href="mailto:interdonato68@gmail.com" class="contact-link">interdonato68@gmail.com</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -11801,7 +11967,8 @@
           <a href="tel:19087832823" class="contact-link">(908) 783-2823</a> · <span class="contact-meta">Bayville, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -11869,7 +12036,8 @@
           <a href="tel:17327739808" class="contact-link">(732) 773-9808</a> · <a href="mailto:cicala@comcast.net" class="contact-link">cicala@comcast.net</a> · <span class="contact-meta">Seaside Park, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -11937,7 +12105,8 @@
           <a href="tel:19084327260" class="contact-link">(908) 432-7260</a> · <a href="mailto:luannbinda@hotmail.com" class="contact-link">luannbinda@hotmail.com</a> · <span class="contact-meta">Seaside Heights, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -12005,7 +12174,8 @@
           <a href="tel:19087837577" class="contact-link">(908) 783-7577</a> · <a href="mailto:chevy8622@gmail.com" class="contact-link">chevy8622@gmail.com</a> · <span class="contact-meta">Galloway, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -12073,7 +12243,8 @@
           <a href="tel:19089106551" class="contact-link">(908) 910-6551</a> · <a href="mailto:kerngroup@aol.com" class="contact-link">kerngroup@aol.com</a> · <span class="contact-meta">Manchester, NEW JERSEY</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -12141,7 +12312,8 @@
           <a href="tel:18439525524" class="contact-link">(843) 952-5524</a> · <a href="mailto:michaelbuttery1337@gmail.com" class="contact-link">michaelbuttery1337@gmail.com</a> · <span class="contact-meta">Galloway, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -12209,7 +12381,8 @@
           <a href="tel:17278717090" class="contact-link">(727) 871-7090</a> · <a href="mailto:uscoastguard06@gmail.com" class="contact-link">uscoastguard06@gmail.com</a> · <span class="contact-meta">Brick, NEW JERSEY</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -12277,7 +12450,8 @@
           <a href="tel:17187027419" class="contact-link">(718) 702-7419</a> · <a href="mailto:lnu1980@yahoo.com" class="contact-link">lnu1980@yahoo.com</a> · <span class="contact-meta">Manahawkin, </span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -12345,7 +12519,8 @@
           <a href="tel:18482243723" class="contact-link">(848) 224-3723</a> · <span class="contact-meta">Beachwood, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -12413,7 +12588,8 @@
           <a href="tel:16095487783" class="contact-link">(609) 548-7783</a> · <a href="mailto:bhendricksonconnell@gmail.com" class="contact-link">bhendricksonconnell@gmail.com</a> · <span class="contact-meta">Barnegat, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -12481,7 +12657,8 @@
           <a href="tel:17326447536" class="contact-link">(732) 644-7536</a> · <a href="mailto:marge.leone@gmail.com" class="contact-link">marge.leone@gmail.com</a> · <span class="contact-meta">Toms  River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -12549,7 +12726,8 @@
           <a href="tel:17322671258" class="contact-link">(732) 267-1258</a> · <a href="mailto:narotic518@aol.com" class="contact-link">narotic518@aol.com</a> · <span class="contact-meta">Toms  River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -12617,7 +12795,8 @@
           <a href="tel:17326440420" class="contact-link">(732) 644-0420</a> · <a href="mailto:vickygarcia199@gmail.com" class="contact-link">vickygarcia199@gmail.com</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -12685,7 +12864,8 @@
           <a href="tel:16179397373" class="contact-link">(617) 939-7373</a> · <span class="contact-meta">Toms River, NEW JERSEY</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -12753,7 +12933,8 @@
           <a href="tel:18565628150" class="contact-link">(856) 562-8150</a> · <a href="mailto:FNMICK@MSN.com" class="contact-link">FNMICK@MSN.com</a> · <span class="contact-meta">Stafford Township, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -12821,7 +13002,8 @@
           <a href="tel:16096744370" class="contact-link">(609) 674-4370</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -12889,7 +13071,8 @@
           <a href="tel:17323003917" class="contact-link">(732) 300-3917</a> · <span class="contact-meta">Manchester, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -12957,7 +13140,8 @@
           <a href="tel:15514868817" class="contact-link">(551) 486-8817</a> · <span class="contact-meta">Manahawkin, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -13025,7 +13209,8 @@
           <a href="tel:12012180958" class="contact-link">(201) 218-0958</a> · <span class="contact-meta">Freehold, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -13093,7 +13278,8 @@
           <a href="tel:19089108718" class="contact-link">(908) 910-8718</a> · <span class="contact-meta">South Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -13161,7 +13347,8 @@
           <a href="tel:19089108986" class="contact-link">(908) 910-8986</a> · <a href="mailto:bgoebelw@gmail.com" class="contact-link">bgoebelw@gmail.com</a> · <span class="contact-meta">Waretown, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -13229,7 +13416,8 @@
           <a href="tel:19089141484" class="contact-link">(908) 914-1484</a> · <span class="contact-meta">Toms River, </span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -13297,7 +13485,8 @@
           <a href="tel:19087707125" class="contact-link">(908) 770-7125</a> · <span class="contact-meta">Boston, MA</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -13365,7 +13554,8 @@
           <a href="tel:17326000255" class="contact-link">(732) 600-0255</a> · <span class="contact-meta">Island Heights, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -13433,7 +13623,8 @@
           <a href="mailto:hgc456@outlook.com" class="contact-link">hgc456@outlook.com</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -13501,7 +13692,8 @@
           <a href="tel:16097133794" class="contact-link">(609) 713-3794</a> · <a href="mailto:cjbiasetti@comcast.net" class="contact-link">cjbiasetti@comcast.net</a> · <span class="contact-meta">Little Egg Harbor, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -13569,7 +13761,8 @@
           <a href="tel:12014562547" class="contact-link">(201) 456-2547</a> · <a href="mailto:blakegail480@gmail.com" class="contact-link">blakegail480@gmail.com</a> · <span class="contact-meta">Ocean Township, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -13637,7 +13830,8 @@
           <a href="mailto:douglasfoxpga@gmail.com" class="contact-link">douglasfoxpga@gmail.com</a> · <span class="contact-meta">Homestead, FL</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -13705,7 +13899,8 @@
           <a href="tel:14017494673" class="contact-link">(401) 749-4673</a> · <span class="contact-meta">Whiting, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -13773,7 +13968,8 @@
           <a href="tel:17327794517" class="contact-link">(732) 779-4517</a> · <a href="mailto:fgalindo6@aol.com" class="contact-link">fgalindo6@aol.com</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -13841,7 +14037,8 @@
           <a href="tel:17326104993" class="contact-link">(732) 610-4993</a> · <a href="mailto:nas21891@aol.com" class="contact-link">nas21891@aol.com</a> · <span class="contact-meta">New Egypt, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -13909,7 +14106,8 @@
           <a href="tel:17325808613" class="contact-link">(732) 580-8613</a> · <a href="mailto:alexmoquia@gmail.com" class="contact-link">alexmoquia@gmail.com</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -13977,7 +14175,8 @@
           <a href="tel:17322283567" class="contact-link">(732) 228-3567</a> · <a href="mailto:cohen.albert.b@gmail.com" class="contact-link">cohen.albert.b@gmail.com</a> · <span class="contact-meta">Manchester Township, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -14045,7 +14244,8 @@
           <a href="tel:17328141838" class="contact-link">(732) 814-1838</a> · <a href="mailto:evanzurawski@yahoo.com" class="contact-link">evanzurawski@yahoo.com</a> · <span class="contact-meta">Hoboken, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -14113,7 +14313,8 @@
           <a href="tel:17327100595" class="contact-link">(732) 710-0595</a> · <a href="mailto:gordondemetzky@gmail.com" class="contact-link">gordondemetzky@gmail.com</a> · <span class="contact-meta">Jackson Township, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -14181,7 +14382,8 @@
           <a href="tel:17326640500" class="contact-link">(732) 664-0500</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -14249,7 +14451,8 @@
           <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -14317,7 +14520,8 @@
           <a href="tel:17187027419" class="contact-link">(718) 702-7419</a> · <a href="mailto:lnu1980@yahoo.com" class="contact-link">lnu1980@yahoo.com</a> · <span class="contact-meta">Manahawkin, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -14385,7 +14589,8 @@
           <a href="tel:19089103935" class="contact-link">(908) 910-3935</a> · <span class="contact-meta">Manahawkin, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -14453,7 +14658,8 @@
           <a href="tel:17322787808" class="contact-link">(732) 278-7808</a> · <a href="mailto:lisamichele85@gmail.com" class="contact-link">lisamichele85@gmail.com</a> · <span class="contact-meta">Manasquan, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -14521,7 +14727,8 @@
           <a href="tel:17325032090" class="contact-link">(732) 503-2090</a> · <a href="mailto:gfinarelli@aol.com" class="contact-link">gfinarelli@aol.com</a> · <span class="contact-meta">Tuckerton, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -14589,7 +14796,8 @@
           <a href="tel:16094642978" class="contact-link">(609) 464-2978</a> · <span class="contact-meta">Barnegat, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -14657,7 +14865,8 @@
           <a href="tel:18624326159" class="contact-link">(862) 432-6159</a> · <span class="contact-meta">Bayville, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -14725,7 +14934,8 @@
           <a href="tel:17327033282" class="contact-link">(732) 703-3282</a> · <a href="mailto:dunne969@yahoo.com" class="contact-link">dunne969@yahoo.com</a> · <span class="contact-meta">Lonoka Harbor, NEW JERSEY</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -14793,7 +15003,8 @@
           <a href="tel:18483336398" class="contact-link">(848) 333-6398</a> · <a href="mailto:mspride@gmail.com" class="contact-link">mspride@gmail.com</a> · <span class="contact-meta">Manahawkin, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -14861,7 +15072,8 @@
           <a href="mailto:masterpaulp@aol.com" class="contact-link">masterpaulp@aol.com</a> · <span class="contact-meta">Wall, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -14929,7 +15141,8 @@
           <a href="tel:17326440361" class="contact-link">(732) 644-0361</a> · <span class="contact-meta">Beachwood, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -14997,7 +15210,8 @@
           <a href="tel:17326201197" class="contact-link">(732) 620-1197</a> · <span class="contact-meta">Whiting, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -15065,7 +15279,8 @@
           <a href="tel:17322447393" class="contact-link">(732) 244-7393</a> · <a href="mailto:j-serino@vereison.net" class="contact-link">j-serino@vereison.net</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -15133,7 +15348,8 @@
           <a href="tel:19739345330" class="contact-link">(973) 934-5330</a> · <a href="mailto:vinnyoriolo@gmail.com" class="contact-link">vinnyoriolo@gmail.com</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -15201,7 +15417,8 @@
           <a href="tel:18483096428" class="contact-link">(848) 309-6428</a> · <span class="contact-meta">Manahawkin, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -15269,7 +15486,8 @@
           <a href="tel:12018412447" class="contact-link">(201) 841-2447</a> · <a href="mailto:dsorg2222@aim.com" class="contact-link">dsorg2222@aim.com</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -15337,7 +15555,8 @@
           <a href="tel:17322789429" class="contact-link">(732) 278-9429</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -15405,7 +15624,8 @@
           <a href="tel:19085819868" class="contact-link">(908) 581-9868</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -15473,7 +15693,8 @@
           <a href="mailto:kkennedy@moneygeneral.com" class="contact-link">kkennedy@moneygeneral.com</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -15541,7 +15762,8 @@
           <a href="tel:17325971686" class="contact-link">(732) 597-1686</a>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -15609,7 +15831,8 @@
           <a href="tel:17322590425" class="contact-link">(732) 259-0425</a> · <a href="mailto:michaelcoyne95@gmail.com" class="contact-link">michaelcoyne95@gmail.com</a> · <span class="contact-meta">Forked River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -15677,7 +15900,8 @@
           <a href="tel:19083802601" class="contact-link">(908) 380-2601</a> · <span class="contact-meta">Neptune City, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -15745,7 +15969,8 @@
           <a href="tel:19088124042" class="contact-link">(908) 812-4042</a> · <span class="contact-meta">Manchester, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -15813,7 +16038,8 @@
           <a href="tel:19082709029" class="contact-link">(908) 270-9029</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -15881,7 +16107,8 @@
           <a href="tel:17329393102" class="contact-link">(732) 939-3102</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -15949,7 +16176,8 @@
           <a href="tel:17327035808" class="contact-link">(732) 703-5808</a> · <a href="mailto:gnguyen3456@gmail.com" class="contact-link">gnguyen3456@gmail.com</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -16017,7 +16245,8 @@
           <a href="tel:19086016287" class="contact-link">(908) 601-6287</a> · <a href="mailto:mrstremp55@gmail.com" class="contact-link">mrstremp55@gmail.com</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -16085,7 +16314,8 @@
           <a href="tel:17323005858" class="contact-link">(732) 300-5858</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -16153,7 +16383,8 @@
           <a href="tel:17326109460" class="contact-link">(732) 610-9460</a> · <a href="mailto:nford080692@comcast.net" class="contact-link">nford080692@comcast.net</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -16221,7 +16452,8 @@
           <a href="tel:19732238171" class="contact-link">(973) 223-8171</a> · <a href="mailto:lionsden106@aol.com" class="contact-link">lionsden106@aol.com</a> · <span class="contact-meta">Manchester Township, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -16289,7 +16521,8 @@
           <a href="tel:17322328001" class="contact-link">(732) 232-8001</a> · <a href="mailto:yostpower@aol.com" class="contact-link">yostpower@aol.com</a> · <span class="contact-meta">S. Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -16357,7 +16590,8 @@
           <a href="tel:16096619615" class="contact-link">(609) 661-9615</a> · <a href="mailto:hwolansky4@gmail.com" class="contact-link">hwolansky4@gmail.com</a> · <span class="contact-meta">Forked River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -16425,7 +16659,8 @@
           <a href="tel:17327319781" class="contact-link">(732) 731-9781</a> · <span class="contact-meta">Forked River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -16493,7 +16728,8 @@
           <a href="tel:17329215952" class="contact-link">(732) 921-5952</a> · <span class="contact-meta">Beachwood, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -16561,7 +16797,8 @@
           <a href="tel:16092718155" class="contact-link">(609) 271-8155</a> · <span class="contact-meta">Mays Landing, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -16629,7 +16866,8 @@
           <a href="tel:17328829750" class="contact-link">(732) 882-9750</a> · <span class="contact-meta">Bayville, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -16697,7 +16935,8 @@
           <a href="tel:19086162186" class="contact-link">(908) 616-2186</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -16765,7 +17004,8 @@
           <a href="tel:15165786159" class="contact-link">(516) 578-6159</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -16833,7 +17073,8 @@
           <a href="tel:19085005932" class="contact-link">(908) 500-5932</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -16901,7 +17142,8 @@
           <a href="tel:18135064843" class="contact-link">(813) 506-4843</a> · <a href="mailto:osdel.hhdez@gmail.com" class="contact-link">osdel.hhdez@gmail.com</a> · <span class="contact-meta">Seattle, WA</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -16969,7 +17211,8 @@
           <a href="tel:19082466586" class="contact-link">(908) 246-6586</a> · <a href="mailto:david.paul.silber@gmail.com" class="contact-link">david.paul.silber@gmail.com</a> · <span class="contact-meta">Manasquan, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -17037,7 +17280,8 @@
           <a href="tel:16464023419" class="contact-link">(646) 402-3419</a> · <span class="contact-meta">Manahawkin, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -17105,7 +17349,8 @@
           <a href="tel:17328244401" class="contact-link">(732) 824-4401</a> · <a href="mailto:apennajr@yahoo.com" class="contact-link">apennajr@yahoo.com</a> · <span class="contact-meta">Lanoka Harbor, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -17173,7 +17418,8 @@
           <a href="tel:17326000751" class="contact-link">(732) 600-0751</a> · <a href="mailto:tomgibson37@comcast.net" class="contact-link">tomgibson37@comcast.net</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -17241,7 +17487,8 @@
           <a href="tel:17327637239" class="contact-link">(732) 763-7239</a> · <a href="mailto:aproleika@gmail.com" class="contact-link">aproleika@gmail.com</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -17309,7 +17556,8 @@
           <a href="tel:17322677688" class="contact-link">(732) 267-7688</a> · <span class="contact-meta">Brant Beach, </span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -17377,7 +17625,8 @@
           <a href="tel:17328873793" class="contact-link">(732) 887-3793</a> · <span class="contact-meta">Monroe Twp, NEW JERSEY</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -17445,7 +17694,8 @@
           <a href="tel:19733324158" class="contact-link">(973) 332-4158</a> · <span class="contact-meta">Brick, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -17513,7 +17763,8 @@
           <a href="tel:17325571166" class="contact-link">(732) 557-1166</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -17581,7 +17832,8 @@
           <a href="tel:17322331204" class="contact-link">(732) 233-1204</a> · <span class="contact-meta">Browns Mills, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -17649,7 +17901,8 @@
           <a href="tel:19736320142" class="contact-link">(973) 632-0142</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -17717,7 +17970,8 @@
           <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -17785,7 +18039,8 @@
           <a href="tel:16095068428" class="contact-link">(609) 506-8428</a> · <a href="mailto:mrkklr@gmail.com" class="contact-link">mrkklr@gmail.com</a> · <span class="contact-meta">Little Egg Harbor, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -17853,7 +18108,8 @@
           <a href="tel:4341692" class="contact-link">4341692</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -17921,7 +18177,8 @@
           <a href="tel:19082787619" class="contact-link">(908) 278-7619</a> · <a href="mailto:snscaturro@comcast.net" class="contact-link">snscaturro@comcast.net</a> · <span class="contact-meta">Brick, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -17989,7 +18246,8 @@
           <a href="mailto:baileycastro519@gmail.com" class="contact-link">baileycastro519@gmail.com</a> · <span class="contact-meta">Glassboro, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -18057,7 +18315,8 @@
           <a href="tel:17327350300" class="contact-link">(732) 735-0300</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -18125,7 +18384,8 @@
           <a href="tel:19737687993" class="contact-link">(973) 768-7993</a> · <a href="mailto:teamjcl15@gmail.com" class="contact-link">teamjcl15@gmail.com</a> · <span class="contact-meta">Seaside Park, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -18193,7 +18453,8 @@
           <a href="tel:19087707210" class="contact-link">(908) 770-7210</a> · <a href="mailto:brandonrusso2214@gmail.com" class="contact-link">brandonrusso2214@gmail.com</a> · <span class="contact-meta">Brick, NEW JERSEY</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -18261,7 +18522,8 @@
           <a href="tel:12019533773" class="contact-link">(201) 953-3773</a> · <a href="mailto:nervinjramirez@gmail.com" class="contact-link">nervinjramirez@gmail.com</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -18329,7 +18591,8 @@
           <a href="tel:17326065234" class="contact-link">(732) 606-5234</a> · <span class="contact-meta">Mantoloking, </span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -18397,7 +18660,8 @@
           <a href="tel:16094421569" class="contact-link">(609) 442-1569</a> · <a href="mailto:djwilliams9@gmail.com" class="contact-link">djwilliams9@gmail.com</a> · <span class="contact-meta">Forked River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -18465,7 +18729,8 @@
           <a href="tel:16096611150" class="contact-link">(609) 661-1150</a> · <a href="mailto:atryan137@gmail.com" class="contact-link">atryan137@gmail.com</a> · <span class="contact-meta">Little Egg, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -18533,7 +18798,8 @@
           <a href="tel:17323006159" class="contact-link">(732) 300-6159</a> · <a href="mailto:rauchjake1@gmail.com" class="contact-link">rauchjake1@gmail.com</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -18601,7 +18867,8 @@
           <a href="tel:17322788203" class="contact-link">(732) 278-8203</a> · <a href="mailto:ogyb4@aol.com" class="contact-link">ogyb4@aol.com</a> · <span class="contact-meta">Bayville, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -18669,7 +18936,8 @@
           <a href="mailto:vincentabbruzzesse44@gmail.com" class="contact-link">vincentabbruzzesse44@gmail.com</a> · <span class="contact-meta">Toms River, NEW JERSEY</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -18737,7 +19005,8 @@
           <a href="tel:19082295463" class="contact-link">(908) 229-5463</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -18805,7 +19074,8 @@
           <a href="tel:17325472622" class="contact-link">(732) 547-2622</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -18873,7 +19143,8 @@
           <a href="tel:17328598468" class="contact-link">(732) 859-8468</a> · <span class="contact-meta">Parlin, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -18941,7 +19212,8 @@
           <a href="tel:17329089849" class="contact-link">(732) 908-9849</a> · <a href="mailto:douglas.n.pentifallo@gmail.com" class="contact-link">douglas.n.pentifallo@gmail.com</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -19009,7 +19281,8 @@
           <a href="tel:17326167266" class="contact-link">(732) 616-7266</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -19077,7 +19350,8 @@
           <a href="tel:17329290947" class="contact-link">(732) 929-0947</a> · <a href="mailto:mdauria_77@hotmail.com" class="contact-link">mdauria_77@hotmail.com</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -19145,7 +19419,8 @@
           <a href="tel:16092761245" class="contact-link">(609) 276-1245</a> · <a href="mailto:dericvincent21@gmail.com" class="contact-link">dericvincent21@gmail.com</a> · <span class="contact-meta">Manahawkin, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -19213,7 +19488,8 @@
           <a href="tel:17326046182" class="contact-link">(732) 604-6182</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -19281,7 +19557,8 @@
           <a href="tel:17327421293" class="contact-link">(732) 742-1293</a> · <a href="mailto:laurasteffey1211@gmail.com" class="contact-link">laurasteffey1211@gmail.com</a> · <span class="contact-meta">Brick Township, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -19349,7 +19626,8 @@
           <a href="tel:19738657655" class="contact-link">(973) 865-7655</a> · <a href="mailto:eisenberg.matthew@gmail.com" class="contact-link">eisenberg.matthew@gmail.com</a> · <span class="contact-meta">Towaco, NEW JERSEY</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -19417,7 +19695,8 @@
           <a href="tel:17327180518" class="contact-link">(732) 718-0518</a> · <span class="contact-meta">Glastonbury, CT</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -19485,7 +19764,8 @@
           <a href="tel:17323433076" class="contact-link">(732) 343-3076</a> · <a href="mailto:tjhockey87@aol.com" class="contact-link">tjhockey87@aol.com</a> · <span class="contact-meta">Englishtown, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -19553,7 +19833,8 @@
           <a href="tel:12014174099" class="contact-link">(201) 417-4099</a> · <a href="mailto:81amrmar@gmail.com" class="contact-link">81amrmar@gmail.com</a> · <span class="contact-meta">Forked River, </span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -19621,7 +19902,8 @@
           <a href="tel:13157712201" class="contact-link">(315) 771-2201</a> · <a href="mailto:TCs1187@gmail.com" class="contact-link">TCs1187@gmail.com</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -19689,7 +19971,8 @@
           <a href="tel:19081308207" class="contact-link">(908) 130-8207</a>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -19757,7 +20040,8 @@
           <a href="tel:18483333822" class="contact-link">(848) 333-3822</a> · <a href="mailto:bickfordmike10@gmail.com" class="contact-link">bickfordmike10@gmail.com</a> · <span class="contact-meta">Bayville, NEW JERSEY</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -19825,7 +20109,8 @@
           <a href="tel:12019137620" class="contact-link">(201) 913-7620</a> · <span class="contact-meta">Barnegat, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -19893,7 +20178,8 @@
           <a href="tel:17323304905" class="contact-link">(732) 330-4905</a> · <a href="mailto:samanthaxmills@gmail.com" class="contact-link">samanthaxmills@gmail.com</a> · <span class="contact-meta">Manahawkin, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -19961,7 +20247,8 @@
           <a href="tel:19089104064" class="contact-link">(908) 910-4064</a> · <a href="mailto:rcoleman710@hotmail.com" class="contact-link">rcoleman710@hotmail.com</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -20029,7 +20316,8 @@
           <a href="tel:17322866182" class="contact-link">(732) 286-6182</a> · <span class="contact-meta">Toms  River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -20097,7 +20385,8 @@
           <a href="tel:17325974670" class="contact-link">(732) 597-4670</a> · <a href="mailto:bdeguz318@yahoo.com" class="contact-link">bdeguz318@yahoo.com</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -20165,7 +20454,8 @@
           <a href="tel:17325519899" class="contact-link">(732) 551-9899</a> · <span class="contact-meta">Bayville, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -20233,7 +20523,8 @@
           <a href="tel:19734768679" class="contact-link">(973) 476-8679</a> · <a href="mailto:r95fran@gmail.com" class="contact-link">r95fran@gmail.com</a> · <span class="contact-meta">Barnegat, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -20301,7 +20592,8 @@
           <a href="tel:17329089650" class="contact-link">(732) 908-9650</a> · <a href="mailto:flernst74@gmail.com" class="contact-link">flernst74@gmail.com</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -20369,7 +20661,8 @@
           <a href="tel:17323202113" class="contact-link">(732) 320-2113</a> · <a href="mailto:nick@trkawyam.com" class="contact-link">nick@trkawyam.com</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -20437,7 +20730,8 @@
           <a href="tel:17326844239" class="contact-link">(732) 684-4239</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -20505,7 +20799,8 @@
           <a href="tel:17328645276" class="contact-link">(732) 864-5276</a> · <a href="mailto:nealmchale90@gmail.com" class="contact-link">nealmchale90@gmail.com</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -20573,7 +20868,8 @@
           <a href="tel:19084899280" class="contact-link">(908) 489-9280</a> · <a href="mailto:blakepatrovich@gmail.com" class="contact-link">blakepatrovich@gmail.com</a> · <span class="contact-meta">Sellersville, PA</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -20641,7 +20937,8 @@
           <a href="tel:17326047525" class="contact-link">(732) 604-7525</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -20709,7 +21006,8 @@
           <a href="tel:17327739479" class="contact-link">(732) 773-9479</a> · <a href="mailto:dkuryla@yahoo.com" class="contact-link">dkuryla@yahoo.com</a> · <span class="contact-meta">Ocean Gate, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -20777,7 +21075,8 @@
           <a href="tel:17327734490" class="contact-link">(732) 773-4490</a> · <a href="mailto:jbensmom@yahoo.com" class="contact-link">jbensmom@yahoo.com</a> · <span class="contact-meta">Toms River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -20845,7 +21144,8 @@
           <a href="tel:17323306959" class="contact-link">(732) 330-6959</a> · <span class="contact-meta">Stafford Twp, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -20913,7 +21213,8 @@
           <a href="tel:16096618269" class="contact-link">(609) 661-8269</a> · <span class="contact-meta">Little Egg Harbor, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -20981,7 +21282,8 @@
           <a href="mailto:dpkramer@comcast.net" class="contact-link">dpkramer@comcast.net</a> · <span class="contact-meta">Forked River, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -21049,7 +21351,8 @@
           <a href="tel:17325128472" class="contact-link">(732) 512-8472</a> · <span class="contact-meta">Bayville, NJ</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -21117,7 +21420,8 @@
           <a href="tel:18137896466" class="contact-link">(813) 789-6466</a> · <span class="contact-meta">Tampa, FL</span>
         </div>
         <div class="log-section">
-          <button class="log-btn" type="button">＋ Log outreach</button>
+          <button class="log-btn" type="button" hidden>＋ Log outreach</button>
+          <span class="autolog-note">Logged automatically from ClientBook</span>
           <span class="last-touch-detail"></span>
         </div>
       </div>
@@ -21145,7 +21449,7 @@
 
 
   <footer>
-    The Book — Phase 2 (outreach logging) · Internal use only · Generated 2026-10-19
+    The Book — Phase 2 (outreach logging) · Internal use only · Generated 2026-10-21
   </footer>
 
   <script>
@@ -21447,7 +21751,8 @@
         '<div class="dossier-body">' +
         '<div class="dossier-context">' + lp + '</div>' +
         '<div class="dossier-contact"><span class="contact-meta">' + contact + '</span></div>' +
-        '<div class="log-section"><button class="log-btn" type="button">＋ Log outreach</button>' +
+        '<div class="log-section"><button class="log-btn" type="button" hidden>＋ Log outreach</button>' +
+        '<span class="autolog-note">Logged automatically from ClientBook</span>' +
         '<span class="last-touch-detail"></span></div>' +
         '</div></details>';
     }
@@ -21498,11 +21803,12 @@
     const CH_EMOJI = {'Called':'📞','Texted':'💬','Emailed':'✉️','Note Sent':'📝','In-Person':'🤝'};
     // Event layer active? When true, a Booked Appt asks whether it's FOR the event.
     const EVENT_ACTIVE = false;
-    const EVENT_NAME = 'Fall Bridal 2026';
-    const EVENT_PLAY = 'Fall Bridal';
-    const EVENT_LABEL = 'Fall Bridal';
-    const EVENT_EMOJI = '💍';
-    const EVENT_GOAL = 110;
+    const EVENT_NAME = 'Estate Sale 2026';
+    const EVENT_PLAY = 'Estate Sale';
+    const EVENT_LABEL = 'Estate Sale';
+    const EVENT_EMOJI = '💎';
+    const EVENT_DATES = 'Nov 10–14';
+    const EVENT_GOAL = 25;
     const QUEUE_KEY = 'thebook-outreach-queue';
 
     let lastTouch = {};   // client_id -> most recent outreach row (any associate)
@@ -21525,7 +21831,7 @@
     const APPT_SET = ['Booked Appt', 'Appt Cancelled'];
     function isCancelRow(r) { return r.outcome === 'Appt Cancelled'; }
     // Per-associate event appt goals (Fall Bridal playbooks 2026-09-08; 110 total).
-    const EVENT_GOALS = {"Vicky": 28, "Essence": 24, "Laura": 19, "Gigi": 18, "Danielle": 11};
+    const EVENT_GOALS = {"Essence": 6, "Laura": 5, "Vicky": 5, "Gigi": 5, "Danielle": 4};
 
     // Latest appt-status row (Booked Appt / Appt Cancelled) per key —
     // scanned over ALL rows so a cancel outside the window still nets out.
@@ -21746,7 +22052,7 @@
         document.getElementById('apptsList').innerHTML = list.length
           ? list.map(r => apptRowHtml(r, false)).join('')
           : '<div class="appts-empty">No appointments logged ' + winLabel +
-            ' yet \u2014 they land here the moment you tap Booked Appt.</div>';
+            ' yet \u2014 book them in ClientBook and they land here the next morning.</div>';
         band.hidden = false;
       }
       const boardEl = document.getElementById('apptsBoard');  // leadership only
@@ -21971,7 +22277,7 @@
       segment: [['Top Customers', 'VIPs'], ['Growing', 'Growing'],
                 ['One & Done', 'New / One & Done'], ['Lapsed High Value', 'Lapsed'],
                 ['Wedding Band Opportunity', 'Wedding Band'], ['Cold', 'Cold']],
-      play:    [['Fall Bridal', 'Fall Bridal'], ['Summer Soiree', 'Summer Soiree'], ['Wedding Band', 'Wedding Band'], ['Life Event', 'Bday / Anniv'],
+      play:    [['Estate Sale', 'Estate Sale'], ['Fall Bridal', 'Fall Bridal'], ['Summer Soiree', 'Summer Soiree'], ['Wedding Band', 'Wedding Band'], ['Life Event', 'Bday / Anniv'],
                 ['Purchase Follow-Up', 'Recent buy'], ['Win-Back', 'Win-Back'],
                 ['General', 'General']],
     };
@@ -22197,7 +22503,7 @@
       const step = document.createElement('div');
       step.className = 'log-step log-event';
       step.innerHTML =
-        '<span class="log-step-label">Is this appointment for the ' + EVENT_LABEL + ' Event (Oct 1–3)?</span>' +
+        '<span class="log-step-label">Is this appointment for the ' + EVENT_LABEL + ' (' + EVENT_DATES + ')?</span>' +
         '<button type="button" class="log-chip evt-soiree' + (flagged ? ' selected' : '') +
           '" data-evt="' + EVENT_NAME + '">' + EVENT_EMOJI + ' Yes — ' + EVENT_LABEL + '</button>' +
         '<button type="button" class="log-chip" data-evt="">No — regular appt</button>';
