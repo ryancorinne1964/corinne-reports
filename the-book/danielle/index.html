@@ -22613,6 +22613,17 @@
         if (!resp.ok) throw new Error('read failed: ' + resp.status);
         const data = await resp.json();
         lastTouch = {}; myRows = []; allOutreach = data.outreach || [];
+        // Backfilled [auto] rows (Oct 29 2026) carry their real ET time in the note,
+        // e.g. "(Oct 28 12:25 ET, backfill)" — count them on that day, not the write day.
+        const BF_MON = { Jan:0, Feb:1, Mar:2, Apr:3, May:4, Jun:5, Jul:6, Aug:7, Sep:8, Oct:9, Nov:10, Dec:11 };
+        for (const r of allOutreach) {
+          const m = /\((Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) (\d{1,2}) (\d{1,2}):(\d{2}) ET, backfill\)/.exec(r.note || '');
+          if (!m) continue;
+          const mo = BF_MON[m[1]], dd = +m[2];
+          const off = (mo > 2 && mo < 10) ? 4 : 5;   // EDT Apr–Oct, EST otherwise (approx.)
+          const y = new Date(r.at).getUTCFullYear();
+          r.at = new Date(Date.UTC(y, mo, dd, +m[3] + off, +m[4])).toISOString();
+        }
         for (const r of allOutreach) {
           if (r.client_id) {
             const cur = lastTouch[r.client_id];
